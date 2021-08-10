@@ -1,12 +1,17 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
+import auth from './auth'
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+export interface AppState {
+    app: string
+}
+
+export default createStore<AppState>({
+    modules: {
+        auth
+    },
+    state: {
+        app: 'ChatAppVue'
+    },
+    mutations: {},
+    actions: {},
 })

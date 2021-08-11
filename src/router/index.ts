@@ -9,8 +9,13 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/register',
-    name: 'sigregisternup',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/Register.vue')
+    name: 'register',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/auth/Register.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/auth/Login.vue')
   }
 ]
 

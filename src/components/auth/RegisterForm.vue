@@ -96,33 +96,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .form-group {
-        margin-bottom: 40px;
-    }
-
-    input {
-        font-size: 16px;
-        padding-bottom: 10px;
-        outline: 0;
-        border: 0;
-        width: 100%;
-        border-bottom: 1.5px solid rgba(0, 0, 0, 0.25);
-    }
-
-    input:focus {
-        border-bottom-color: #07315b;
-    }
-
-    button {
-        margin-top: 20px;
-        padding: 10px;
-        font-size: 16px;
-        letter-spacing: 1.2px;
-        background-color: #07315b;
-        width: 100%;
-        color: white;
-        outline: 0;
-        border: 0;
-        cursor: pointer;
-    }
+    @import "./style";
 </style>

@@ -1,58 +1,55 @@
 <template>
-    <a-spin :spinning="loading">
-        {{registerForm}}
-        <div class="RegisterForm">
-            <a-form
-                    autocomplete="off"
-                    :model="registerForm"
-                    ref="formRef"
-                    :rules="rules"
-                    @submit.prevent="onSubmit">
-                <a-form-item has-feedback name="email">
-                    <input
-                            autocomplete="off"
-                            type="text"
-                            placeholder="Email"
-                            v-model.trim="registerForm.email"
-
-                    />
-                </a-form-item>
-                <a-form-item has-feedback name="first_name">
-                    <input
-                            autocomplete="off"
-                            type="text"
-                            placeholder="First name"
-                            v-model.trim="registerForm.first_name"
-                    />
-                </a-form-item>
-                <a-form-item has-feedback name="last_name">
-                    <input
-                            type="text"
-                            placeholder="Last name"
-                            v-model.trim="registerForm.last_name"
-                    />
-                </a-form-item>
-                <a-form-item has-feedback name="username">
-                    <input
-                            placeholder="Username"
-                            v-model.trim="registerForm.username"
-                    />
-                </a-form-item>
-                <a-form-item has-feedback name="password">
-                    <input
-                            type="password"
-                            placeholder="Password"
-                            v-model="registerForm.password"
-                    />
-                </a-form-item>
-                <button class="btn-submit">Register</button>
-            </a-form>
-        </div>
-    </a-spin>
+    <div class="RegisterForm">
+        <a-form
+                autocomplete="off"
+                :model="registerForm"
+                ref="formRef"
+                :rules="rules"
+                @finish="onSubmit">
+            <a-form-item has-feedback name="email">
+                <input
+                        autocomplete="off"
+                        type="text"
+                        placeholder="Email"
+                        v-model.trim="registerForm.email"
+                />
+            </a-form-item>
+            <a-form-item has-feedback name="first_name">
+                <input
+                        autocomplete="off"
+                        type="text"
+                        placeholder="First name"
+                        v-model.trim="registerForm.first_name"
+                />
+            </a-form-item>
+            <a-form-item has-feedback name="last_name">
+                <input
+                        type="text"
+                        placeholder="Last name"
+                        v-model.trim="registerForm.last_name"
+                />
+            </a-form-item>
+            <a-form-item has-feedback name="username">
+                <input
+                        placeholder="Username"
+                        v-model.trim="registerForm.username"
+                />
+            </a-form-item>
+            <a-form-item has-feedback name="secret">
+                <input
+                        type="secret"
+                        placeholder="Password"
+                        v-model="registerForm.secret"
+                />
+            </a-form-item>
+            <button class="btn-submit">Register</button>
+        </a-form>
+    </div>
 </template>
 
 <script>
     export default {
+        emits: ['submit'],
         data() {
             const requiredValidator = async (rule, value) => {
                 if (!value) {
@@ -61,7 +58,7 @@
                 return Promise.resolve()
             }
             const emailValidator = async (rule, value) => {
-                await requiredValidator(rule,value)
+                await requiredValidator(rule, value)
                 const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                 if (!pattern.test(value)) {
                     return Promise.reject(`Email's invalid`)
@@ -69,39 +66,30 @@
                 return Promise.resolve()
             }
             return {
-                loading: false,
                 registerForm: {
                     email: '',
                     first_name: '',
                     last_name: '',
                     username: '',
-                    password: ''
+                    secret: ''
                 },
                 rules: {
                     email: [{validator: emailValidator}],
                     first_name: [{validator: requiredValidator}],
                     last_name: [{validator: requiredValidator}],
                     username: [{validator: requiredValidator}],
-                    password: [{validator: requiredValidator}],
+                    secret: [{validator: requiredValidator}],
                 }
             }
         },
         methods: {
             async onSubmit() {
                 try {
-                    await this.$refs.formRef.value.validate()
+                    const result = await this.$refs.formRef.validate()
+                    this.$emit('submit', {...result})
                 } catch (e) {
                     console.log(e)
                 }
-                console.log('submit')
-                // this.$store.dispatch('auth/register', {
-                //     "first_name": "Adam",
-                //     "username": "adam_la_morre",
-                //     "email": "tam123@gmail.com",
-                //     "last_name": "La Morre",
-                //     "secret": "pass1234",
-                //     "custom_json": {"high_score": 2000}
-                // })
             }
         }
     }
@@ -135,5 +123,6 @@
         color: white;
         outline: 0;
         border: 0;
+        cursor: pointer;
     }
 </style>

@@ -5,14 +5,15 @@
                 :model="loginForm"
                 ref="formRef"
                 :rules="rules"
-                @finish="onSubmit">
-            <a-form-item has-feedback name="username">
+                @finish="onSubmit"
+                @finishFailed="onSubmitError">
+            <a-form-item name="username">
                 <input
                         placeholder="Username"
                         v-model.trim="loginForm.username"
                 />
             </a-form-item>
-            <a-form-item has-feedback name="secret">
+            <a-form-item name="secret">
                 <input
                         type="secret"
                         placeholder="Password"
@@ -30,7 +31,7 @@
         data() {
             const requiredValidator = async (rule, value) => {
                 if (!value) {
-                    return Promise.reject(`Field can't not be empty`)
+                    return Promise.reject()
                 }
                 return Promise.resolve()
             }
@@ -46,13 +47,11 @@
             }
         },
         methods: {
-            async onSubmit() {
-                try {
-                    const result = await this.$refs.formRef.validate()
-                    this.$emit('submit', {...result})
-                } catch (e) {
-                    console.log(e)
-                }
+            onSubmit(data) {
+                this.$emit('submit', {...data})
+            },
+            onSubmitError() {
+                this.$message.error('Please enter Username and Password')
             }
         }
     }

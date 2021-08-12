@@ -28,7 +28,7 @@
         methods: {
             async onSubmit(data) {
                 this.loading = true
-                await this.$store.dispatch('auth/register', data)
+                await this.$store.dispatch('auth/login', data)
                 this.loading = false
             }
         }

@@ -83,13 +83,9 @@
             }
         },
         methods: {
-            async onSubmit() {
-                try {
-                    const result = await this.$refs.formRef.validate()
-                    this.$emit('submit', {...result})
-                } catch (e) {
-                    console.log(e)
-                }
+            onSubmit(data) {
+                this.$emit('submit', {...data})
+
             }
         }
     }

@@ -13,3 +13,8 @@ export interface UserInfo {
     last_name: string,
     avatar: string
 }
+
+export interface AuthLogin {
+    username: string;
+    secret: string
+}

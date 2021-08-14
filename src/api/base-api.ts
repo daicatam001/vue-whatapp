@@ -1,8 +1,12 @@
 import axios from 'axios'
 import store from '@/store'
-import {PRIVATE_KEY, PROJECT_ID} from "@/core/constants";
+import {PRIVATE_KEY, PROJECT_ID, SERVER_URL} from "@/core/constants";
 
-axios.interceptors.request.use(config => {
+const baseApi = axios.create({
+    baseURL: SERVER_URL
+})
+
+baseApi.interceptors.request.use(config => {
     const headers = {
         'PRIVATE-KEY': PRIVATE_KEY,
     }
@@ -17,3 +21,5 @@ axios.interceptors.request.use(config => {
     Object.assign(config.headers, headers)
     return config
 })
+
+export default baseApi;

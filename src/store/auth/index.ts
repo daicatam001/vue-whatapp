@@ -1,6 +1,6 @@
 import {ActionContext} from "vuex";
 import {AppState} from "@/store";
-import {AuthLogin, AuthRegister, UserInfo} from "@/core/models";
+import {AuthLogin, AuthRegister, UserInfo} from "@/core/models/users";
 import {message} from "ant-design-vue";
 import router from '@/router'
 import {login, register} from "@/api/auth";
@@ -67,6 +67,9 @@ export default {
     getters: {
         isAuth(state: AuthState) {
             return !!state.userInfo
+        },
+        userInfo(state: AuthState) {
+            return state.userInfo
         },
         username(state: AuthState) {
             return state.userInfo ? state.userInfo.username : null

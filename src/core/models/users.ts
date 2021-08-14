@@ -9,7 +9,7 @@ export interface UserInfo {
     id: number,
     username: string,
     email: string,
-    secret: string,
+    secret?: string,
     first_name: string,
     last_name: string,
     avatar: string

@@ -1,9 +1,9 @@
+import apiService from '@/api/auth'
 import {ActionContext} from "vuex";
 import {AppState} from "@/store";
 import {AuthLogin, AuthRegister, UserInfo} from "@/core/models";
 import {message} from "ant-design-vue";
 import router from '@/router'
-import {login, register} from "@/api/auth";
 
 export interface AuthState {
     userInfo: UserInfo
@@ -35,7 +35,7 @@ export default {
         },
         async register({commit}: ActionContext<AuthState, AppState>, payload: AuthRegister) {
             try {
-                const {data} = await register(payload)
+                const {data} = await apiService.register(payload)
                 commit('setUserInfo', {...data, secret: payload.secret})
                 message.success('Register success')
                 router.replace({
@@ -47,7 +47,7 @@ export default {
         },
         async login({commit}: ActionContext<AuthState, AppState>, payload: AuthLogin) {
             try {
-                const {data} = await login(payload.username, payload.secret)
+                const {data} = await apiService.login(payload.username, payload.secret)
                 commit('setUserInfo', {...data, secret: payload.secret})
                 message.success('Login success')
                 router.replace({

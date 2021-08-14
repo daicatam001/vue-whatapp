@@ -1,24 +1,30 @@
 <template>
   <div class="app">
-    <router-view />
+	<router-view/>
   </div>
 </template>
-
+<script>
+    export default {
+        created() {
+            this.$store.dispatch('auth/tryLogin')
+        }
+    }
+</script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
-html,body {
-  margin: 0;
-  font-size: 14px;
-  font-family: 'Roboto', sans-serif;
-}
+  html, body {
+	margin: 0;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+  }
 
-.app {
-  min-height: 100vh;
-}
+  .app {
+	min-height: 100vh;
+  }
 
 
-*{
-  box-sizing: border-box;
-}
+  * {
+	box-sizing: border-box;
+  }
 </style>

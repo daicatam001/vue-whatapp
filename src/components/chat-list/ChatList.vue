@@ -1,20 +1,21 @@
 <template>
- <div class="chat-list">
-  <div class="chat-cart-list">
-   <ChatCard
-     v-for="chat of chats"
-     :key="chat.id"
-     :title="chat.title"
-     :last-message="chat.last_message"
-     :people="chat.people"
-   />
+  <div class="chat-list">
+    <div class="chat-cart-list">
+      <ChatCard
+        v-for="chat of chats"
+        :key="chat.id"
+        :title="chat.title"
+        :last-message="chat.last_message"
+        :people="chat.people"
+      />
+    </div>
   </div>
- </div>
 </template>
 
-<script>
-import ChatCard from './ChatCard'
-export default {
+<script lang="ts">
+import { defineComponent } from '@vue/runtime-core'
+import ChatCard from './ChatCard.vue'
+export default defineComponent({
   components: {
     ChatCard,
   },
@@ -26,7 +27,8 @@ export default {
   created() {
     this.$store.dispatch('chats/getLatestChats', 25)
   },
-}
+})
 </script>
 
 <style scoped></style>
+ 

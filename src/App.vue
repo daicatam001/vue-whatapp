@@ -3,12 +3,14 @@
   <router-view />
  </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "@vue/runtime-core"
+
+export default defineComponent({
   created() {
     this.$store.dispatch('auth/tryLogin')
   },
-}
+})
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');

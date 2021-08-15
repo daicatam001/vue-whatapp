@@ -1,62 +1,65 @@
 <template>
- <div class="RegisterForm">
-  <a-form
-    ref="formRef"
-    autocomplete="off"
-    :model="registerForm"
-    :rules="rules"
-    @finish="onSubmit"
-  >
-   <a-form-item has-feedback name="email">
-    <input
-      v-model.trim="registerForm.email"
+  <div class="RegisterForm">
+    <a-form
+      ref="formRef"
       autocomplete="off"
-      type="text"
-      placeholder="Email"
+      :model="registerForm"
+      :rules="rules"
+      @finish="onSubmit"
     >
-   </a-form-item>
-   <a-form-item has-feedback name="first_name">
-    <input
-      v-model.trim="registerForm.first_name"
-      autocomplete="off"
-      type="text"
-      placeholder="First name"
-    >
-   </a-form-item>
-   <a-form-item has-feedback name="last_name">
-    <input
-      v-model.trim="registerForm.last_name"
-      type="text"
-      placeholder="Last name"
-    >
-   </a-form-item>
-   <a-form-item has-feedback name="username">
-    <input v-model.trim="registerForm.username" placeholder="Username">
-   </a-form-item>
-   <a-form-item has-feedback name="secret">
-    <input
-      v-model="registerForm.secret"
-      type="secret"
-      placeholder="Password"
-    >
-   </a-form-item>
-   <button class="btn-submit">Register</button>
-  </a-form>
- </div>
+      <a-form-item has-feedback name="email">
+        <input
+          v-model.trim="registerForm.email"
+          autocomplete="off"
+          type="text"
+          placeholder="Email"
+        />
+      </a-form-item>
+      <a-form-item has-feedback name="first_name">
+        <input
+          v-model.trim="registerForm.first_name"
+          autocomplete="off"
+          type="text"
+          placeholder="First name"
+        />
+      </a-form-item>
+      <a-form-item has-feedback name="last_name">
+        <input
+          v-model.trim="registerForm.last_name"
+          type="text"
+          placeholder="Last name"
+        />
+      </a-form-item>
+      <a-form-item has-feedback name="username">
+        <input v-model.trim="registerForm.username" placeholder="Username" />
+      </a-form-item>
+      <a-form-item has-feedback name="secret">
+        <input
+          v-model="registerForm.secret"
+          type="secret"
+          placeholder="Password"
+        />
+      </a-form-item>
+      <button class="btn-submit">Register</button>
+    </a-form>
+  </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { AuthRegister } from '@/core/models/users'
+import { defineComponent } from '@vue/runtime-core'
+
+export default defineComponent({
   emits: ['submit'],
   data() {
-    const requiredValidator = async (rule, value) => {
+    const requiredValidator = async (_, value: string) => {
       if (!value) {
         return Promise.reject(`Field can't not be empty`)
       }
       return Promise.resolve()
     }
-    const emailValidator = async (rule, value) => {
-      await requiredValidator(rule, value)
+    const emailValidator = async (_, value: string) => {
+      await requiredValidator(_, value)
       const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
       if (!pattern.test(value)) {
         return Promise.reject(`Email's invalid`)
@@ -81,11 +84,11 @@ export default {
     }
   },
   methods: {
-    onSubmit(data) {
+    onSubmit(data: AuthRegister) {
       this.$emit('submit', { ...data })
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 export interface Message {
   text: string
-  attachments: any[]
+  attachments: string[]
   created: string
 }

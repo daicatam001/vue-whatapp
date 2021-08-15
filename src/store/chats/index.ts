@@ -10,39 +10,31 @@ export interface ChatState {
 export default {
   namespaced: true,
   state: {
-    chats: [],
+    chats: []
   },
   mutations: {
-    setChat(state: ChatState, payload: Chat[]) {
+    setChat(state: ChatState, payload: Chat[]): void {
       state.chats = payload
-    },
+    }
   },
   actions: {
-    async getChats({ commit }: ActionContext<ChatState, AppState>) {
-      try {
-        const { data } = await getChats()
-        commit('setChat', data)
-      } catch (e) {
-        // ..
-        throw e
-      }
+    async getChats({
+      commit
+    }: ActionContext<ChatState, AppState>): Promise<void> {
+      const { data } = await getChats()
+      commit('setChat', data)
     },
     async getLatestChats(
       { commit }: ActionContext<ChatState, AppState>,
       payload: number
-    ) {
-      try {
-        const { data } = await getLatestChats(payload)
-        commit('setChat', data)
-      } catch (e) {
-        // ..
-        throw e
-      }
-    },
+    ): Promise<void> {
+      const { data } = await getLatestChats(payload)
+      commit('setChat', data)
+    }
   },
   getters: {
-    chats(state: ChatState) {
+    chats(state: ChatState): Chat[] {
       return state.chats
-    },
-  },
+    }
+  }
 }

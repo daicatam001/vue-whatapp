@@ -1,9 +1,14 @@
-<template />
+<template>
+  {{ title }}
+</template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from '@vue/runtime-core'
+
+export default defineComponent({
   props: ['title', 'lastMessage', 'peoplel'],
-}
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

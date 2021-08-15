@@ -1,19 +1,19 @@
 import store from '@/store'
 import { PROJECT_ID } from '@/core/constants'
 
-export function setupSocket() {
+export function setupSocket(): void {
   const username = store.getters['auth/username']
   const secret = store.getters['auth/secret']
   const conn = new WebSocket(
     `wss://api.chatengine.io/person/?publicKey=${{ PROJECT_ID }}&username=${{
-      username,
+      username
     }}&secret=${{ secret }}`
   )
 
-  conn.onopen = (event) => {
+  conn.onopen = event => {
     console.log('connect success', event)
   }
-  conn.onmessage = (event) => {
+  conn.onmessage = event => {
     console.log('onmessage', event)
   }
 }

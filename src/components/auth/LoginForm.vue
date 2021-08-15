@@ -1,30 +1,33 @@
 <template>
- <div class="loginForm">
-  <a-form
-    ref="formRef"
-    autocomplete="off"
-    :model="loginForm"
-    :rules="rules"
-    @finish="onSubmit"
-    @finishFailed="onSubmitError"
-  >
-   <a-form-item name="username">
-    <input v-model.trim="loginForm.username" placeholder="Username">
-   </a-form-item>
-   <a-form-item name="secret">
-    <input
-      v-model="loginForm.secret"
-      type="secret"
-      placeholder="Password"
+  <div class="loginForm">
+    <a-form
+      ref="formRef"
+      autocomplete="off"
+      :model="loginForm"
+      :rules="rules"
+      @finish="onSubmit"
+      @finishFailed="onSubmitError"
     >
-   </a-form-item>
-   <button class="btn-submit">Login</button>
-  </a-form>
- </div>
+      <a-form-item name="username">
+        <input v-model.trim="loginForm.username" placeholder="Username" />
+      </a-form-item>
+      <a-form-item name="secret">
+        <input
+          v-model="loginForm.secret"
+          type="secret"
+          placeholder="Password"
+        />
+      </a-form-item>
+      <button class="btn-submit">Login</button>
+    </a-form>
+  </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { AuthLogin } from '@/core/models/users'
+import { defineComponent } from '@vue/runtime-core'
+
+export default defineComponent({
   emits: ['submit'],
   data() {
     const requiredValidator = async (rule, value) => {
@@ -45,14 +48,14 @@ export default {
     }
   },
   methods: {
-    onSubmit(data) {
+    onSubmit(data: AuthLogin) {
       this.$emit('submit', { ...data })
     },
     onSubmitError() {
       this.$message.error('Please enter Username and Password')
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

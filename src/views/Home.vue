@@ -1,18 +1,19 @@
 <template>
- <div class="home">
-  <div class="left-side">
-   <button @click="logout">Logout</button>
-   <ChatList />
+  <div class="home">
+    <div class="left-side">
+      <button @click="logout">Logout</button>
+      <ChatList />
+    </div>
+    <div class="right-side" />
   </div>
-  <div class="right-side" />
- </div>
 </template>
 
-<script>
+<script lang="ts">
 import { setupSocket } from '@/sockets'
 import ChatList from '@/components/chat-list/ChatList.vue'
+import { defineComponent } from '@vue/runtime-core'
 
-export default {
+export default defineComponent ({
   components: {
     ChatList,
   },
@@ -24,7 +25,7 @@ export default {
       this.$store.dispatch('auth/logout')
     },
   },
-}
+})
 </script>
 <style scoped lang="scss">
 .home {

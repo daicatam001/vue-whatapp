@@ -30,14 +30,14 @@
 //         "created": "2021-01-28T02:41:48.826706Z"
 //     }
 // ]
-import {UserInfo} from "@/core/models/users";
-import {Message} from "@/core/models/messages";
+import { UserInfo } from '@/core/models/users'
+import { Message } from '@/core/models/messages'
 
 export interface Chat {
-    id: number,
-    admin: UserInfo,
-    people: UserInfo[],
-    last_messages: Message,
-    title: string,
-    created: string
+  id: number
+  admin: UserInfo
+  people: UserInfo[]
+  last_messages: Message
+  title: string
+  created: string
 }

@@ -1,46 +1,46 @@
 <template>
-  <div class="home">
-	<div class="left-side">
-	  <button @click="logout">Logout</button>
-	  <ChatList/>
-	</div>
-	<div class="right-side"></div>
+ <div class="home">
+  <div class="left-side">
+   <button @click="logout">Logout</button>
+   <ChatList />
   </div>
+  <div class="right-side" />
+ </div>
 </template>
 
 <script>
-    import {setupSocket} from "@/sockets";
-    import ChatList from "@/components/chat-list/ChatList.vue"
+import { setupSocket } from '@/sockets'
+import ChatList from '@/components/chat-list/ChatList.vue'
 
-    export default {
-        components: {
-            ChatList
-        },
-        methods: {
-            logout() {
-                this.$store.dispatch('auth/logout')
-            }
-        },
-        created() {
-            setupSocket()
-        }
-    };
+export default {
+  components: {
+    ChatList,
+  },
+  created() {
+    setupSocket()
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout')
+    },
+  },
+}
 </script>
 <style scoped lang="scss">
-  .home {
-	display: flex;
-	height: 100vh;
-  }
+.home {
+  display: flex;
+  height: 100vh;
+}
 
-  .left-side {
-	background: red;
-	width: 350px;
-	flex-shrink: 0;
-  }
+.left-side {
+  background: #f0f4f8;
+  border-left: 1px solid rgb(213, 217, 222);
+  width: 350px;
+  flex-shrink: 0;
+}
 
-  .right-side {
-	background: gray;
-	flex-grow: 1;
-  }
-
+.right-side {
+  background: gray;
+  flex-grow: 1;
+}
 </style>

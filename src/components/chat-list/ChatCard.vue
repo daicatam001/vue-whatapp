@@ -1,13 +1,9 @@
-<template>
-  
-</template>
+<template />
 
 <script>
-    export default {
-        name: "ChatCard.vue"
-    }
+export default {
+  props: ['title', 'lastMessage', 'peoplel'],
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

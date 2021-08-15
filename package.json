@@ -44,20 +44,34 @@
       "node": true
     },
     "extends": [
+      "plugin:vue/base",
       "plugin:vue/vue3-essential",
-      "eslint:recommended",
-      "@vue/typescript/recommended",
-      "@vue/prettier",
-      "@vue/prettier/@typescript-eslint"
+      "plugin:vue/vue3-strongly-recommended",
+      "plugin:vue/vue3-recommended",
+      "prettier"
     ],
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "rules": {
+      "vue/max-attributes-per-line": 0,
+      "no-mixed-spaces-and-tabs": 0,
+      "vue/require-prop-types": 0,
+      "vue/valid-template-root": 0,
+      "vue/script-indent": ["error", 2, { "baseIndent": 0 }],
+      "vue/html-indent": [
+        "error",
+        1,
+        {
+          "attribute": 2,
+          "baseIndent": 1,
+          "closeBracket": 0,
+          "alignAttributesVertically": true,
+          "ignores": []
+        }
+      ],
+      "vue/singleline-html-element-content-newline": ["error", {
+          "ignoreWhenNoAttributes": true,
+          "ignoreWhenEmpty": true,
+          "ignores": ["pre", "textarea","button"]
+        }]
+    }
+  }
 }

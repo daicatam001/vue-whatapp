@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
-import ChatCard from './ChatCard.vue'
+import ChatCard from '@/components/chat-list/ChatCard.vue'
 export default defineComponent({
   components: {
     ChatCard,

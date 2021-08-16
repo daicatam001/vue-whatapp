@@ -30,7 +30,7 @@ import { defineComponent } from '@vue/runtime-core'
 export default defineComponent({
   emits: ['submit'],
   data() {
-    const requiredValidator = async (rule, value) => {
+    const requiredValidator = async (rule, value:string) => {
       if (!value) {
         return Promise.reject()
       }

@@ -34,7 +34,7 @@ export default defineComponent ({
 }
 
 .left-side {
-  background: #f0f4f8;
+  background: white;
   border-left: 1px solid rgb(213, 217, 222);
   width: 350px;
   flex-shrink: 0;

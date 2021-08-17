@@ -14,7 +14,7 @@
       <a-form-item name="secret">
         <input
           v-model="loginForm.secret"
-          type="secret"
+          type="password"
           placeholder="Password"
         />
       </a-form-item>

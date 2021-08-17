@@ -36,7 +36,7 @@
       <a-form-item has-feedback name="secret">
         <input
           v-model="registerForm.secret"
-          type="secret"
+          type="password"
           placeholder="Password"
         />
       </a-form-item>

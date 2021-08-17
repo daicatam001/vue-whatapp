@@ -1,6 +1,7 @@
 <template>
   <div class="chat-list">
-    <div class="chat-cart-list">
+    <new-chat></new-chat>
+    <div class="chat-card-list">
       <ChatCard
         v-for="chat of chats"
         :key="chat.id"
@@ -15,9 +16,11 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import ChatCard from '@/components/chat-list/ChatCard.vue'
+import NewChat from './NewChat.vue'
 export default defineComponent({
   components: {
     ChatCard,
+    NewChat,
   },
   computed: {
     chats() {

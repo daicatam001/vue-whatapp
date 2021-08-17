@@ -5,8 +5,14 @@
     </div>
     <div class="content">
       <div class="title">{{ chatTitle }}</div>
-      <div class="last-message" v-html="lastMessageText"></div>
-      <div class="last-send-time">{{ lastSendTime }}</div>
+      <div
+        class="last-message"
+        v-if="hasLastMessageText"
+        v-html="lastMessageText"
+      ></div>
+      <div class="last-send-time" v-if="hasLastSendTime">
+        {{ lastSendTime }}
+      </div>
     </div>
   </div>
 </template>
@@ -21,8 +27,14 @@ export default defineComponent({
     username() {
       return this.$store.getters['auth/username']
     },
+    hasLastMessageText() {
+      return !!this.lastMessage.text
+    },
     lastMessageText() {
       return this.lastMessage.text
+    },
+    hasLastSendTime() {
+      return this.lastMessage.created
     },
     lastSendTime() {
       return moment(this.lastMessage.created).format('hh:mm')

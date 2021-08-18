@@ -5,7 +5,7 @@ import baseApi from '@/api/base-api'
 export async function register(
   data: AuthRegister
 ): Promise<{ data: UserInfo }> {
-  return baseApi.post(`/users`, data)
+  return baseApi.post(`/users/`, data)
 }
 
 export async function login(
@@ -20,4 +20,7 @@ export async function login(
       'User-Secret': secret
     }
   })
+}
+export async function getOrCreateSession() {
+  return await baseApi.get('users/me/session/')
 }

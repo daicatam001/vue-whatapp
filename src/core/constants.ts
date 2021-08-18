@@ -1,5 +1,5 @@
-export const PROJECT_ID = '83777ae0-77d3-4fb9-94e5-1d26d0589221'
+export const PROJECT_ID = '07be9561-163e-42a3-9ba9-4e056837fe04'
 
-export const PRIVATE_KEY = 'ed5ace53-b8e5-44c5-99dd-b04b55122a33'
+export const PRIVATE_KEY = '0b611334-6a16-406e-82d6-cd2cd59a1655'
 
 export const SERVER_URL = 'https://api.chatengine.io'

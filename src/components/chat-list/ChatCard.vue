@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-card">
+  <div class="chat-card" :class="{ active: isActived }">
     <div class="thumb">
       <img src="@/assets/images/unknown-user.jpg" />
     </div>
@@ -22,10 +22,16 @@ import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 
 export default defineComponent({
-  props: ['title', 'lastMessage', 'people'],
+  props: ['id', 'title', 'lastMessage', 'people'],
   computed: {
     username() {
       return this.$store.getters['auth/username']
+    },
+    selectedChatId() {
+      return this.$store.getters['chats/selectedChatId']
+    },
+    isActived() {
+      return this.id === this.selectedChatId
     },
     hasLastMessageText() {
       return !!this.lastMessage.text
@@ -52,8 +58,8 @@ export default defineComponent({
         )
       }
       return this.title
-    },
-  },
+    }
+  }
 })
 </script>
 
@@ -69,6 +75,9 @@ export default defineComponent({
   }
   &:hover {
     background-color: rgba(216, 216, 216, 0.25);
+  }
+  &.active{
+     background-color: rgba(216, 216, 216, 0.40);
   }
 }
 .thumb {
@@ -86,7 +95,7 @@ export default defineComponent({
 .last-message {
   font-size: 14px;
   color: rgb(138, 141, 145);
-  /deep/ > * {
+  :deep > * {
     margin-bottom: 0;
   }
 }

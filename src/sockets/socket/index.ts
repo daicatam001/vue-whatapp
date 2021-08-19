@@ -1,6 +1,6 @@
 import store from '@/store'
 import { PROJECT_ID } from '@/core/constants'
-import { getOrCreateSession } from '@/api/auth'
+import { getOrCreateSession } from '@/core/api/auth'
 import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
 

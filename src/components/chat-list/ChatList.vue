@@ -1,10 +1,12 @@
 <template>
   <div class="chat-list">
-    <new-chat></new-chat>
+    <NewChat />
     <div class="chat-card-list">
       <ChatCard
+        @click="selectChat(chat.id)"
         v-for="chat of chats"
         :key="chat.id"
+        :id="chat.id"
         :title="chat.title"
         :last-message="chat.last_message"
         :people="chat.people"
@@ -20,16 +22,21 @@ import NewChat from './NewChat.vue'
 export default defineComponent({
   components: {
     ChatCard,
-    NewChat,
+    NewChat
   },
   computed: {
     chats() {
       return this.$store.getters['chats/chats']
-    },
+    }
+  },
+  methods: {
+    selectChat(id) {
+      this.$store.dispatch('chats/setSelectedChatId', id)
+    }
   },
   created() {
     this.$store.dispatch('chats/getLatestChats', 25)
-  },
+  }
 })
 </script>
 

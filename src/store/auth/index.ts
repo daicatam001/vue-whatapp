@@ -3,7 +3,7 @@ import { AppState } from '@/store'
 import { AuthLogin, AuthRegister, UserInfo } from '@/core/models/users'
 import { message } from 'ant-design-vue'
 import router from '@/router'
-import { login, register } from '@/api/auth'
+import { login, register } from '@/core/api/auth'
 
 export interface AuthState {
   userInfo: UserInfo

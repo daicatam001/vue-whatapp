@@ -1,11 +1,11 @@
 import { AuthRegister, UserInfo } from '@/core/models/users'
 import { PRIVATE_KEY, PROJECT_ID } from '@/core/constants'
-import baseApi from '@/api/base-api'
+import baseApi from '@/core/api/base-api'
 
 export async function register(
   data: AuthRegister
 ): Promise<{ data: UserInfo }> {
-  return baseApi.post(`/users/`, data)
+  return baseApi.post(`/users`, data)
 }
 
 export async function login(
@@ -21,6 +21,8 @@ export async function login(
     }
   })
 }
-export async function getOrCreateSession() {
+export async function getOrCreateSession(): Promise<{
+  data: { token: string; expireIn: string }
+}> {
   return await baseApi.get('users/me/session/')
 }

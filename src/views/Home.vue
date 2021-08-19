@@ -4,7 +4,9 @@
       <button @click="logout">Logout</button>
       <ChatList />
     </div>
-    <div class="right-side" />
+    <div class="right-side" >
+      <ChatFeed/>
+    </div>
   </div>
 </template>
 
@@ -12,10 +14,12 @@
 import { setupSocket } from '@/sockets'
 import ChatList from '@/components/chat-list/ChatList.vue'
 import { defineComponent } from '@vue/runtime-core'
+import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 
 export default defineComponent ({
   components: {
     ChatList,
+    ChatFeed,
   },
   created() {
     setupSocket()

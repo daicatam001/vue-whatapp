@@ -1,8 +1,9 @@
 import store from '@/store'
 import { PROJECT_ID } from '@/core/constants'
 import { getOrCreateSession } from '@/core/api/auth'
-import { SocketData } from '../models'
+import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
+import { Message } from '@/core/models/messages'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
@@ -23,6 +24,7 @@ export async function setupSocket(): Promise<void> {
   }
   conn.onmessage = event => {
     const socketData = JSON.parse(event.data) as SocketData
+    console.log(socketData)
     switch (socketData.action) {
       case SOCKET_ACTION_NEW_CHAT:
         onNewChat(socketData.data)
@@ -47,6 +49,6 @@ function onEditChat(data: Chat) {
   console.log(newChatEntities)
   store.dispatch('chats/setChatEntities', newChatEntities)
 }
-function onNewMessage(data) {
-  console.log(data)
+function onNewMessage(_: { id: string; message: Message } | null) {
+  // data = null
 }

@@ -33,10 +33,14 @@
 import { UserInfo } from './users'
 import { Message } from './messages'
 
+export interface UserChat {
+  last_read: string
+  person: UserInfo
+}
 export interface Chat {
   id: number
   admin: UserInfo
-  people: UserInfo[]
+  people: UserChat[]
   last_message: Message
   title: string
   created: string

@@ -4,22 +4,22 @@
       <button @click="logout">Logout</button>
       <ChatList />
     </div>
-    <div class="right-side" >
-      <ChatFeed/>
+    <div class="right-side">
+      <ChatFeed />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { setupSocket } from '@/sockets'
+import { setupSocket } from '@/socket'
 import ChatList from '@/components/chat-list/ChatList.vue'
 import { defineComponent } from '@vue/runtime-core'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 
-export default defineComponent ({
+export default defineComponent({
   components: {
     ChatList,
-    ChatFeed,
+    ChatFeed
   },
   created() {
     setupSocket()
@@ -27,25 +27,26 @@ export default defineComponent ({
   methods: {
     logout() {
       this.$store.dispatch('auth/logout')
-    },
-  },
+    }
+  }
 })
 </script>
 <style scoped lang="scss">
 .home {
   display: flex;
-  height: 100vh;
+  height: 100%;
 }
 
 .left-side {
   background: white;
-  border-left: 1px solid rgb(213, 217, 222);
+  border-right: 1px solid rgb(213, 217, 222);
   width: 350px;
   flex-shrink: 0;
 }
 
 .right-side {
-  background: gray;
+  height: 100%;
+  position: inherit;
   flex-grow: 1;
 }
 </style>

@@ -3,7 +3,6 @@
   <div class="chat-feed">
     <div class="message-list-wrapper">
       <MessageList />
-      xsxs
     </div>
     <div class="new-message-wrapper">
       <NewMessage />
@@ -25,8 +24,8 @@ export default {
 <style scoped lang="scss">
 .chat-feed {
   display: flex;
-  flex-direction: column;
   height: 100%;
+  flex-direction: column;
 }
 .message-list-wrapper {
   flex-grow: 1;

@@ -1,15 +1,15 @@
 <template>
- <div class="app">
-  <router-view />
- </div>
+  <div class="chat-app">
+    <router-view />
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core"
+import { defineComponent } from '@vue/runtime-core'
 
 export default defineComponent({
   created() {
     this.$store.dispatch('auth/tryLogin')
-  },
+  }
 })
 </script>
 <style>
@@ -22,8 +22,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.app {
-  min-height: 100vh;
+#app {
+  height: 100%;
+  width: 100%;
+}
+.chat-app {
+  height: 100%;
 }
 
 * {

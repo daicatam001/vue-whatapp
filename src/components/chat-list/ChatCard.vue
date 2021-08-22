@@ -4,14 +4,20 @@
       <img src="@/assets/images/unknown-user.jpg" />
     </div>
     <div class="content">
-      <div class="title">{{ chatTitle }}</div>
-      <div
-        class="last-message"
-        v-if="hasLastMessageText"
-        v-html="lastMessageText"
-      ></div>
-      <div class="last-send-time" v-if="hasLastSendTime">
-        {{ lastSendTime }}
+      <div class="line-1">
+        <div class="title">{{ chatTitle }}</div>
+        <div class="last-send-time" v-if="!!lastSendTime">
+          {{ lastSendTime }}
+        </div>
+      </div>
+      <div class="line-2">
+        <div
+          class="last-message"
+          v-if="!!lastMessageText"
+          v-html="lastMessageText"
+        ></div>
+
+        <div class="new-message-note" v-if="hasNewMessage"></div>
       </div>
     </div>
   </div>
@@ -33,17 +39,31 @@ export default defineComponent({
     isActived() {
       return this.id === this.selectedChatId
     },
-    hasLastMessageText() {
-      return !!this.lastMessage.text
-    },
     lastMessageText() {
       return this.lastMessage.text
     },
-    hasLastSendTime() {
-      return this.lastMessage.created
-    },
     lastSendTime() {
       return moment(this.lastMessage.created).format('hh:mm')
+    },
+    hasNewMessage() {
+      const me = this.people.find(
+        item => item.person && item.person.username === this.username
+      )
+      console.log(me)
+      if (!this.lastMessage || !me) {
+        console.log(1)
+        return false
+      }
+      if (this.lastMessage.id && !me.last_read) {
+        console.log(2)
+        return true
+      }
+      if (this.lastMessage.id !== me.last_read) {
+        console.log(3)
+        return true
+      }
+      console.log(4)
+      return false
     },
     chatTitle() {
       const member = this.people.filter(
@@ -82,6 +102,9 @@ export default defineComponent({
     border-radius: 50%;
   }
 }
+.content {
+  flex-grow: 1;
+}
 .title {
   font-size: 15px;
   font-weight: 500;
@@ -94,11 +117,29 @@ export default defineComponent({
     margin-bottom: 0;
   }
 }
+.line-1,
+.line-2 {
+  display: flex;
+  align-items: center;
+}
+.line-2 {
+  margin-top: 5px;
+}
 .last-send-time {
   font-size: 14px;
   color: rgb(138, 141, 145);
-  position: absolute;
-  right: 20px;
-  top: 7px;
+  margin-left: auto;
+  // position: absolute;
+  // right: 20px;
+  // top: 7px;
+}
+
+.new-message-note {
+  margin-top: 5px;
+  margin-left: auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: gray;
 }
 </style>

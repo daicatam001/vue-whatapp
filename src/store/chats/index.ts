@@ -38,7 +38,7 @@ export default {
         await createChat(state.newChatTitle)
         commit('setNewChatTitle', '')
       } catch (e) {
-        console.log(e)
+        // ..
       }
     },
     selectChat(
@@ -67,7 +67,6 @@ export default {
         (entity, chat) => ({ ...entity, [chat.id]: { ...chat } }),
         {}
       )
-      console.log(chatEntites)
       commit('setChatEntities', chatEntites)
     },
     async setChatEntities(
@@ -101,7 +100,6 @@ export default {
     chats(state: ChatsState, getters): Chat[] {
       return Object.values(getters.chatEntities as ChatEntities).sort(
         (a: Chat, b: Chat) => {
-          console.log(a, b)
           const lastMessageA = moment(
             a.last_message ? a.last_message.created : a.created
           )

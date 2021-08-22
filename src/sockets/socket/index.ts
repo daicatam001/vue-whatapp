@@ -5,6 +5,9 @@ import { SocketData } from '../models'
 import { Chat } from '@/core/models/chats'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
+const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
+
+const SOCKET_ACTION_NEW_MESSAGE = 'new_message'
 
 export async function setupSocket(): Promise<void> {
   const username = store.getters['auth/username']
@@ -19,16 +22,31 @@ export async function setupSocket(): Promise<void> {
     console.log('connect success', event)
   }
   conn.onmessage = event => {
-    console.log(event)
     const socketData = JSON.parse(event.data) as SocketData
     switch (socketData.action) {
       case SOCKET_ACTION_NEW_CHAT:
         onNewChat(socketData.data)
+        break
+      case SOCKET_ACTION_EDIT_CHAT:
+        onEditChat(socketData.data)
+        break
+      case SOCKET_ACTION_NEW_MESSAGE:
+        onNewMessage(socketData.data)
     }
   }
 }
 
-function onNewChat(chat: Chat) {
+function onNewChat(data: Chat) {
   const chats = store.getters['chats/chats']
-  store.dispatch('chats/setChats', [...chats, chat])
+  store.dispatch('chats/setChats', [...chats, data])
+}
+
+function onEditChat(data: Chat) {
+  const chatEntites = store.getters['chats/chatEntities']
+  const newChatEntities = { ...chatEntites, [data.id]: data }
+  console.log(newChatEntities)
+  store.dispatch('chats/setChatEntities', newChatEntities)
+}
+function onNewMessage(data) {
+  console.log(data)
 }

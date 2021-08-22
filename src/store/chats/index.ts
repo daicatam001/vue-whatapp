@@ -2,17 +2,21 @@ import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
 import { Chat } from '@/core/models/chats'
 import { createChat, getChats, getLatestChats } from '@/core/api/chats'
+import moment from 'moment'
 
+export interface ChatEntities {
+  [key: number]: Chat
+}
 export interface ChatsState {
   newChatTitle: string
   selectedChatId: number
-  chats: Chat[]
+  chatEntites: ChatEntities
 }
 
 export default {
   namespaced: true,
   state: {
-    chats: [],
+    chatEntites: {},
     selectedChatId: null,
     newChatTitle: ''
   },
@@ -48,20 +52,29 @@ export default {
       commit
     }: ActionContext<ChatsState, AppState>): Promise<void> {
       const { data } = await getChats()
-      commit('setChats', data)
-    },
-    async setChats(
-      { commit }: ActionContext<ChatsState, AppState>,
-      payload: Chat[]
-    ): Promise<void> {
-      commit('setChats', payload)
+      const chatEntites = (data as Chat[]).reduce(
+        (entity, chat) => ({ ...entity, [chat.id]: { ...chat } }),
+        {}
+      )
+      commit('setChatEntities', chatEntites)
     },
     async getLatestChats(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: number
     ): Promise<void> {
       const { data } = await getLatestChats(payload)
-      commit('setChats', data)
+      const chatEntites = (data as Chat[]).reduce(
+        (entity, chat) => ({ ...entity, [chat.id]: { ...chat } }),
+        {}
+      )
+      console.log(chatEntites)
+      commit('setChatEntities', chatEntites)
+    },
+    async setChatEntities(
+      { commit }: ActionContext<ChatsState, AppState>,
+      payload: ChatEntities
+    ): Promise<void> {
+      commit('setChatEntities', payload)
     }
   },
   mutations: {
@@ -71,8 +84,8 @@ export default {
     setNewChatTitle(state: ChatsState, payload: string): void {
       state.newChatTitle = payload
     },
-    setChats(state: ChatsState, payload: Chat[]): void {
-      state.chats = payload
+    setChatEntities(state: ChatsState, payload: ChatEntities): void {
+      state.chatEntites = payload
     }
   },
   getters: {
@@ -82,8 +95,28 @@ export default {
     newChatTitle(state: ChatsState): string {
       return state.newChatTitle
     },
-    chats(state: ChatsState): Chat[] {
-      return state.chats
+    chatEntities({ chatEntites }: ChatsState) {
+      return chatEntites
+    },
+    chats(state: ChatsState, getters): Chat[] {
+      return Object.values(getters.chatEntities as ChatEntities).sort(
+        (a: Chat, b: Chat) => {
+          console.log(a, b)
+          const lastMessageA = moment(
+            a.last_message ? a.last_message.created : a.created
+          )
+          const lastMessageB = moment(
+            b.last_message ? b.last_message.created : b.created
+          )
+          if (lastMessageA.isAfter(lastMessageB)) {
+            return -1
+          }
+          if (lastMessageA.isBefore(lastMessageB)) {
+            return 1
+          }
+          return 0
+        }
+      )
     }
   }
 }

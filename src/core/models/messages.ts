@@ -7,3 +7,11 @@ export interface Message {
   attachments: string[]
   created: string
 }
+
+export interface MessageCreate {
+  text?: string
+  attachment_urls?: string[]
+  custom_json?: {
+    [key: string]: string
+  }
+}

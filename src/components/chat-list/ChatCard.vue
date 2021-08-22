@@ -46,16 +46,11 @@ export default defineComponent({
       return moment(this.lastMessage.created).format('hh:mm')
     },
     chatTitle() {
-      if (
-        this.people &&
-        this.people.filter((it) => it.person.username !== this.username)
-          .length === 1
-      ) {
-        return (
-          this.people[0].person.first_name +
-          ' ' +
-          this.people[0].person.last_name
-        )
+      const member = this.people.filter(
+        (it) => it.person && it.person.username !== this.username
+      )
+      if (member.length === 1) {
+        return `${member[0].person.first_name} ${member[0].person.last_name}`
       }
       return this.title
     }
@@ -76,8 +71,8 @@ export default defineComponent({
   &:hover {
     background-color: rgba(216, 216, 216, 0.25);
   }
-  &.active{
-     background-color: rgba(216, 216, 216, 0.40);
+  &.active {
+    background-color: rgba(216, 216, 216, 0.4);
   }
 }
 .thumb {

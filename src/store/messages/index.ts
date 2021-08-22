@@ -1,7 +1,7 @@
 import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
-import { Message } from '@/core/models/messages'
-import { getLatestMessage } from '@/core/api/messages'
+import { Message, MessageCreate } from '@/core/models/messages'
+import { getLatestMessage, sendMessage } from '@/core/api/messages'
 
 const CHAT_COUNT = 25
 
@@ -19,6 +19,13 @@ export default {
     messages: []
   },
   actions: {
+    async sendMessage(
+      { getters }: ActionContext<MessagesState, AppState>,
+      message: MessageCreate
+    ): Promise<void> {
+      const chatId = getters.chatId
+      await sendMessage(chatId, message)
+    },
     async fetchLatestMessages({
       commit,
       dispatch
@@ -28,12 +35,11 @@ export default {
     },
     async fetchMessages({
       commit,
-      getters,
-      rootGetters
+      getters
     }: ActionContext<MessagesState, AppState>): Promise<void> {
       commit('setIsLoading', true)
       try {
-        const chatId = rootGetters['chats/selectedChatId']
+        const chatId = getters.chatId
         const chatCount = getters.currentChatCount
         const { data } = await getLatestMessage(chatId, chatCount)
         commit('setMessages', data)
@@ -56,6 +62,14 @@ export default {
   },
 
   getters: {
+    chatId(
+      state: MessagesState,
+      getters: any,
+      rootState: AppState,
+      rootGetters: any
+    ): string {
+      return rootGetters['chats/selectedChatId']
+    },
     messages(state: MessagesState): Message[] {
       return state.messages
     },

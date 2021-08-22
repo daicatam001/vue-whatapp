@@ -37,11 +37,12 @@ export default {
         console.log(e)
       }
     },
-    setSelectedChatId(
-      { commit }: ActionContext<ChatsState, AppState>,
+    selectChat(
+      { commit, dispatch }: ActionContext<ChatsState, AppState>,
       payload: number
     ): void {
       commit('setSelectedChatId', payload)
+      dispatch('messages/fetchLatestMessages', null, { root: true })
     },
     async getChats({
       commit

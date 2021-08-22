@@ -1,7 +1,7 @@
 import store from '@/store'
 import { PROJECT_ID } from '@/core/constants'
 import { getOrCreateSession } from '@/core/api/auth'
-import { SocketData } from './models'
+import { SocketData } from '../models'
 import { Chat } from '@/core/models/chats'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
@@ -19,6 +19,7 @@ export async function setupSocket(): Promise<void> {
     console.log('connect success', event)
   }
   conn.onmessage = event => {
+    console.log(event)
     const socketData = JSON.parse(event.data) as SocketData
     switch (socketData.action) {
       case SOCKET_ACTION_NEW_CHAT:

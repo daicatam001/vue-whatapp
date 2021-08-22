@@ -31,7 +31,7 @@ export default defineComponent({
   },
   methods: {
     selectChat(id) {
-      this.$store.dispatch('chats/setSelectedChatId', id)
+      this.$store.dispatch('chats/selectChat', id)
     }
   },
   created() {

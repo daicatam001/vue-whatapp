@@ -51,18 +51,11 @@ export default defineComponent({
       )
       console.log(me)
       if (!this.lastMessage || !me) {
-        console.log(1)
         return false
       }
-      if (this.lastMessage.id && !me.last_read) {
-        console.log(2)
+      if ((this.lastMessage.id && !me.last_read)  || (this.lastMessage.id !== me.last_read)) {
         return true
       }
-      if (this.lastMessage.id !== me.last_read) {
-        console.log(3)
-        return true
-      }
-      console.log(4)
       return false
     },
     chatTitle() {

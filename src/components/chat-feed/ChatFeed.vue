@@ -23,6 +23,7 @@ export default {
 
 <style scoped lang="scss">
 .chat-feed {
+  padding: 20px;
   display: flex;
   height: 100%;
   flex-direction: column;

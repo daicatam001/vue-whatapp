@@ -2,15 +2,25 @@
   <div class="message-list">
     <div class="message-list-panel">
       <div v-for="message of messages" :key="message.id">
-        {{ messages }}
-        <hr />
+        <Message
+          :id="message.id"
+          :senderFirstName="`${message.sender.first_name}`"
+          :senderLastName="`${message.sender.last_name}`"
+          :avatar="message.sender.avatar"
+          :senderUsername="message.sender_username"
+          :text="message.text"
+          :created="message.created"
+          :customJson="message.custom_json"
+         />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Message from './Message.vue'
 export default {
+  components: { Message },
   computed: {
     messages() {
       return this.$store.getters['messages/messages']

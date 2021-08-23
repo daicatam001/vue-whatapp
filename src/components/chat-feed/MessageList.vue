@@ -2,16 +2,25 @@
   <div class="message-list">
     <div class="message-list-panel">
       <div v-for="message of messages" :key="message.id">
-        <Message
+        <MyMessage
+          v-if="message.sender_username === username"
           :id="message.id"
-          :senderFirstName="`${message.sender.first_name}`"
-          :senderLastName="`${message.sender.last_name}`"
-          :avatar="message.sender.avatar"
-          :senderUsername="message.sender_username"
           :text="message.text"
           :created="message.created"
           :customJson="message.custom_json"
-         />
+        />
+        <template v-else>
+          <Message
+            :id="message.id"
+            :senderFirstName="`${message.sender.first_name}`"
+            :senderLastName="`${message.sender.last_name}`"
+            :avatar="message.sender.avatar"
+            :senderUsername="message.sender_username"
+            :text="message.text"
+            :created="message.created"
+            :customJson="message.custom_json"
+          />
+        </template>
       </div>
     </div>
   </div>
@@ -19,9 +28,13 @@
 
 <script>
 import Message from './Message.vue'
+import MyMessage from './MyMessage.vue'
 export default {
-  components: { Message },
+  components: { Message, MyMessage },
   computed: {
+    username() {
+      return this.$store.getters['auth/username']
+    },
     messages() {
       return this.$store.getters['messages/messages']
     }
@@ -34,12 +47,13 @@ export default {
   height: 100%;
   position: relative;
 }
-.message-list-panel{
+.message-list-panel {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  padding: 10px 30px;
   overflow-x: hidden;
   overflow-y: auto;
 }

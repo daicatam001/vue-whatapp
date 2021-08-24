@@ -47,13 +47,16 @@ export default defineComponent({
     },
     hasNewMessage() {
       const me = this.people.find(
-        item => item.person && item.person.username === this.username
+        (item) => item.person && item.person.username === this.username
       )
       console.log(me)
       if (!this.lastMessage || !me) {
         return false
       }
-      if ((this.lastMessage.id && !me.last_read)  || (this.lastMessage.id !== me.last_read)) {
+      if (
+        (this.lastMessage.id && !me.last_read) ||
+        this.lastMessage.id !== me.last_read
+      ) {
         return true
       }
       return false

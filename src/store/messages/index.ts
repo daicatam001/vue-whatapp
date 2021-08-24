@@ -5,18 +5,25 @@ import { getLatestMessage, sendMessage } from '@/core/api/messages'
 
 const CHAT_COUNT = 25
 
+export interface MessageEntity {
+  [key: number]: Message
+}
 export interface MessagesState {
   isLoading: boolean
   currentChatCount: number
-  messages: Message[]
+  messageChat: {
+    [chatId: string]: MessageEntity
+  }
+  // messages: Message[]
 }
 
 export default {
   namespaced: true,
   state: {
+    messageChat: {},
     isLoading: false,
-    currentChatCount: CHAT_COUNT,
-    messages: []
+    currentChatCount: CHAT_COUNT
+    // messages: []
   },
   actions: {
     async sendMessage(
@@ -42,7 +49,12 @@ export default {
         const chatId = getters.chatId
         const chatCount = getters.currentChatCount
         const { data } = await getLatestMessage(chatId, chatCount)
-        commit('setMessages', data)
+        const messageEntities = data.reduce((entity, item) => ({
+          ...entity,
+          [item.id]: item
+        }))
+
+        commit('setMessageEntity', { [chatId]: messageEntities })
       } catch (e) {
         // ..
       }
@@ -56,9 +68,12 @@ export default {
     setCurrentChatCount(state: MessagesState, payload: number): void {
       state.currentChatCount = payload
     },
-    setMessages(state: MessagesState, payload: Message[]): void {
-      state.messages = payload
+    setMessageEntity(state: MessagesState, payload) {
+      state.messageChat = { ...state.messageChat, payload }
     }
+    // setMessages(state: MessagesState, payload: Message[]): void {
+    //   state.messages = payload
+    // }
   },
 
   getters: {
@@ -70,8 +85,11 @@ export default {
     ): string {
       return rootGetters['chats/selectedChatId']
     },
-    messages(state: MessagesState): Message[] {
-      return state.messages
+    messageEntities(state: MessagesState, getters): MessageEntity {
+      return getters.chatId ? state.messageChat[getters.chatId] : {}
+    },
+    messages(state: MessagesState, getters): Message[] {
+      return Object.values(getters.messageEntities || {})
     },
     isLoading(state: MessagesState): boolean {
       return state.isLoading

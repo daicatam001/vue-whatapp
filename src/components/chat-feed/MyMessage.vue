@@ -1,8 +1,8 @@
 <template>
-  <div class="message" :id="idMessage">
+  <div class="my-message" :id="idMessage">
     <div class="message-card">
       <div class="content">
-        <div class="meta">
+        <div class="meta" v-if="!isSameGroupMessage">
           {{ createdFormat }}
         </div>
         <div class="body" v-html="textBody"></div>
@@ -13,31 +13,43 @@
 
 <script>
 import moment from 'moment'
+import Message from '@/core/models/messages'
 export default {
-  props: ['id', 'text', 'created'],
+  // props: ['id', 'text', 'created', 'senderUsername', 'lastMessage'],
+  props: {
+    message: Message,
+    lastMessage: Message
+  },
   computed: {
+    isSameGroupMessage() {
+      return (
+        this.lastMessage &&
+        this.lastMessage.sender_username === this.message.sender_username &&
+        moment(this.message.created).diff(
+          moment(this.lastMessage.created),
+          'minute'
+        ) < 5
+      )
+    },
     idMessage() {
-      return `message-id-${this.id}`
+      return `message-id-${this.message.id}`
     },
     textBody() {
-      return this.text.replaceAll('<p>', '<div>').replaceAll('</p>', '</div>')
+      return this.message.text
+        .replaceAll('<p>', '<div>')
+        .replaceAll('</p>', '</div>')
     },
     createdFormat() {
-      return moment(this.created).format('hh:mm')
-    },
-    avatarText() {
-      return `${this.senderFirstName.charAt(0)}${
-        this.senderLastName
-          ? this.senderLastName.charAt(0)
-          : this.senderFirstName.charAt(1)
-      }
-      `.toUpperCase()
+      return moment(this.message.created).format('hh:mm')
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.my-message {
+  margin-bottom: 2px;
+}
 .message-card {
   display: flex;
   justify-content: flex-end;

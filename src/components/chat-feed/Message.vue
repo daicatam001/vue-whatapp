@@ -1,16 +1,18 @@
 <template>
   <div class="message" :id="idMessage">
     <div class="message-card">
-      <div class="thumb">
-        <img v-if="!!avatar" :src="avatar" :alt="senderName" />
-        <template v-else>
-          <div class="avatar-default">
-            <div class="avatar-text">{{ avatarText }}</div>
-          </div>
-        </template>
+      <div class="thumb-wrapper">
+        <div class="thumb" v-if="!isSameGroupMessage">
+          <img v-if="!!avatar" :src="avatar" :alt="senderName" />
+          <template v-else>
+            <div class="avatar-default">
+              <div class="avatar-text">{{ avatarText }}</div>
+            </div>
+          </template>
+        </div>
       </div>
       <div class="content">
-        <div class="meta">
+        <div class="meta" v-if="!isSameGroupMessage">
           {{ `${senderFirstName}, ${createdFormat}` }}
         </div>
         <div class="body" v-html="textBody"></div>
@@ -21,33 +23,42 @@
 
 <script>
 import moment from 'moment'
+import Message from '@/core/models/messages'
 export default {
-  props: [
-    'id',
-    'text',
-    'avatar',
-    'senderFirstName',
-    'senderLastName',
-    'created'
-  ],
+  props: {
+    message: Message,
+    lastMessage: Message
+  },
   computed: {
+    isSameGroupMessage() {
+      return (
+        this.lastMessage &&
+        this.lastMessage.sender_username === this.message.sender_username
+      )
+    },
     idMessage() {
-      return `message-id-${this.id}`
+      return `message-id-${this.message.id}`
     },
     textBody() {
-      return this.text.replaceAll('<p>', '<div>').replaceAll('</p>', '</div>')
+      return this.message.text
+        .replaceAll('<p>', '<div>')
+        .replaceAll('</p>', '</div>')
     },
     createdFormat() {
-      return moment(this.created).format('hh:mm')
+      return moment(this.message.created).format('hh:mm')
     },
     avatarText() {
-      console.log(this.senderFirstName, this.senderLastName)
-      return `${this.senderFirstName.charAt(0)}${
-        this.senderLastName
-          ? this.senderLastName.charAt(0)
-          : this.senderFirstName.charAt(1)
+      const { last_name, first_name } = this.message.sender
+      return `${first_name.charAt(0)}${
+        last_name ? last_name.charAt(0) : first_name.charAt(1)
       }
       `.toUpperCase()
+    },
+    senderFirstName() {
+      return this.message.sender.first_name
+    },
+    avatar() {
+      return this.message.avatar
     }
   }
 }
@@ -57,6 +68,11 @@ export default {
 .message-card {
   display: flex;
   gap: 10px;
+  margin-bottom: 2px;
+
+  .thumb-wrapper {
+    width: 47px;
+  }
   .thumb {
     .avatar-default {
       background-color: #e5e4e8;

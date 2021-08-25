@@ -1,25 +1,14 @@
 <template>
   <div class="message-list">
     <div class="message-list-panel">
-      <div v-for="message of messages" :key="message.id">
+      <div v-for="(message, index) of messages" :key="message.id">
         <MyMessage
           v-if="message.sender_username === username"
-          :id="message.id"
-          :text="message.text"
-          :created="message.created"
-          :customJson="message.custom_json"
+          :message="message"
+          :lastMessage="messages[index - 1]"
         />
         <template v-else>
-          <Message
-            :id="message.id"
-            :senderFirstName="`${message.sender.first_name}`"
-            :senderLastName="`${message.sender.last_name}`"
-            :avatar="message.sender.avatar"
-            :senderUsername="message.sender_username"
-            :text="message.text"
-            :created="message.created"
-            :customJson="message.custom_json"
-          />
+          <Message :message="message" :lastMessage="messages[index - 1]" />
         </template>
       </div>
     </div>

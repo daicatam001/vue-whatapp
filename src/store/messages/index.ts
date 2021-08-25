@@ -5,14 +5,17 @@ import { getLatestMessage, sendMessage } from '@/core/api/messages'
 
 const CHAT_COUNT = 25
 
-export interface MessageEntity {
+export interface MessageEntities {
   [key: number]: Message
+}
+export interface MessageChatEntites{
+  [key: number]: MessageEntities
 }
 export interface MessagesState {
   isLoading: boolean
   currentChatCount: number
   messageChat: {
-    [chatId: string]: MessageEntity
+    [chatId: string]: MessageEntities
   }
   // messages: Message[]
 }
@@ -52,9 +55,9 @@ export default {
         const messageEntities = data.reduce((entity, item) => ({
           ...entity,
           [item.id]: item
-        }))
+        }),{})
 
-        commit('setMessageEntity', { [chatId]: messageEntities })
+        commit('setMessageChatEntity', { [chatId]: messageEntities })
       } catch (e) {
         // ..
       }
@@ -68,8 +71,8 @@ export default {
     setCurrentChatCount(state: MessagesState, payload: number): void {
       state.currentChatCount = payload
     },
-    setMessageEntity(state: MessagesState, payload) {
-      state.messageChat = { ...state.messageChat, payload }
+    setMessageChatEntity(state: MessagesState, payload) {
+      state.messageChat = { ...state.messageChat, ...payload }
     }
     // setMessages(state: MessagesState, payload: Message[]): void {
     //   state.messages = payload
@@ -85,10 +88,12 @@ export default {
     ): string {
       return rootGetters['chats/selectedChatId']
     },
-    messageEntities(state: MessagesState, getters): MessageEntity {
+    messageEntities(state: MessagesState, getters): MessageEntities {
+      console.log(state.messageChat)
       return getters.chatId ? state.messageChat[getters.chatId] : {}
     },
     messages(state: MessagesState, getters): Message[] {
+      console.log(getters.messageEntities)
       return Object.values(getters.messageEntities || {})
     },
     isLoading(state: MessagesState): boolean {

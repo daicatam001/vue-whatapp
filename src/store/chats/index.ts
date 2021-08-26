@@ -46,7 +46,8 @@ export default {
       payload: number
     ): void {
       commit('setSelectedChatId', payload)
-      dispatch('messages/fetchLatestMessages', null, { root: true })
+      // dispatch('messages/fetchLatestMessages', null, { root: true })
+      dispatch('messages/loadChatMessages', null, { root: true })
     },
     async getChats({
       commit

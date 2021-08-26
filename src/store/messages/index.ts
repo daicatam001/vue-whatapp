@@ -2,13 +2,14 @@ import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
 import { Message, MessageCreate } from '@/core/models/messages'
 import { getLatestMessage, sendMessage } from '@/core/api/messages'
+import { LOAD_STATE } from '@/core/constants'
 
 const CHAT_COUNT = 25
 
 export interface MessageEntities {
   [key: number]: Message
 }
-export interface MessageChatEntites{
+export interface MessageChatEntites {
   [key: number]: MessageEntities
 }
 export interface MessagesState {
@@ -17,6 +18,7 @@ export interface MessagesState {
   messageChat: {
     [chatId: string]: MessageEntities
   }
+  loadState: LOAD_STATE
   // messages: Message[]
 }
 
@@ -25,16 +27,35 @@ export default {
   state: {
     messageChat: {},
     isLoading: false,
-    currentChatCount: CHAT_COUNT
+    currentChatCount: CHAT_COUNT,
+    toLastest: null,
+    state: LOAD_STATE.UNLOAD
     // messages: []
   },
   actions: {
     async sendMessage(
-      { getters }: ActionContext<MessagesState, AppState>,
+      { getters, dispatch }: ActionContext<MessagesState, AppState>,
       message: MessageCreate
     ): Promise<void> {
       const chatId = getters.chatId
+      dispatch('addMessage', { chatId, message })
       await sendMessage(chatId, message)
+    },
+    addMessage(
+      { commit }: ActionContext<MessagesState, AppState>,
+      payload: { chatId: string; message: Message }
+    ) {
+      commit('addMessge', payload)
+    },
+    async loadChatMessages({
+      getters,
+      commit,
+      dispatch
+    }: ActionContext<MessagesState, AppState>) {
+      commit('setLoadState', LOAD_STATE.LOADING_LATEST)
+      if (!getters.hasMessages) {
+        await dispatch('fetchLatestMessages')
+      }
     },
     async fetchLatestMessages({
       commit,
@@ -52,16 +73,25 @@ export default {
         const chatId = getters.chatId
         const chatCount = getters.currentChatCount
         const { data } = await getLatestMessage(chatId, chatCount)
-        const messageEntities = data.reduce((entity, item) => ({
-          ...entity,
-          [item.id]: item
-        }),{})
+        const messageEntities = data.reduce(
+          (entity, item) => ({
+            ...entity,
+            [item.created]: item
+          }),
+          {}
+        )
 
         commit('setMessageChatEntity', { [chatId]: messageEntities })
       } catch (e) {
         // ..
       }
       commit('setIsLoading', false)
+    },
+    setLoadState(
+      { commit }: ActionContext<MessagesState, AppState>,
+      payload: LOAD_STATE
+    ) {
+      commit('setLoadState', payload)
     }
   },
   mutations: {
@@ -73,6 +103,15 @@ export default {
     },
     setMessageChatEntity(state: MessagesState, payload) {
       state.messageChat = { ...state.messageChat, ...payload }
+    },
+    setLoadState(state: MessagesState, payload: LOAD_STATE) {
+      state.loadState = payload
+    },
+    addMessge(
+      state: MessagesState,
+      { chatId, message }: { chatId: string; message: Message }
+    ) {
+      state.messageChat[chatId][message.id] = message
     }
     // setMessages(state: MessagesState, payload: Message[]): void {
     //   state.messages = payload
@@ -86,14 +125,18 @@ export default {
       rootState: AppState,
       rootGetters: any
     ): string {
+      console.log('getters chatId')
       return rootGetters['chats/selectedChatId']
     },
-    messageEntities(state: MessagesState, getters): MessageEntities {
-      console.log(state.messageChat)
-      return getters.chatId ? state.messageChat[getters.chatId] : {}
+    messageEntities(state: MessagesState, getters): MessageEntities | null {
+      console.log('xsxsx', state.messageChat)
+      return getters.chatId ? state.messageChat[getters.chatId] : null
+    },
+    hasMessages(state: MessagesState, getters) {
+      return !!getters.messageEntities
     },
     messages(state: MessagesState, getters): Message[] {
-      console.log(getters.messageEntities)
+      console.log('getters message run')
       return Object.values(getters.messageEntities || {})
     },
     isLoading(state: MessagesState): boolean {
@@ -101,6 +144,9 @@ export default {
     },
     currentChatCount(state: MessagesState): number {
       return state.currentChatCount
+    },
+    loadState(state: MessagesState): LOAD_STATE {
+      return state.loadState
     }
   }
 }

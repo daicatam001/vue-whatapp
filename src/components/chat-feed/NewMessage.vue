@@ -8,6 +8,11 @@
 
 <script>
 export default {
+  computed: {
+    userInfo() {
+      return this.$store.getters['auth/userInfo']
+    }
+  },
   data() {
     return {
       text: ''
@@ -19,7 +24,12 @@ export default {
         return
       }
       const message = {
-        text: this.text
+        text: this.text,
+        sender:{...this.userInfo},
+        custom_json:{
+          sender_id:Date.now().toString
+        },
+        sender_username:this.userInfo.username,
       }
       try {
         await this.$store.dispatch('messages/sendMessage', message)

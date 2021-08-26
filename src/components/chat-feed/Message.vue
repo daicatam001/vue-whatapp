@@ -23,7 +23,7 @@
 
 <script>
 import moment from 'moment'
-import Message from '@/core/models/messages'
+import { Message } from '@/core/models/messages'
 export default {
   props: {
     message: Message,

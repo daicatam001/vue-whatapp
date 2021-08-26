@@ -1,6 +1,6 @@
 <template>
   <div class="message-list">
-    <div class="message-list-panel">
+    <div class="message-list-panel" ref="panel">
       <div v-for="(message, index) of messages" :key="message.id">
         <MyMessage
           v-if="message.sender_username === username"
@@ -11,11 +11,13 @@
           <Message :message="message" :lastMessage="messages[index - 1]" />
         </template>
       </div>
+      <div id="message-bottom" ref="msgBottom"></div>
     </div>
   </div>
 </template>
 
 <script>
+import { LOAD_STATE } from '@/core/constants'
 import Message from './Message.vue'
 import MyMessage from './MyMessage.vue'
 export default {
@@ -27,7 +29,13 @@ export default {
     messages() {
       return this.$store.getters['messages/messages']
     }
-  }
+  },
+  updated() {
+    if (this.$store.getters['messages/loadState'] === LOAD_STATE.LOADING_LATEST) {
+      this.$refs.msgBottom.scrollIntoView()
+      this.$store.dispatch('messages/setLoadState', LOAD_STATE.LOADING_LATEST)
+    }
+  },
 }
 </script>
 

@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   computed: {
     userInfo() {
@@ -23,13 +24,15 @@ export default {
       if (this.text === '') {
         return
       }
+      const sendingTime = moment.utc()
       const message = {
         text: this.text,
-        sender:{...this.userInfo},
-        custom_json:{
-          sender_id:Date.now().toString
+        sender: { ...this.userInfo },
+        custom_json: {
+          sending_time: sendingTime.valueOf()
         },
-        sender_username:this.userInfo.username,
+        sender_username: this.userInfo.username,
+        created: sendingTime.format('YYYY-MM-DD HH:mm:ss.000000+00:00')
       }
       try {
         await this.$store.dispatch('messages/sendMessage', message)

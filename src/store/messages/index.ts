@@ -3,6 +3,7 @@ import { AppState } from '@/store'
 import { Message, MessageCreate } from '@/core/models/messages'
 import { getLatestMessage, sendMessage } from '@/core/api/messages'
 import { LOAD_STATE } from '@/core/constants'
+import moment from 'moment'
 
 const CHAT_COUNT = 25
 
@@ -41,11 +42,12 @@ export default {
       dispatch('addMessage', { chatId, message })
       await sendMessage(chatId, message)
     },
+    
     addMessage(
       { commit }: ActionContext<MessagesState, AppState>,
       payload: { chatId: string; message: Message }
     ) {
-      commit('addMessge', payload)
+      commit('addMessage', payload)
     },
     async loadChatMessages({
       getters,
@@ -76,7 +78,7 @@ export default {
         const messageEntities = data.reduce(
           (entity, item) => ({
             ...entity,
-            [item.created]: item
+            [moment.utc(item.created).valueOf()]: item
           }),
           {}
         )
@@ -107,11 +109,11 @@ export default {
     setLoadState(state: MessagesState, payload: LOAD_STATE) {
       state.loadState = payload
     },
-    addMessge(
+    addMessage(
       state: MessagesState,
       { chatId, message }: { chatId: string; message: Message }
     ) {
-      state.messageChat[chatId][message.id] = message
+      state.messageChat[chatId][message.custom_json.sending_time] = message
     }
     // setMessages(state: MessagesState, payload: Message[]): void {
     //   state.messages = payload

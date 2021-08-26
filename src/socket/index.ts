@@ -49,6 +49,10 @@ function onEditChat(data: Chat) {
   console.log(newChatEntities)
   store.dispatch('chats/setChatEntities', newChatEntities)
 }
-function onNewMessage(_: { id: string; message: Message } | null) {
+function onNewMessage({
+  id,
+  message
+}: { id: string; message: Message }) {
   // data = null
+  store.dispatch('messages/addMessage', { chatId: id, message })
 }

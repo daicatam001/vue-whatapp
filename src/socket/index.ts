@@ -46,7 +46,6 @@ function onNewChat(data: Chat) {
 function onEditChat(data: Chat) {
   const chatEntites = store.getters['chats/chatEntities']
   const newChatEntities = { ...chatEntites, [data.id]: data }
-  console.log(newChatEntities)
   store.dispatch('chats/setChatEntities', newChatEntities)
 }
 function onNewMessage({

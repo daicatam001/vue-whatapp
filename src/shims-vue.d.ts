@@ -11,6 +11,7 @@ declare module '*.vue' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $store: Store;
-    $message:message
+    $message:message,
+    $refs:any
   }
 }

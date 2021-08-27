@@ -10,15 +10,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from '@vue/runtime-core'
 import MessageList from './MessageList.vue'
 import NewMessage from './NewMessage.vue'
-export default {
+export default defineComponent({
   components: {
     MessageList,
     NewMessage
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

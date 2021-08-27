@@ -127,18 +127,15 @@ export default {
       rootState: AppState,
       rootGetters: any
     ): string {
-      console.log('getters chatId')
       return rootGetters['chats/selectedChatId']
     },
     messageEntities(state: MessagesState, getters): MessageEntities | null {
-      console.log('xsxsx', state.messageChat)
       return getters.chatId ? state.messageChat[getters.chatId] : null
     },
     hasMessages(state: MessagesState, getters) {
       return !!getters.messageEntities
     },
     messages(state: MessagesState, getters): Message[] {
-      console.log('getters message run')
       return Object.values(getters.messageEntities || {})
     },
     isLoading(state: MessagesState): boolean {

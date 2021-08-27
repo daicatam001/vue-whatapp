@@ -6,11 +6,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from '@vue/runtime-core'
+import { UserInfo } from '@/core/models/users'
 import moment from 'moment'
-export default {
+export default defineComponent({
   computed: {
-    userInfo() {
+    userInfo(): UserInfo {
       return this.$store.getters['auth/userInfo']
     }
   },
@@ -42,7 +44,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

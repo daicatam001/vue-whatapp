@@ -3,12 +3,13 @@
     <div class="message-card">
       <div class="thumb-wrapper">
         <div class="thumb" v-if="!isSameGroupMessage">
-          <img v-if="!!avatar" :src="avatar" :alt="senderName" />
+          <Avatar :src="avatar" :alt="senderName" :text="avatarText" />
+          <!-- <img v-if="!!avatar" :src="avatar" :alt="senderName" />
           <template v-else>
             <div class="avatar-default">
               <div class="avatar-text">{{ avatarText }}</div>
             </div>
-          </template>
+          </template> -->
         </div>
       </div>
       <div class="content">
@@ -21,47 +22,50 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import moment from 'moment'
-import { Message } from '@/core/models/messages'
-export default {
+import { defineComponent } from '@vue/runtime-core'
+export default defineComponent({
   props: {
-    message: Message,
-    lastMessage: Message
+    message: {
+      type: Object,
+      required: true
+    },
+    lastMessage: Object
   },
   computed: {
-    isSameGroupMessage() {
+    isSameGroupMessage(): boolean {
       return (
-        this.lastMessage &&
+        !!this.lastMessage &&
         this.lastMessage.sender_username === this.message.sender_username
       )
     },
-    idMessage() {
+    idMessage(): string {
       return `message-id-${this.message.id}`
     },
-    textBody() {
+    textBody(): string {
       return this.message.text
         .replaceAll('<p>', '<div>')
         .replaceAll('</p>', '</div>')
     },
-    createdFormat() {
+    createdFormat(): string {
       return moment(this.message.created).format('hh:mm')
     },
-    avatarText() {
+    avatarText(): string {
       const { last_name, first_name } = this.message.sender
       return `${first_name.charAt(0)}${
         last_name ? last_name.charAt(0) : first_name.charAt(1)
       }
       `.toUpperCase()
     },
-    senderFirstName() {
+    senderFirstName(): string {
       return this.message.sender.first_name
     },
-    avatar() {
+    avatar(): string {
       return this.message.avatar
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

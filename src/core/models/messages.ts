@@ -1,6 +1,6 @@
 import { UserInfo } from './users'
 
-export interface Message {
+export type Message = {
   id: string
   sender: UserInfo
   text: string

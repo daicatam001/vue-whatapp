@@ -1,8 +1,6 @@
 <template>
   <div class="chat-card" :class="{ active: isActived }">
-    <div class="thumb">
-      <img src="@/assets/images/unknown-user.jpg" />
-    </div>
+    <Avatar :src="avatar" :alt="senderName" size="50px" :text="avatarText" />
     <div class="content">
       <div class="line-1">
         <div class="title">{{ chatTitle }}</div>
@@ -30,44 +28,52 @@ import moment from 'moment'
 export default defineComponent({
   props: ['id', 'title', 'lastMessage', 'people'],
   computed: {
-    username() {
+    username(): string {
       return this.$store.getters['auth/username']
     },
-    selectedChatId() {
+    selectedChatId(): string {
       return this.$store.getters['chats/selectedChatId']
     },
-    isActived() {
+    isActived(): boolean {
       return this.id === this.selectedChatId
     },
-    lastMessageText() {
+    lastMessageText(): string {
       return this.lastMessage.text
     },
-    lastSendTime() {
+    lastSendTime(): string {
       return moment(this.lastMessage.created).format('hh:mm')
     },
-    hasNewMessage() {
-      const me = this.people.find(
+    me() {
+      return this.people.find(
         (item) => item.person && item.person.username === this.username
       )
-      console.log(me)
-      if (!this.lastMessage || !me) {
+    },
+    members() {
+      console.log(this.people)
+      return this.people.filter(
+        (it) => it.person && it.person.username !== this.username
+      )
+    },
+    directUser() {
+      return this.members.length === 1 ? this.members[0].person : null
+    },
+    hasNewMessage(): boolean {
+      if (!this.lastMessage || !this.me) {
         return false
       }
       if (
-        (this.lastMessage.id && !me.last_read) ||
-        this.lastMessage.id !== me.last_read
+        (this.lastMessage.id && !this.me.last_read) ||
+        this.lastMessage.id !== this.me.last_read
       ) {
         return true
       }
       return false
     },
-    chatTitle() {
-      const member = this.people.filter(
-        (it) => it.person && it.person.username !== this.username
-      )
-      if (member.length === 1) {
-        return `${member[0].person.first_name} ${member[0].person.last_name}`
+    chatTitle(): string {
+      if (this.directUser) {
+        return `${this.directUser.first_name} ${this.directUser.last_name}`
       }
+
       return this.title
     }
   }

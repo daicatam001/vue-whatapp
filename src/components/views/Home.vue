@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <div class="left-side">
-      <button @click="logout">Logout</button>
+      <!-- <button @click="logout">Logout</button> -->
+      <UserSettings />
       <ChatList />
     </div>
     <div class="right-side">
@@ -15,17 +16,19 @@ import { setupSocket } from '@/socket'
 import ChatList from '@/components/chat-list/ChatList.vue'
 import { defineComponent } from '@vue/runtime-core'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
+import UserSettings from '@/components/user-settings/UserSettings.vue'
 
 export default defineComponent({
   components: {
     ChatList,
-    ChatFeed
+    ChatFeed,
+    UserSettings
   },
   created() {
     setupSocket()
   },
   methods: {
-    logout() {
+    logout():void {
       this.$store.dispatch('auth/logout')
     }
   }

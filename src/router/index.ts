@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '@/components/views/Home.vue'
 import store from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
@@ -12,13 +12,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     name: 'register',
     component: () =>
-      import(/* webpackChunkName: "about" */ '@/views/auth/Register.vue'),
+      import(/* webpackChunkName: "about" */ '@/components/views/auth/Register.vue'),
   },
   {
     path: '/login',
     name: 'login',
     component: () =>
-      import(/* webpackChunkName: "about" */ '@/views/auth/Login.vue'),
+      import(/* webpackChunkName: "about" */ '@/components/views/auth/Login.vue'),
   },
 ]
 
@@ -28,7 +28,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log('router run')
   const isAuth = store.getters['auth/isAuth']
   if (['login', 'register'].includes(to.name as string) && isAuth) {
     next('home')

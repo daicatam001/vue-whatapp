@@ -11,19 +11,22 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import moment from 'moment'
-import { Message } from '@/core/models/messages'
-export default {
+import { defineComponent } from '@vue/runtime-core'
+export default defineComponent({
   // props: ['id', 'text', 'created', 'senderUsername', 'lastMessage'],
   props: {
-    message: Message,
-    lastMessage: Message
+    message: {
+      type: Object,
+      required: true
+    },
+    lastMessage: Object
   },
   computed: {
-    isSameGroupMessage() {
+    isSameGroupMessage(): boolean {
       return (
-        this.lastMessage &&
+        !!this.lastMessage &&
         this.lastMessage.sender_username === this.message.sender_username &&
         moment(this.message.created).diff(
           moment(this.lastMessage.created),
@@ -31,19 +34,19 @@ export default {
         ) < 5
       )
     },
-    idMessage() {
+    idMessage(): string {
       return `message-id-${this.message.id}`
     },
-    textBody() {
+    textBody(): string {
       return this.message.text
         .replaceAll('<p>', '<div>')
         .replaceAll('</p>', '</div>')
     },
-    createdFormat() {
+    createdFormat(): string {
       return moment(this.message.created).format('hh:mm')
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

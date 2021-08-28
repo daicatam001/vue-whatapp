@@ -1,6 +1,9 @@
 <template>
   <div class="chat-card" :class="{ active: isActived }">
     <Avatar :src="avatar" :alt="senderName" size="50px" :text="avatarText" />
+    <div class="thumb">
+      <img src="@/assets/images/unknown-user.jpg" />
+    </div>
     <div class="content">
       <div class="line-1">
         <div class="title">{{ chatTitle }}</div>

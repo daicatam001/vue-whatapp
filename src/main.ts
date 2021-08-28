@@ -4,16 +4,15 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import 'ant-design-vue/dist/antd.css'
-import setupAnt from './setupAnt'
-import Avatar from '@/components/ui/Avatar.vue'
+import {setupAnt, setupGlobalComponents} from './setup'
 
 const app = createApp(App)
 
 setupAnt(app)
-
-app.component('Avatar', Avatar)
+setupGlobalComponents(app)
 
 app
   .use(store)
   .use(router)
   .mount('#app')
+

@@ -9,7 +9,7 @@
         :visible="showProfile"
         :get-container="false"
         width="100%"
-        :maskStyle="{ backgroundColor: 'rgba(0, 0, 0, 0)' }"
+        :maskStyle="{ backgroundColor: 'transparent' }"
         :bodyStyle="{ padding: 0, height: '100%', backgroundColor: '#ededed' }"
         :wrapStyle="{ position: 'absolute', overflow: 'hidden' }"
         @close="onCloseProfile"

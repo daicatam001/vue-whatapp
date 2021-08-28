@@ -7,19 +7,26 @@
       <div class="header-text">Hồ sơ</div>
     </div>
     <div class="body-wrapper">
-      <div class="avatar-section">
+        <div class="body">
+             <div class="avatar-section">
         <UploadAvatar />
       </div>
+      <div class="information-section">
+          <EditInformation/>
+      </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
+import EditInformation from './EditInformation.vue'
 import UploadAvatar from './UploadAvatar.vue'
 export default defineComponent({
   components: {
-    UploadAvatar
+    UploadAvatar,
+    EditInformation
   },
   methods: {
     closeProfile() {

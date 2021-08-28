@@ -6,10 +6,18 @@ import {
   message,
   Dropdown,
   Menu,
-  Drawer
+  Drawer,
+  notification
 } from 'ant-design-vue'
 import { App } from 'vue'
-import { Avatar, ThreeDotVertical, BackArrow,Camera } from '@/components/ui'
+import {
+  Avatar,
+  ThreeDotVertical,
+  BackArrow,
+  Camera,
+  Pencil,
+  Checkmark
+} from '@/components/ui'
 
 // Ant components
 export function setupAnt(app: App): void {
@@ -22,6 +30,7 @@ export function setupAnt(app: App): void {
     .use(Menu)
     .use(Drawer)
   app.config.globalProperties.$message = message
+  app.config.globalProperties.$notification = notification
 }
 
 // Globla components
@@ -32,4 +41,6 @@ export function setupGlobalComponents(app: App): void {
   app.component('ThreeDotVertical', ThreeDotVertical)
   app.component('BackArrow', BackArrow)
   app.component('Camera', Camera)
+  app.component('Pencil', Pencil)
+  app.component('Checkmark', Checkmark)
 }

@@ -21,6 +21,13 @@ export async function login(
     }
   })
 }
+
+export async function update(
+  body: Partial<UserInfo>
+): Promise<{ data: UserInfo }> {
+  return await baseApi.patch('/users/me/', body)
+}
+
 export async function getOrCreateSession(): Promise<{
   data: { token: string; expireIn: string }
 }> {

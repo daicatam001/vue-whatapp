@@ -3,7 +3,7 @@ import { AppState } from '@/store'
 import { AuthLogin, AuthRegister, UserInfo } from '@/core/models/users'
 import { message } from 'ant-design-vue'
 import router from '@/router'
-import { login, register } from '@/core/api/auth'
+import { login, register, update } from '@/core/api/auth'
 
 export interface AuthState {
   userInfo: UserInfo
@@ -13,16 +13,6 @@ export default {
   namespaced: true,
   state: {
     userInfo: null
-  },
-  mutations: {
-    setUserInfo(state: AuthState, data: UserInfo): void {
-      if (data) {
-        localStorage.setItem('userInfo', JSON.stringify(data))
-      } else {
-        localStorage.clear()
-      }
-      state.userInfo = data
-    }
   },
   actions: {
     tryLogin({ commit }: ActionContext<AuthState, AppState>): void {
@@ -70,6 +60,28 @@ export default {
       router.replace({
         name: 'login'
       })
+    },
+    async update(
+      { commit }: ActionContext<AuthState, AppState>,
+      payload: Partial<UserInfo>
+    ): Promise<void> {
+      commit('updateUserInfo', payload)
+      const { data } = await update(payload)
+      commit('updateUserInfo', data)
+    }
+  },
+  mutations: {
+    updateUserInfo(state: AuthState, data: UserInfo): void {
+      state.userInfo = { ...state.userInfo, ...data }
+      localStorage.setItem('userInfo', JSON.stringify(state.userInfo))
+    },
+    setUserInfo(state: AuthState, data: UserInfo): void {
+      if (data) {
+        localStorage.setItem('userInfo', JSON.stringify(data))
+      } else {
+        localStorage.clear()
+      }
+      state.userInfo = data
     }
   },
   getters: {
@@ -79,8 +91,17 @@ export default {
     userInfo(state: AuthState): UserInfo {
       return state.userInfo
     },
+    fullName(state: AuthState): string {
+      return state.userInfo.first_name
+    },
     username(state: AuthState): string | null {
       return state.userInfo ? state.userInfo.username : null
+    },
+    customInfo(state: AuthState): any {
+      return state.userInfo.custom_json
+    },
+    introduce(state, { customInfo }): string {
+      return customInfo.introduce
     },
     secret(state: AuthState): string | null | undefined {
       return state.userInfo ? state.userInfo.secret : null

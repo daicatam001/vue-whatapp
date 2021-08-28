@@ -10,10 +10,13 @@ export interface UserInfo {
   username: string
   email: string
   secret?: string
+  custom_json: {
+    [key: string]: any
+  }
   first_name: string
   last_name: string
   avatar: string
-  is_online:boolean
+  is_online: boolean
 }
 
 export interface AuthLogin {

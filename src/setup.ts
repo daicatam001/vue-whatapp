@@ -9,7 +9,7 @@ import {
   Drawer
 } from 'ant-design-vue'
 import { App } from 'vue'
-import { Avatar, ThreeDotVertical, BackArrow } from '@/components/ui'
+import { Avatar, ThreeDotVertical, BackArrow,Camera } from '@/components/ui'
 
 // Ant components
 export function setupAnt(app: App): void {
@@ -31,4 +31,5 @@ export function setupGlobalComponents(app: App): void {
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)
   app.component('BackArrow', BackArrow)
+  app.component('Camera', Camera)
 }

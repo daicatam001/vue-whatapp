@@ -33,10 +33,6 @@ export default defineComponent({
       type: String,
       required: false
     },
-    text: {
-      type: String,
-      required: false
-    },
     size: {
       type: String,
       required: false

@@ -5,10 +5,11 @@ import {
   Form,
   message,
   Dropdown,
-  Menu
+  Menu,
+  Drawer
 } from 'ant-design-vue'
 import { App } from 'vue'
-import { Avatar, ThreeDotVertical } from '@/components/ui'
+import { Avatar, ThreeDotVertical, BackArrow } from '@/components/ui'
 
 // Ant components
 export function setupAnt(app: App): void {
@@ -19,6 +20,7 @@ export function setupAnt(app: App): void {
     .use(Dropdown)
     .use(Form)
     .use(Menu)
+    .use(Drawer)
   app.config.globalProperties.$message = message
 }
 
@@ -28,4 +30,5 @@ export function setupGlobalComponents(app: App): void {
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)
+  app.component('BackArrow', BackArrow)
 }

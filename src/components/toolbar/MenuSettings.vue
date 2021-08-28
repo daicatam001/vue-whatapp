@@ -7,7 +7,7 @@
       <template #overlay>
         <a-menu class="menu-settings-dropdown">
           <a-menu-item> Nhóm mới </a-menu-item>
-          <a-menu-item> Hồ sơ </a-menu-item>
+          <a-menu-item @click="showProfile"> Hồ sơ </a-menu-item>
           <a-menu-item> Cài đặt </a-menu-item>
           <a-menu-item @click="logout"> Đăng xuất </a-menu-item>
         </a-menu>
@@ -22,7 +22,10 @@ import { defineComponent } from '@vue/runtime-core'
 export default defineComponent({
   methods: {
     logout(): void {
-        this.$store.dispatch('auth/logout')
+      this.$store.dispatch('auth/logout')
+    },
+    showProfile() {
+      this.$store.dispatch('ui/toggleShowProfile', true)
     }
   }
 })

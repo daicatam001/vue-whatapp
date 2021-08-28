@@ -33,4 +33,7 @@ body {
 * {
   box-sizing: border-box;
 }
+svg {
+  cursor: pointer;
+}
 </style>

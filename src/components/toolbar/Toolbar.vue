@@ -1,10 +1,10 @@
 <template>
   <div class="user-settings">
     <div class="thumb-wrapper">
-      <Avatar />
+      <Avatar @click="showProfile" />
     </div>
     <div class="actions">
-      <MenuSettings/>
+      <MenuSettings />
     </div>
   </div>
 </template>
@@ -20,6 +20,11 @@ export default defineComponent({
     userInfo(): UserInfo {
       return this.$store.getters['auth/userInfo']
     }
+  },
+  methods: {
+    showProfile() {
+      this.$store.dispatch('ui/toggleShowProfile', true)
+    }
   }
 })
 </script>
@@ -32,5 +37,4 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
 }
-
 </style>

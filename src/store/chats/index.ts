@@ -95,6 +95,9 @@ export default {
     newChatTitle(state: ChatsState): string {
       return state.newChatTitle
     },
+    hasSelectedChat(state, { selectedChatId }): boolean {
+      return !!selectedChatId
+    },
     chatEntities({ chatEntites }: ChatsState) {
       return chatEntites
     },

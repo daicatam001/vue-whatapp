@@ -1,12 +1,17 @@
 
 <template>
   <div class="chat-feed">
-    <div class="message-list-wrapper">
-      <MessageList />
+    <div class="welcome-wrapper" v-if="!hasSelectedChat">
+      <Welcome />
     </div>
-    <div class="new-message-wrapper">
-      <NewMessage />
-    </div>
+    <template v-else>
+      <div class="message-list-wrapper">
+        <MessageList />
+      </div>
+      <div class="new-message-wrapper">
+        <NewMessage />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -14,10 +19,17 @@
 import { defineComponent } from '@vue/runtime-core'
 import MessageList from './MessageList.vue'
 import NewMessage from './NewMessage.vue'
+import Welcome from './Welcome.vue'
 export default defineComponent({
   components: {
     MessageList,
-    NewMessage
+    NewMessage,
+    Welcome
+  },
+  computed: {
+    hasSelectedChat() {
+      return this.$store.getters['chats/hasSelectedChat']
+    }
   }
 })
 </script>
@@ -27,6 +39,9 @@ export default defineComponent({
   display: flex;
   height: 100%;
   flex-direction: column;
+}
+.welcome-wrapper {
+  height: 100%;
 }
 .message-list-wrapper {
   flex-grow: 1;

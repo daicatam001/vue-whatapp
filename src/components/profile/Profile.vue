@@ -7,14 +7,14 @@
       <div class="header-text">Hồ sơ</div>
     </div>
     <div class="body-wrapper">
-        <div class="body">
-             <div class="avatar-section">
-        <UploadAvatar />
-      </div>
-      <div class="information-section">
-          <EditInformation/>
-      </div>
+      <div class="body">
+        <div class="avatar-section">
+          <UploadAvatar />
         </div>
+        <div class="information-section">
+          <EditInformation />
+        </div>
+      </div>
     </div>
   </div>
 </template>

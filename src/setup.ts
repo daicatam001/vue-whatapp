@@ -16,7 +16,8 @@ import {
   BackArrow,
   Camera,
   Pencil,
-  Checkmark
+  Checkmark,
+  Computer
 } from '@/components/ui'
 
 // Ant components
@@ -43,4 +44,5 @@ export function setupGlobalComponents(app: App): void {
   app.component('Camera', Camera)
   app.component('Pencil', Pencil)
   app.component('Checkmark', Checkmark)
+  app.component('Computer', Computer)
 }

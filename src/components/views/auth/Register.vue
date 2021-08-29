@@ -2,11 +2,11 @@
   <a-spin :spinning="loading">
     <div class="register">
       <div class="card">
-        <div class="heading">Register</div>
+        <div class="heading">Đăng ký</div>
         <register-form @submit="onSubmit" />
         <div class="switch">
-          Already have an account?
-          <router-link to="/login"> Login </router-link>
+          Đã có tài khoản?
+          <router-link to="/login"> Đăng nhập </router-link>
         </div>
       </div>
     </div>

@@ -9,16 +9,16 @@
       @finishFailed="onSubmitError"
     >
       <a-form-item name="username">
-        <input v-model.trim="loginForm.username" placeholder="Username" />
+        <input v-model.trim="loginForm.username" placeholder="Tài khoản" />
       </a-form-item>
       <a-form-item name="secret">
         <input
           v-model="loginForm.secret"
           type="password"
-          placeholder="Password"
+          placeholder="Mật khẩu"
         />
       </a-form-item>
-      <button class="btn-submit">Login</button>
+      <button class="btn-submit">Đăng nhập</button>
     </a-form>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default defineComponent({
       this.$emit('submit', { ...data })
     },
     onSubmitError() {
-      this.$message.error('Please enter Username and Password')
+      this.$message.error('Vui lòng nhập Tài khoản và mật khẩu')
     },
   },
 })

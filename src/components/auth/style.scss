@@ -4,11 +4,12 @@ input {
   outline: 0;
   border: 0;
   width: 100%;
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.25);
+  border-bottom: 1.5px solid rgba(206, 147, 147, 0.25);
 }
 
 input:focus {
-  border-bottom-color: #07315b;
+  border-bottom-color: rgb(10, 165, 69);
+  border-bottom-width: 2px;
 }
 
 button {
@@ -16,7 +17,7 @@ button {
   padding: 10px;
   font-size: 16px;
   letter-spacing: 1.2px;
-  background-color: #07315b;
+  background-color: rgb(10, 165, 69);
   width: 100%;
   color: white;
   outline: 0;

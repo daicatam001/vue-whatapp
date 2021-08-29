@@ -1,32 +1,53 @@
 <template>
   <div class="chat-list">
     <NewChat />
-    <div class="chat-card-list">
-      <ChatCard
-        @click="selectChat(chat.id)"
-        v-for="chat of chats"
-        :key="chat.id"
-        :id="chat.id"
-        :title="chat.title"
-        :last-message="chat.last_message"
-        :people="chat.people"
-      />
+    <div class="notifiy" v-if="isSearching">
+      <span>
+        Đang tìm kiếm cuộc trò chuyện, người liên hệ hoặc tin nhắn...
+      </span>
+    </div>
+    <div class="notifiy" v-else-if="noSearchResult">
+      <span>
+        Không tìm thấy cuộc trò chuyện, người liên hệ hoặc tin nhắn nào
+      </span>
+    </div>
+    <div class="chat-card-list" v-else>
+      <div v-for="chat of chats" :key="chat.id">
+        <ChatHeading v-if="chat.isHeading" :title="chat.title" />
+        <ChatCard
+          v-else
+          @click="selectChat(chat.id)"
+          :id="chat.id"
+          :title="chat.title"
+          :last-message="chat.last_message"
+          :avatar="chat.avatar"
+          :people="chat.people"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
-import ChatCard from '@/components/chat-list/ChatCard.vue'
+import ChatCard from './ChatCard.vue'
+import ChatHeading from './ChatHeading.vue'
 import NewChat from './NewChat.vue'
 export default defineComponent({
   components: {
     ChatCard,
-    NewChat
+    NewChat,
+    ChatHeading
   },
   computed: {
     chats() {
       return this.$store.getters['chats/chats']
+    },
+    noSearchResult() {
+      return this.$store.getters['chats/noSearchResult']
+    },
+    isSearching() {
+      return this.$store.getters['chats/isSearching']
     }
   },
   methods: {
@@ -40,5 +61,11 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.notifiy {
+  padding: 72px 50px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.45);
+}
+</style>
  

@@ -29,7 +29,7 @@ import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 
 export default defineComponent({
-  props: ['id', 'title', 'lastMessage', 'people'],
+  props: ['id', 'title', 'lastMessage', 'people', 'avatar'],
   computed: {
     username(): string {
       return this.$store.getters['auth/username']
@@ -52,7 +52,6 @@ export default defineComponent({
       )
     },
     members() {
-      console.log(this.people)
       return this.people.filter(
         (it) => it.person && it.person.username !== this.username
       )
@@ -86,13 +85,15 @@ export default defineComponent({
 <style scoped lang="scss">
 .chat-card {
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 0 20px;
   display: flex;
+  align-items: center;
   gap: 15px;
+  height: 72px;
   position: relative;
-  &:not(:last-child) {
-    border-bottom: 1px solid rgb(213, 217, 222);
-  }
+  // &:not(:last-child) {
+  border-bottom: 1px solid rgb(213, 217, 222);
+  // }
   &:hover {
     background-color: rgba(216, 216, 216, 0.25);
   }

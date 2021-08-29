@@ -5,7 +5,13 @@
         Tìm kiếm hoặc bắt đầu cuộc trò chuyện
       </div>
 
-      <input type="text" ref="inputSearch" @blur="offSearch" />
+      <input
+        type="text"
+        ref="inputSearch"
+        @blur="offSearch"
+        @keyup.esc="offSearch"
+        @input="doSearch"
+      />
       <div class="ic ic-search">
         <Search @click="onSearch" />
       </div>
@@ -25,8 +31,8 @@ export default {
   },
   data() {
     return {
-      text: '',
-      searching: true
+      searching: false,
+      searchingTimer: null
     }
   },
   methods: {
@@ -44,6 +50,14 @@ export default {
     },
     offSearch() {
       this.searching = false
+      this.$refs.inputSearch.value = ''
+      this.$store.dispatch('chats/offSearchChats')
+    },
+    doSearch(event) {
+      clearTimeout(this.searchingTimer)
+      this.searchingTimer = setTimeout(() => {
+        this.$store.dispatch('chats/searchChats', event.target.value.trim())
+      }, 300)
     }
   }
 }

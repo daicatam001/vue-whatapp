@@ -20,27 +20,27 @@
           v-model.trim="registerForm.first_name"
           autocomplete="off"
           type="text"
-          placeholder="First name"
+          placeholder="Họ tên"
         />
       </a-form-item>
-      <a-form-item has-feedback name="last_name">
+      <!-- <a-form-item has-feedback name="last_name">
         <input
           v-model.trim="registerForm.last_name"
           type="text"
           placeholder="Last name"
         />
-      </a-form-item>
+      </a-form-item> -->
       <a-form-item has-feedback name="username">
-        <input v-model.trim="registerForm.username" placeholder="Username" />
+        <input v-model.trim="registerForm.username" placeholder="Tài khoản" />
       </a-form-item>
       <a-form-item has-feedback name="secret">
         <input
           v-model="registerForm.secret"
           type="password"
-          placeholder="Password"
+          placeholder="Mật khẩu"
         />
       </a-form-item>
-      <button class="btn-submit">Register</button>
+      <button class="btn-submit">Đăng ký</button>
     </a-form>
   </div>
 </template>

@@ -38,10 +38,11 @@ export interface UserChat {
   person: UserInfo
 }
 export interface Chat {
-  id: number
+  id: number | string
   admin: UserInfo
   people: UserChat[]
   last_message: Message
   title: string
   created: string
+  isHeading?: boolean
 }

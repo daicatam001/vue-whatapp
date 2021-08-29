@@ -2,7 +2,7 @@
   <div class="profile">
     <div class="header">
       <div class="back">
-        <BackArrow @click="closeProfile" />
+        <ArrowBack @click="closeProfile" />
       </div>
       <div class="header-text">Hồ sơ</div>
     </div>

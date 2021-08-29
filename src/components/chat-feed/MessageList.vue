@@ -1,6 +1,6 @@
 <template>
   <div class="message-list">
-    <div class="message-list-panel" ref="panel">
+    <div class="message-list-panel scroll-element" ref="panel">
       <div v-for="(message, index) of messages" :key="message.id">
         <MyMessage
           v-if="message.sender_username === username"

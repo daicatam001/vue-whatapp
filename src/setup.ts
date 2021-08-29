@@ -12,8 +12,9 @@ import {
 import { App } from 'vue'
 import {
   Avatar,
+  Search,
   ThreeDotVertical,
-  BackArrow,
+  ArrowBack,
   Camera,
   Pencil,
   Checkmark,
@@ -40,9 +41,10 @@ export function setupGlobalComponents(app: App): void {
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)
-  app.component('BackArrow', BackArrow)
+  app.component('ArrowBack', ArrowBack)
   app.component('Camera', Camera)
   app.component('Pencil', Pencil)
   app.component('Checkmark', Checkmark)
   app.component('Computer', Computer)
+  app.component('Search', Search)
 }

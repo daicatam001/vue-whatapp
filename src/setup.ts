@@ -20,7 +20,9 @@ import {
   Checkmark,
   Computer,
   ChevronDown,
-  DoubleCheck
+  DoubleCheck,
+  SendState,
+  Time
 } from '@/components/ui'
 
 // Ant components
@@ -40,6 +42,7 @@ export function setupAnt(app: App): void {
 // Globla components
 export function setupGlobalComponents(app: App): void {
   app.component('Avatar', Avatar)
+  app.component('SendState', SendState)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)
@@ -51,4 +54,5 @@ export function setupGlobalComponents(app: App): void {
   app.component('Search', Search)
   app.component('ChevronDown', ChevronDown)
   app.component('DoubleCheck', DoubleCheck)
+  app.component('Time', Time)
 }

@@ -1,5 +1,5 @@
 import store from '@/store'
-import { PROJECT_ID } from '@/core/constants'
+import { PROJECT_ID, SEND_STATE } from '@/core/constants'
 import { getOrCreateSession } from '@/core/api/auth'
 import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
@@ -24,7 +24,7 @@ export async function setupSocket(): Promise<void> {
   }
   conn.onmessage = event => {
     const socketData = JSON.parse(event.data) as SocketData
-    console.log(socketData)
+    console.log(socketData.action, socketData.data)
     switch (socketData.action) {
       case SOCKET_ACTION_NEW_CHAT:
         onNewChat(socketData.data)
@@ -44,14 +44,41 @@ function onNewChat(data: Chat) {
 }
 
 function onEditChat(data: Chat) {
-  const chatEntites = store.getters['chats/chatEntities']
-  const newChatEntities = { ...chatEntites, [data.id]: data }
-  store.dispatch('chats/setChatEntities', newChatEntities)
+  // setTimeout(() => {
+  data.last_message.custom_json = JSON.stringify(data.last_message.custom_json)
+  store.dispatch('chats/updateChat', data)
+  // }, 500)
 }
-function onNewMessage({
-  id,
-  message
-}: { id: string; message: Message }) {
+function onNewMessage({ id, message }: { id: string; message: Message }) {
   // data = null
-  store.dispatch('messages/addMessage', { chatId: id, message })
+  const custom_json = JSON.parse(message.custom_json as string)
+
+  const username = store.getters['auth/username']
+  if (
+    custom_json.state == SEND_STATE.SENDING &&
+    message.sender_username === username
+  ) {
+    store.dispatch('messages/updateMessage', {
+      chatId: id,
+      messageId: message.id,
+      message: {
+        custom_json: JSON.stringify({
+          ...custom_json,
+          state: SEND_STATE.RECEIVED
+        })
+      }
+    })
+    store.dispatch('chats/addMessage', {
+      chatId: id,
+      message: {
+        ...message,
+        custom_json: { ...custom_json, state: SEND_STATE.SENT }
+      }
+    })
+  } else {
+    store.dispatch('chats/addMessage', {
+      chatId: id,
+      message
+    })
+  }
 }

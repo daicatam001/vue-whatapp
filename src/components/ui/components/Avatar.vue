@@ -27,7 +27,7 @@ export default defineComponent({
   props: {
     src: {
       type: String,
-      required: true
+      required: false
     },
     alt: {
       type: String,

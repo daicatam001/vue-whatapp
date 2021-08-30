@@ -10,3 +10,10 @@ export enum LOAD_STATE {
   LOADED
   // LOADING_MORE
 }
+
+export enum SEND_STATE {
+  SENDING = 'SENDING',
+  SENT = 'SENT',
+  RECEIVED = 'RECEIVED',
+  SEEN = 'SEEN'
+}

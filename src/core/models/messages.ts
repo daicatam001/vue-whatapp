@@ -6,16 +6,13 @@ export type Message = {
   text: string
   sender_username: string
   attachments: string[]
-  custom_json: {
-    [key: string]: string
-  }
+  custom_json: any
   created: string
 }
 
 export interface MessageCreate {
   text?: string
   attachment_urls?: string[]
-  custom_json?: {
-    [key: string]: string
-  }
+  sender_username: string
+  custom_json?: any
 }

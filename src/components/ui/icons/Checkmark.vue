@@ -15,6 +15,6 @@ export default {
 
 <style scoped lang="scss">
 svg {
-  color: #919191;;
+  fill: #919191;;
 }
 </style>

@@ -7,4 +7,5 @@ export { default as Computer } from './Computer.vue'
 export { default as Search } from './Search.vue'
 export { default as ChevronDown } from './ChevronDown.vue'
 export { default as DoubleCheck } from './DoubleCheck.vue'
+export { default as Time } from './Time.vue'
 

@@ -3,7 +3,7 @@
     <div class="message-card">
       <div class="thumb-wrapper">
         <div class="thumb" v-if="!isSameGroupMessage">
-          <Avatar :src="avatar" :alt="senderName" :text="avatarText" />
+          <Avatar :src="avatar"/>
           <!-- <img v-if="!!avatar" :src="avatar" :alt="senderName" />
           <template v-else>
             <div class="avatar-default">

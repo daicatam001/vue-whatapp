@@ -1,6 +1,6 @@
 <template>
   <div class="chat-card" :class="{ active: isActived }">
-    <Avatar :src="avatar" :alt="senderName" size="50px" :text="avatarText" />
+    <Avatar :src="avatar" size="50px" />
     <div class="content">
       <div class="line-1">
         <div class="title">{{ chatTitle }}</div>
@@ -15,9 +15,8 @@
           :title="lastMessageText"
         >
           <div class="wrapper">
-            <div class="status" v-if="lastMessageIsMine">
-              <DoubleCheck v-if="allSeen" color="#4fc3f7" />
-              <DoubleCheck v-else-if="lastSent" />
+            <div class="status">
+              <SendState :state="lastMessageState" />
             </div>
             <div class="last-message-text" v-html="lastMessageTag"></div>
           </div>
@@ -32,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import { SEND_STATE } from '@/core/constants'
 import { UserInfo } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
@@ -84,21 +84,42 @@ export default defineComponent({
       }
       return false
     },
-    lastMessageIsMine() {
-      return this.lastMessage.sender_username === this.username
-    },
-    lastSent() {
-      return this.lastMessage.id <= this.me.last_read
-    },
-    allSeen() {
-      return this.members.every((m) => m.last_read >= this.lastMessage.id)
-    },
+    // lastMessageIsMine() {
+    //   return this.lastMessage.sender_username === this.username
+    // },
+    // lastSent() {
+    //   return this.lastMessage.id <= this.me.last_read
+    // },
+    // allSeen() {
+    //   return this.members.every((m) => m.last_read >= this.lastMessage.id)
+    // },
     chatTitle(): string {
       if (this.directUser) {
         return `${this.directUser.first_name} ${this.directUser.last_name}`
       }
 
       return this.title
+    },
+    lastMessageState() {
+      console.log(this.lastMessage.custom_json.state)
+      if (this.lastMessage.sender_username !== this.username) {
+        return null
+      }
+      if (
+        this.lastMessage.id &&
+        this.members.every((m) => m.last_read >= this.lastMessage.id)
+      ) {
+        return SEND_STATE.SEEN
+      } else if (
+        this.lastMessage.id &&
+        this.lastMessage.id <= this.me.last_read
+      ) {
+        return SEND_STATE.RECEIVED
+      } else if (this.lastMessage.id) {
+        return SEND_STATE.SENT
+      } else {
+        return SEND_STATE.SENDING
+      }
     }
   }
 })

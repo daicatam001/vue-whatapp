@@ -1,7 +1,11 @@
 import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
 import { Message, MessageCreate } from '@/core/models/messages'
-import { getLatestMessage, sendMessage } from '@/core/api/messages'
+import {
+  getLatestMessage,
+  sendMessage,
+  updateMessage
+} from '@/core/api/messages'
 import { LOAD_STATE } from '@/core/constants'
 import moment from 'moment'
 
@@ -36,25 +40,27 @@ export default {
       message: MessageCreate
     ): Promise<void> {
       const chatId = getters.chatId
-      dispatch('addMessage', { chatId, message })
+      dispatch('chats/addMessage', { chatId, message }, { root: true })
       await sendMessage(chatId, message)
     },
-
-    // addMessage(
-    //   { commit }: ActionContext<MessagesState, AppState>,
-    //   payload: { chatId: string; message: Message }
-    // ) {
-    //   commit('addMessage', payload)
-    // },
+    async updateMessage(
+      _: ActionContext<MessagesState, AppState>,
+      {
+        message,
+        chatId,
+        messageId
+      }: { message: Partial<Message>; chatId: number; messageId: number }
+    ): Promise<void> {
+      await updateMessage(chatId, messageId, message)
+    },
     async loadChatMessages({
-      getters,
       commit,
       dispatch
     }: ActionContext<MessagesState, AppState>) {
       commit('setLoadState', LOAD_STATE.LOADING_LATEST)
-      if (!getters.hasMessages) {
-        await dispatch('fetchLatestMessages')
-      }
+      // if (!getters.hasMessages) {
+      await dispatch('fetchLatestMessages')
+      // }
     },
     async fetchLatestMessages({
       commit,
@@ -82,9 +88,13 @@ export default {
         )
 
         // commit('setMessageChatEntity', { [chatId]: messageEntities })
-        dispatch('chats/setSelectedMessageEntities', messageEntities, {
-          root: true
-        })
+        dispatch(
+          'chats/setMessageEntities',
+          { chatId, messageEntities },
+          {
+            root: true
+          }
+        )
       } catch (e) {
         // ..
       }
@@ -106,20 +116,34 @@ export default {
     },
     setLoadState(state: MessagesState, payload: LOAD_STATE) {
       state.loadState = payload
-    },
+    }
+    // addMessage(
+    //   state: MessagesState,
+    //   { chatId, message }: { chatId: string; message: Message }
+    // ) {
+    //   state.messageChat[chatId][message.custom_json.sending_time] = message
+    // }
+    // setMessages(state: MessagesState, payload: Message[]): void {
+    //   state.messages = payload
+    // }
   },
 
   getters: {
     chatId(state, getters, rootState, rootGetters: any): string {
       return rootGetters['chats/selectedChatId']
     },
-    messageEntities(state, getters, rootState, rootGetters: any): MessageEntities | null {
+    messageEntities(
+      state,
+      getters,
+      rootState,
+      rootGetters: any
+    ): MessageEntities | null {
       // return getters.chatId ? state.messageChat[getters.chatId] : null
       return rootGetters['chats/selectedMessageEntities']
     },
-    hasMessages(state: MessagesState, getters) {
-      return !!getters.messageEntities
-    },
+    // hasMessages(state: MessagesState, getters) {
+    //   return !!getters.messageEntities
+    // },
     messages(state: MessagesState, getters): Message[] {
       return Object.values(getters.messageEntities || {})
     },

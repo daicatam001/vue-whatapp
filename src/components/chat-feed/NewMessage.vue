@@ -10,6 +10,7 @@
 import { defineComponent } from '@vue/runtime-core'
 import { UserInfo } from '@/core/models/users'
 import moment from 'moment'
+import { SEND_STATE } from '@/core/constants'
 export default defineComponent({
   computed: {
     userInfo(): UserInfo {
@@ -30,9 +31,10 @@ export default defineComponent({
       const message = {
         text: this.text,
         sender: { ...this.userInfo },
-        custom_json: JSON.stringify({
-          sending_time: sendingTime.valueOf()
-        }),
+        custom_json: {
+          sending_time: sendingTime.valueOf(),
+          state: SEND_STATE.SENDING
+        },
         sender_username: this.userInfo.username,
         created: sendingTime.format('YYYY-MM-DD HH:mm:ss.000000+00:00')
       }

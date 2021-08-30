@@ -9,6 +9,7 @@ const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
 
 const SOCKET_ACTION_NEW_MESSAGE = 'new_message'
+const SOCKET_ACTION_EDIT_MESSAGE = 'edit_message'
 
 export async function setupSocket(): Promise<void> {
   const username = store.getters['auth/username']
@@ -34,6 +35,9 @@ export async function setupSocket(): Promise<void> {
         break
       case SOCKET_ACTION_NEW_MESSAGE:
         onNewMessage(socketData.data)
+        break
+      case SOCKET_ACTION_EDIT_MESSAGE:
+        onEditMessage(socketData.data)
     }
   }
 }
@@ -45,8 +49,9 @@ function onNewChat(data: Chat) {
 
 function onEditChat(data: Chat) {
   // setTimeout(() => {
-  data.last_message.custom_json = JSON.stringify(data.last_message.custom_json)
-  store.dispatch('chats/updateChat', data)
+  // data.last_message.custom_json = JSON.stringify(data.last_message.custom_json)
+  const { last_message, ...chatData } = data
+  store.dispatch('chats/updateChat', chatData)
   // }, 500)
 }
 function onNewMessage({ id, message }: { id: string; message: Message }) {
@@ -62,10 +67,10 @@ function onNewMessage({ id, message }: { id: string; message: Message }) {
       chatId: id,
       messageId: message.id,
       message: {
-        custom_json: JSON.stringify({
+        custom_json: {
           ...custom_json,
           state: SEND_STATE.RECEIVED
-        })
+        }
       }
     })
     store.dispatch('chats/addMessage', {
@@ -81,4 +86,9 @@ function onNewMessage({ id, message }: { id: string; message: Message }) {
       message
     })
   }
+}
+
+function onEditMessage({ id, message }: { id: number; message: Message }) {
+  message.custom_json = JSON.parse(message.custom_json)
+  store.dispatch('chats/editMessage', { chatId: id, message })
 }

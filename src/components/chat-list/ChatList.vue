@@ -28,12 +28,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+<script>
 import ChatCard from './ChatCard.vue'
 import ChatHeading from './ChatHeading.vue'
 import NewChat from './NewChat.vue'
-export default defineComponent({
+export default {
   components: {
     ChatCard,
     NewChat,
@@ -44,21 +43,28 @@ export default defineComponent({
       return this.$store.getters['chats/chats']
     },
     noSearchResult() {
+      console.log(this.$store.getters['chats/noSearchResult'])
       return this.$store.getters['chats/noSearchResult']
     },
     isSearching() {
       return this.$store.getters['chats/isSearching']
+    },
+    selectedChatId() {
+      return this.$store.getters['chats/selectedChatId']
     }
   },
   methods: {
     selectChat(id) {
+      if (this.selectedChatId == id) {
+        return
+      }
       this.$store.dispatch('chats/selectChat', id)
     }
   },
   created() {
     this.$store.dispatch('chats/getLatestChats', 25)
   }
-})
+}
 </script>
 
 <style scoped>

@@ -32,15 +32,15 @@ export default defineComponent({
         text: this.text,
         sender: { ...this.userInfo },
         custom_json: {
-          sending_time: sendingTime.valueOf(),
+          sending_time: sendingTime.valueOf().toString(),
           state: SEND_STATE.SENDING
         },
         sender_username: this.userInfo.username,
         created: sendingTime.format('YYYY-MM-DD HH:mm:ss.000000+00:00')
       }
       try {
-        await this.$store.dispatch('messages/sendMessage', message)
         this.text = ''
+        await this.$store.dispatch('messages/sendMessage', message)
       } catch (e) {
         // ..
       }

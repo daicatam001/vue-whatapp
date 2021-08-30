@@ -57,7 +57,15 @@ export default defineComponent({
       return this.lastMessage.text.replaceAll('<p>', '').replaceAll('</p>', '')
     },
     lastSendTime(): string {
-      return moment(this.lastMessage.created).format('hh:mm')
+      const lastSent = moment(this.lastMessage.created)
+      const diff = moment().diff(lastSent, 'day')
+      if (diff > 7) {
+        return lastSent.format('DD-MM-YYYY')
+      } else if (diff >= 1) {
+        return lastSent.format('dddd')
+      } else {
+        return moment(this.lastMessage.created).format('hh:mm')
+      }
     },
     me() {
       return this.people.find(
@@ -95,13 +103,12 @@ export default defineComponent({
     // },
     chatTitle(): string {
       if (this.directUser) {
-        return `${this.directUser.first_name} ${this.directUser.last_name}`
+        return `${this.directUser.first_name}`
       }
 
       return this.title
     },
     lastMessageState() {
-      console.log(this.lastMessage.custom_json.state)
       if (this.lastMessage.sender_username !== this.username) {
         return null
       }
@@ -110,15 +117,8 @@ export default defineComponent({
         this.members.every((m) => m.last_read >= this.lastMessage.id)
       ) {
         return SEND_STATE.SEEN
-      } else if (
-        this.lastMessage.id &&
-        this.lastMessage.id <= this.me.last_read
-      ) {
-        return SEND_STATE.RECEIVED
-      } else if (this.lastMessage.id) {
-        return SEND_STATE.SENT
       } else {
-        return SEND_STATE.SENDING
+        return this.lastMessage.custom_json.state
       }
     }
   }

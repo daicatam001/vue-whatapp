@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 24 24" width="24" height="24" class="checkmark">
+  <svg viewBox="0 0 24 24" :width="toSize" :height="toSize" class="checkmark">
     <path
       :fill="color"
       d="M9 17.2l-4-4-1.4 1.3L9 19.9 20.4 8.5 19 7.1 9 17.2z"
@@ -9,7 +9,12 @@
 
 <script>
 export default {
-  props: ['color']
+  props: ['color', 'size'],
+  computed: {
+    toSize() {
+      return this.size || 24
+    }
+  }
 }
 </script>
 

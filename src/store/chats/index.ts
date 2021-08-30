@@ -68,9 +68,7 @@ export default {
       commit
     }: ActionContext<ChatsState, AppState>): Promise<void> {
       const { data } = await getChats()
-      console.log(JSON.parse(data[0].last_message.custom_json))
       const chatEntites = (data as Chat[]).reduce((entity, chat) => {
-        
         chat.last_message.custom_json = JSON.parse(
           chat.last_message.custom_json
         )
@@ -84,16 +82,10 @@ export default {
       payload: number
     ): Promise<void> {
       const { data } = await getLatestChats(payload)
-      console.log(JSON.parse(data[0].last_message.custom_json))
       const chatEntites = (data as Chat[]).reduce((entity, chat) => {
-        console.log(JSON.parse(
-          chat.last_message.custom_json
-        ))
-        console.log(chat.last_message.custom_json)
         chat.last_message.custom_json = JSON.parse(
           chat.last_message.custom_json
         )
-        console.log(chat.last_message.custom_json)
         return {
           ...entity,
           [chat.id]: { ...chat, messageEntities: {} }
@@ -149,6 +141,12 @@ export default {
     ) {
       commit('addMessage', payload)
     },
+    editMessage(
+      { commit }: ActionContext<ChatsState, AppState>,
+      payload: { chatId: number; message: Message }
+    ) {
+      commit('editMessage', payload)
+    },
     setLastMessage(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: { chatId: number; message: Message }
@@ -173,7 +171,7 @@ export default {
       }
     },
     setSearchedChats(state: ChatsState, payload: Partial<Chat>[]) {
-      state.searchedChats = { ...payload }
+      state.searchedChats = [ ...payload ]
     },
     setQuery(state: ChatsState, payload: string) {
       state.query = payload
@@ -195,6 +193,19 @@ export default {
     ) {
       // state.chatEntites[chatId].last_message = { ...message }
       state.chatEntites[chatId].last_message = { ...message }
+      state.chatEntites[chatId].messageEntities[
+        message.custom_json.sending_time
+      ] = {
+        ...message
+      }
+    },
+    editMessage(
+      state: ChatsState,
+      { chatId, message }: { chatId: number; message: Message }
+    ) {
+      if (state.chatEntites[chatId].last_message.id === message.id) {
+        state.chatEntites[chatId].last_message = { ...message }
+      }
       state.chatEntites[chatId].messageEntities[
         message.custom_json.sending_time
       ] = {
@@ -230,6 +241,7 @@ export default {
       return chatEntites
     },
     searchedChats({ searchedChats }: ChatsState) {
+      console.log(searchedChats)
       return searchedChats
     },
     isSearching({ isSearching }: ChatsState) {

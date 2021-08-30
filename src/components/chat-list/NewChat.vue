@@ -49,9 +49,9 @@ export default {
       })
     },
     offSearch() {
-      this.searching = false
-      this.$refs.inputSearch.value = ''
-      this.$store.dispatch('chats/offSearchChats')
+      // this.searching = false
+      // this.$refs.inputSearch.value = ''
+      // this.$store.dispatch('chats/offSearchChats')
     },
     doSearch(event) {
       clearTimeout(this.searchingTimer)

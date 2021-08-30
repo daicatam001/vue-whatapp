@@ -30,9 +30,9 @@ export default defineComponent({
       const message = {
         text: this.text,
         sender: { ...this.userInfo },
-        custom_json: {
+        custom_json: JSON.stringify({
           sending_time: sendingTime.valueOf()
-        },
+        }),
         sender_username: this.userInfo.username,
         created: sendingTime.format('YYYY-MM-DD HH:mm:ss.000000+00:00')
       }

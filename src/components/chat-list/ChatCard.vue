@@ -1,9 +1,6 @@
 <template>
   <div class="chat-card" :class="{ active: isActived }">
     <Avatar :src="avatar" :alt="senderName" size="50px" :text="avatarText" />
-    <div class="thumb">
-      <img src="@/assets/images/unknown-user.jpg" />
-    </div>
     <div class="content">
       <div class="line-1">
         <div class="title">{{ chatTitle }}</div>
@@ -14,17 +11,28 @@
       <div class="line-2">
         <div
           class="last-message"
-          v-if="!!lastMessageText"
-          v-html="lastMessageText"
-        ></div>
-
-        <div class="new-message-note" v-if="hasNewMessage"></div>
+          v-if="!!lastMessageTag"
+          :title="lastMessageText"
+        >
+          <div class="wrapper">
+            <div class="status" v-if="lastMessageIsMine">
+              <DoubleCheck v-if="allSeen" color="#4fc3f7" />
+              <DoubleCheck v-else-if="lastSent" />
+            </div>
+            <div class="last-message-text" v-html="lastMessageTag"></div>
+          </div>
+        </div>
+        <div class="action">
+          <ChevronDown />
+        </div>
+        <!-- <div class="new-message-note" v-if="hasNewMessage"></div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { UserInfo } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 
@@ -40,8 +48,13 @@ export default defineComponent({
     isActived(): boolean {
       return this.id === this.selectedChatId
     },
-    lastMessageText(): string {
+    lastMessageTag(): string {
       return this.lastMessage.text
+        .replaceAll('<p>', '<div>')
+        .replaceAll('</p>', '</div>')
+    },
+    lastMessageText(): string {
+      return this.lastMessage.text.replaceAll('<p>', '').replaceAll('</p>', '')
     },
     lastSendTime(): string {
       return moment(this.lastMessage.created).format('hh:mm')
@@ -51,7 +64,7 @@ export default defineComponent({
         (item) => item.person && item.person.username === this.username
       )
     },
-    members() {
+    members(): { person: UserInfo; last_read: number }[] {
       return this.people.filter(
         (it) => it.person && it.person.username !== this.username
       )
@@ -70,6 +83,15 @@ export default defineComponent({
         return true
       }
       return false
+    },
+    lastMessageIsMine() {
+      return this.lastMessage.sender_username === this.username
+    },
+    lastSent() {
+      return this.lastMessage.id <= this.me.last_read
+    },
+    allSeen() {
+      return this.members.every((m) => m.last_read >= this.lastMessage.id)
     },
     chatTitle(): string {
       if (this.directUser) {
@@ -94,11 +116,18 @@ export default defineComponent({
   // &:not(:last-child) {
   border-bottom: 1px solid rgb(213, 217, 222);
   // }
+  .action svg {
+    display: none;
+    margin-top: 3px;
+  }
   &:hover {
-    background-color: rgba(216, 216, 216, 0.25);
+    background-color: rgb(245, 245, 245);
+    .action svg {
+      display: block;
+    }
   }
   &.active {
-    background-color: rgba(216, 216, 216, 0.4);
+    background-color: #ebebeb;
   }
 }
 .thumb {
@@ -110,34 +139,61 @@ export default defineComponent({
 }
 .content {
   flex-grow: 1;
+  min-width: 0;
 }
-.title {
-  font-size: 15px;
-  font-weight: 500;
-  color: rgb(37, 36, 35);
-}
-.last-message {
-  font-size: 14px;
-  color: rgb(138, 141, 145);
-  :deep > * {
-    margin-bottom: 0;
-  }
-}
-.line-1,
-.line-2 {
+.line-1 {
   display: flex;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.line-2 {
-  margin-top: 5px;
+.title {
+  font-size: 17px;
+  color: rgb(37, 36, 35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .last-send-time {
-  font-size: 14px;
-  color: rgb(138, 141, 145);
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
   margin-left: auto;
+  white-space: nowrap;
   // position: absolute;
   // right: 20px;
   // top: 7px;
+}
+
+.line-2 {
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.last-message {
+  flex-grow: 1;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .wrapper {
+    display: flex;
+    .status {
+      margin-top: 2px;
+      margin-right: 3px;
+    }
+    .last-message-text {
+      white-space: nowrap;
+      flex-grow: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
 .new-message-note {

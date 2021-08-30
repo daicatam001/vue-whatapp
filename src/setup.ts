@@ -18,7 +18,9 @@ import {
   Camera,
   Pencil,
   Checkmark,
-  Computer
+  Computer,
+  ChevronDown,
+  DoubleCheck
 } from '@/components/ui'
 
 // Ant components
@@ -47,4 +49,6 @@ export function setupGlobalComponents(app: App): void {
   app.component('Checkmark', Checkmark)
   app.component('Computer', Computer)
   app.component('Search', Search)
+  app.component('ChevronDown', ChevronDown)
+  app.component('DoubleCheck', DoubleCheck)
 }

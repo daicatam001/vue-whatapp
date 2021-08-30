@@ -8,9 +8,13 @@ import {
   searchChats
 } from '@/core/api/chats'
 import moment from 'moment'
+import { MessageEntities } from '../messages'
 
 export interface ChatEntities {
-  [key: number]: Chat
+  [key: number]: ChatMessage
+}
+export interface ChatMessage extends Chat {
+  messageEntities?: MessageEntities
 }
 export interface ChatsState {
   newChatTitle: string
@@ -57,7 +61,6 @@ export default {
       payload: number
     ): void {
       commit('setSelectedChatId', payload)
-      // dispatch('messages/fetchLatestMessages', null, { root: true })
       dispatch('messages/loadChatMessages', null, { root: true })
     },
     async getChats({
@@ -116,6 +119,12 @@ export default {
     offSearchChats({ commit }: ActionContext<ChatsState, AppState>) {
       commit('setQuery', '')
       commit('setSearchedChats', [])
+    },
+    setSelectedMessageEntities(
+      { commit }: ActionContext<ChatsState, AppState>,
+      payload: MessageEntities
+    ) {
+      commit('setSelectedMessageEntities', payload)
     }
   },
   mutations: {
@@ -136,11 +145,22 @@ export default {
     },
     setIsSearching(state: ChatsState, payload: boolean) {
       state.isSearching = payload
+    },
+    setSelectedMessageEntities(state: ChatsState, payload: MessageEntities) {
+      state.chatEntites[state.selectedChatId].messageEntities = payload
     }
   },
   getters: {
     selectedChatId(state: ChatsState): number {
       return state.selectedChatId
+    },
+    selectedMessageEntities(
+      state: ChatsState,
+      { selectedChatId }
+    ): MessageEntities | undefined | null {
+      return selectedChatId
+        ? state.chatEntites[selectedChatId].messageEntities
+        : null
     },
     newChatTitle(state: ChatsState): string {
       return state.newChatTitle

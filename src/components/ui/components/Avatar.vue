@@ -1,6 +1,6 @@
 <template>
   <div class="ui-avatar">
-    <img v-if="!!src" :src="src" :alt="alt" :style="imageStyle" />
+    <img v-if="!!src" :src="src" :style="imageStyle" />
     <template v-else>
       <div class="default" :style="imageStyle">
         <svg viewBox="0 0 212 212" width="212" height="212">
@@ -54,8 +54,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 img {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
 }
 .default {
   background-color: #e5e4e8;
@@ -63,12 +63,11 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
-  .text {
-    font-weight: 700;
-    font-size: 18px;
-    color: #0078d4;
+  width: 50px;
+  height: 50px;
+  svg{
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

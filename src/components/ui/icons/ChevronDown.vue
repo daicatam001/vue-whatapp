@@ -1,8 +1,8 @@
 <template>
-  <svg viewBox="0 0 24 24" width="24" height="24" class="checkmark">
+  <svg viewBox="0 0 18 18" width="18" height="18" class="chevron-down">
     <path
       :fill="color"
-      d="M9 17.2l-4-4-1.4 1.3L9 19.9 20.4 8.5 19 7.1 9 17.2z"
+      d="M3.3 4.6L9 10.3l5.7-5.7 1.6 1.6L9 13.4 1.7 6.2l1.6-1.6z"
     ></path>
   </svg>
 </template>
@@ -15,6 +15,6 @@ export default {
 
 <style scoped lang="scss">
 svg {
-  color: #919191;;
+  fill: #919191;;
 }
 </style>

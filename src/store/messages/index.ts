@@ -16,9 +16,6 @@ export interface MessageChatEntites {
 export interface MessagesState {
   isLoading: boolean
   currentChatCount: number
-  messageChat: {
-    [chatId: string]: MessageEntities
-  }
   loadState: LOAD_STATE
   // messages: Message[]
 }
@@ -26,7 +23,7 @@ export interface MessagesState {
 export default {
   namespaced: true,
   state: {
-    messageChat: {},
+    // messageChat: {},
     isLoading: false,
     currentChatCount: CHAT_COUNT,
     toLastest: null,
@@ -42,13 +39,13 @@ export default {
       dispatch('addMessage', { chatId, message })
       await sendMessage(chatId, message)
     },
-    
-    addMessage(
-      { commit }: ActionContext<MessagesState, AppState>,
-      payload: { chatId: string; message: Message }
-    ) {
-      commit('addMessage', payload)
-    },
+
+    // addMessage(
+    //   { commit }: ActionContext<MessagesState, AppState>,
+    //   payload: { chatId: string; message: Message }
+    // ) {
+    //   commit('addMessage', payload)
+    // },
     async loadChatMessages({
       getters,
       commit,
@@ -68,6 +65,7 @@ export default {
     },
     async fetchMessages({
       commit,
+      dispatch,
       getters
     }: ActionContext<MessagesState, AppState>): Promise<void> {
       commit('setIsLoading', true)
@@ -83,7 +81,10 @@ export default {
           {}
         )
 
-        commit('setMessageChatEntity', { [chatId]: messageEntities })
+        // commit('setMessageChatEntity', { [chatId]: messageEntities })
+        dispatch('chats/setSelectedMessageEntities', messageEntities, {
+          root: true
+        })
       } catch (e) {
         // ..
       }
@@ -103,34 +104,18 @@ export default {
     setCurrentChatCount(state: MessagesState, payload: number): void {
       state.currentChatCount = payload
     },
-    setMessageChatEntity(state: MessagesState, payload) {
-      state.messageChat = { ...state.messageChat, ...payload }
-    },
     setLoadState(state: MessagesState, payload: LOAD_STATE) {
       state.loadState = payload
     },
-    addMessage(
-      state: MessagesState,
-      { chatId, message }: { chatId: string; message: Message }
-    ) {
-      state.messageChat[chatId][message.custom_json.sending_time] = message
-    }
-    // setMessages(state: MessagesState, payload: Message[]): void {
-    //   state.messages = payload
-    // }
   },
 
   getters: {
-    chatId(
-      state: MessagesState,
-      getters: any,
-      rootState: AppState,
-      rootGetters: any
-    ): string {
+    chatId(state, getters, rootState, rootGetters: any): string {
       return rootGetters['chats/selectedChatId']
     },
-    messageEntities(state: MessagesState, getters): MessageEntities | null {
-      return getters.chatId ? state.messageChat[getters.chatId] : null
+    messageEntities(state, getters, rootState, rootGetters: any): MessageEntities | null {
+      // return getters.chatId ? state.messageChat[getters.chatId] : null
+      return rootGetters['chats/selectedMessageEntities']
     },
     hasMessages(state: MessagesState, getters) {
       return !!getters.messageEntities

@@ -22,7 +22,9 @@ import {
   ChevronDown,
   DoubleCheck,
   SendState,
-  Time
+  Time,
+  Spinner,
+  Close
 } from '@/components/ui'
 
 // Ant components
@@ -55,4 +57,6 @@ export function setupGlobalComponents(app: App): void {
   app.component('ChevronDown', ChevronDown)
   app.component('DoubleCheck', DoubleCheck)
   app.component('Time', Time)
+  app.component('Spinner', Spinner)
+  app.component('Close', Close)
 }

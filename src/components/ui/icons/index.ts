@@ -8,4 +8,6 @@ export { default as Search } from './Search.vue'
 export { default as ChevronDown } from './ChevronDown.vue'
 export { default as DoubleCheck } from './DoubleCheck.vue'
 export { default as Time } from './Time.vue'
+export { default as Close } from './Close.vue'
+export { default as Spinner } from './Spinner.vue'
 

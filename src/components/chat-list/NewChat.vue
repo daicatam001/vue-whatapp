@@ -8,10 +8,17 @@
       <input
         type="text"
         ref="inputSearch"
+        v-model.trim="text"
         @blur="offSearch"
         @keyup.esc="offSearch"
         @input="doSearch"
       />
+      <div class="ic ic-close" v-if="!!text">
+        <!-- <Spinner size="20px" /> -->
+        <Spinner size="20px" v-if="isSearching" />
+        <Close v-else @click="clear" />
+      </div>
+
       <div class="ic ic-search">
         <Search @click="onSearch" />
       </div>
@@ -27,12 +34,16 @@ export default {
   computed: {
     newChatTitle() {
       return this.$store.getters['chats/newChatTitle']
+    },
+    isSearching() {
+      return this.$store.getters['chats/isSearching']
     }
   },
   data() {
     return {
       searching: false,
-      searchingTimer: null
+      searchingTimer: null,
+      text: ''
     }
   },
   methods: {
@@ -53,11 +64,15 @@ export default {
       // this.$refs.inputSearch.value = ''
       // this.$store.dispatch('chats/offSearchChats')
     },
-    doSearch(event) {
+    doSearch() {
       clearTimeout(this.searchingTimer)
       this.searchingTimer = setTimeout(() => {
-        this.$store.dispatch('chats/searchChats', event.target.value.trim())
+        this.$store.dispatch('chats/searchChats', this.text)
       }, 300)
+    },
+    clear() {
+      this.text = ''
+      this.$refs.inputSearch.focus()
     }
   }
 }
@@ -129,6 +144,9 @@ input,
   right: 20px;
   position: absolute;
 }
+input {
+  width: calc(100% - 30px);
+}
 
 .label-text {
   color: rgba(74, 74, 74, 0.6);
@@ -137,5 +155,9 @@ input,
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.ic-close {
+  right: 30px;
+  left: unset !important;
 }
 </style>

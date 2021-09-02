@@ -5,6 +5,7 @@
       <Welcome />
     </div>
     <template v-else>
+      <div class="bg"></div>
       <div class="chat-heading-wapper">
         <ChatHeading />
       </div>
@@ -34,7 +35,7 @@ export default defineComponent({
   computed: {
     hasSelectedChat() {
       return this.$store.getters['chats/hasSelectedChat']
-    },
+    }
   }
 })
 </script>
@@ -42,6 +43,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .chat-feed {
   display: flex;
+  position: relative;
   height: 100%;
   flex-direction: column;
 }
@@ -50,8 +52,25 @@ export default defineComponent({
 }
 .message-list-wrapper {
   flex-grow: 1;
+  position: relative;
 }
 .new-message-wrapper {
   flex-shrink: 0;
+  position: relative;
+}
+.chat-heading-wapper {
+  position: relative;
+}
+
+.bg {
+  position: absolute;
+  background-image: url('../../assets/images/bg-chat-tile-light.png');
+  opacity: 0.1;
+  top: 0;
+  left: 0;
+  background-repeat: repeat;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
 }
 </style>

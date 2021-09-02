@@ -4,7 +4,7 @@
     <div class="content">
       <div class="line">
         <div class="title">{{ title }}</div>
-        <div class="last-send-time">{{ status }}</div>
+        <div class="last-seen-time">{{ status }}</div>
       </div>
     </div>
     <div class="action">
@@ -37,7 +37,7 @@ export default {
         } else if (diff >= 1) {
           lastSent = lastSent.format('dddd')
         } else {
-          lastSent = moment(this.lastMessage.created).format('hh:mm')
+          lastSent = moment(lastSent).format('hh:mm')
         }
         return `lần cuối thấy, ${lastSent}`
       }
@@ -67,5 +67,9 @@ export default {
   align-items: flex-start;
   flex-direction: column;
   height: 100%;
+}
+.last-seen-time {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
 }
 </style>

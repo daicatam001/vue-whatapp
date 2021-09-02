@@ -89,11 +89,7 @@ export default defineComponent({
   height: 100%;
   position: relative;
   flex-grow: 1;
-  // background-image: url('../../assets/images/bg-chat-tile-light.png');
-  background-repeat: repeat;
-  background-size: contain;
-  background-color: #E5DDD5;
-  opacity: 0.6;
+  background-color: #e5ddd5;
 }
 .chat-container {
   background-color: rgb(247, 247, 247);

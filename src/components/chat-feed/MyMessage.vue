@@ -62,7 +62,7 @@ export default defineComponent({
     color: rgb(138, 141, 145);
   }
   .body {
-    background-color: #dbf4fd;
+    background-color: rgb(220, 248, 198);
     border-radius: 10px 0 10px 10px;
     padding: 10px;
   }

@@ -20,7 +20,11 @@ export default {
       )
     },
     directUser(state, { members }) {
-      return members.length === 1 ? members[0] : null
+      return members.length === 1
+        ? members[0]
+        : {
+            person: {}
+          }
     },
     isOnline(state, { directUser }): boolean {
       return directUser.person.is_online

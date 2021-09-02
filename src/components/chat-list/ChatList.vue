@@ -13,7 +13,7 @@
     </div>
     <div class="chat-card-list" v-else>
       <div v-for="chat of chats" :key="chat.id">
-        <ChatHeading v-if="chat.isHeading" :title="chat.title" />
+        <HeadingCard v-if="chat.isHeading" :title="chat.title" />
         <ChatCard
           v-else
           @click="selectChat(chat.id)"
@@ -30,13 +30,13 @@
 
 <script>
 import ChatCard from './ChatCard.vue'
-import ChatHeading from './ChatHeading.vue'
+import HeadingCard from './HeadingCard.vue'
 import NewChat from './NewChat.vue'
 export default {
   components: {
     ChatCard,
     NewChat,
-    ChatHeading
+    HeadingCard
   },
   computed: {
     chats() {

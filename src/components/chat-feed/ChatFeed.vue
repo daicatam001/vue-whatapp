@@ -5,6 +5,9 @@
       <Welcome />
     </div>
     <template v-else>
+      <div class="chat-heading-wapper">
+        <ChatHeading />
+      </div>
       <div class="message-list-wrapper">
         <MessageList />
       </div>
@@ -20,16 +23,18 @@ import { defineComponent } from '@vue/runtime-core'
 import MessageList from './MessageList.vue'
 import NewMessage from './NewMessage.vue'
 import Welcome from './Welcome.vue'
+import ChatHeading from './ChatHeading.vue'
 export default defineComponent({
   components: {
     MessageList,
     NewMessage,
-    Welcome
+    Welcome,
+    ChatHeading
   },
   computed: {
     hasSelectedChat() {
       return this.$store.getters['chats/hasSelectedChat']
-    }
+    },
   }
 })
 </script>

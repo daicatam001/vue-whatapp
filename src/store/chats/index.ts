@@ -171,7 +171,7 @@ export default {
       }
     },
     setSearchedChats(state: ChatsState, payload: Partial<Chat>[]) {
-      state.searchedChats = [ ...payload ]
+      state.searchedChats = [...payload]
     },
     setQuery(state: ChatsState, payload: string) {
       state.query = payload
@@ -223,12 +223,15 @@ export default {
     selectedChatId(state: ChatsState): number {
       return state.selectedChatId
     },
+    selectedChat(state: ChatsState, { selectedChatId }): Chat {
+      return state.chatEntites[selectedChatId]
+    },
     selectedMessageEntities(
       state: ChatsState,
-      { selectedChatId }
+      { selectedChat }
     ): MessageEntities | undefined | null {
-      return selectedChatId
-        ? state.chatEntites[selectedChatId].messageEntities
+      return selectedChat
+        ? selectedChat.messageEntities
         : null
     },
     newChatTitle(state: ChatsState): string {

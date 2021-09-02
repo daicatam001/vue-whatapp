@@ -1,7 +1,7 @@
 <template>
   <div class="user-settings">
     <div class="thumb-wrapper">
-      <Avatar @click="showProfile" />
+      <Avatar @click="showProfile" size="40px" />
     </div>
     <div class="actions">
       <MenuSettings />

@@ -151,6 +151,7 @@ input {
 .label-text {
   color: rgba(74, 74, 74, 0.6);
   border-radius: 30px;
+  line-height: 18px;
   background-color: white;
   overflow: hidden;
   text-overflow: ellipsis;

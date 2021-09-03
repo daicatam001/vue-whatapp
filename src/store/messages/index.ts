@@ -8,8 +8,9 @@ import {
 } from '@/core/api/messages'
 import { LOAD_STATE } from '@/core/constants'
 import moment from 'moment'
+import { Chat } from '@/core/models/chats'
 
-const CHAT_COUNT = 100
+const CHAT_COUNT = 50
 
 export interface MessageEntities {
   [key: number]: Message
@@ -43,7 +44,7 @@ export default {
       dispatch('chats/addMessage', { chatId, message }, { root: true })
       await sendMessage(chatId, message)
     },
-    async updateMessage(
+    async editMessage(
       _: ActionContext<MessagesState, AppState>,
       {
         message,
@@ -133,6 +134,9 @@ export default {
   getters: {
     chatId(state, getters, rootState, rootGetters: any): string {
       return rootGetters['chats/selectedChatId']
+    },
+    chat(state, getters, rootState, rootGetters: any): Chat {
+      return rootGetters['chats/selectedChat']
     },
     messageEntities(
       state,

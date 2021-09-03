@@ -28,7 +28,6 @@ import {
   TailOut,
   TailIn,
   MessageMeta,
-  Timeline
 } from '@/components/ui'
 
 // Ant components
@@ -50,7 +49,6 @@ export function setupGlobalComponents(app: App): void {
   app.component('Avatar', Avatar)
   app.component('SendState', SendState)
   app.component('MessageMeta', MessageMeta)
-  app.component('Timeline', Timeline)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)

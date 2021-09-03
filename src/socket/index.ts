@@ -1,5 +1,5 @@
 import store from '@/store'
-import { PROJECT_ID, SEND_STATE } from '@/core/constants'
+import { MESSAGE_TYPE, PROJECT_ID, SEND_STATE } from '@/core/constants'
 import { getOrCreateSession } from '@/core/api/auth'
 import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
@@ -60,10 +60,11 @@ function onNewMessage({ id, message }: { id: string; message: Message }) {
 
   const username = store.getters['auth/username']
   if (
+    custom_json.type == MESSAGE_TYPE.MESSAGE &&
     custom_json.state == SEND_STATE.SENDING &&
     message.sender_username === username
   ) {
-    store.dispatch('messages/updateMessage', {
+    store.dispatch('messages/editMessage', {
       chatId: id,
       messageId: message.id,
       message: {
@@ -83,9 +84,9 @@ function onNewMessage({ id, message }: { id: string; message: Message }) {
   } else {
     store.dispatch('chats/addMessage', {
       chatId: id,
-      message:{
+      message: {
         ...message,
-        custom_json:custom_json
+        custom_json: custom_json
       }
     })
   }
@@ -95,5 +96,5 @@ function onEditMessage({ id, message }: { id: number; message: Message }) {
   if (typeof message.custom_json === 'string') {
     message.custom_json = JSON.parse(message.custom_json)
   }
-  store.dispatch('chats/editMessage', { chatId: id, message })
+  store.dispatch('chats/updateMessage', { chatId: id, message })
 }

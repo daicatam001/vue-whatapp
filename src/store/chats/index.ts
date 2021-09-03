@@ -141,11 +141,11 @@ export default {
     ) {
       commit('addMessage', payload)
     },
-    editMessage(
+    updateMessage(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: { chatId: number; message: Message }
     ) {
-      commit('editMessage', payload)
+      commit('updateMessage', payload)
     },
     setLastMessage(
       { commit }: ActionContext<ChatsState, AppState>,
@@ -193,29 +193,19 @@ export default {
     ) {
       // state.chatEntites[chatId].last_message = { ...message }
       state.chatEntites[chatId].last_message = { ...message }
-      console.log(state.chatEntites[chatId].last_message)
       state.chatEntites[chatId].messageEntities[
         message.custom_json.sending_time
       ] = {
         ...message
       }
-      console.log(state.chatEntites[chatId].messageEntities[
-        message.custom_json.sending_time
-      ])
     },
-    editMessage(
+    updateMessage(
       state: ChatsState,
       { chatId, message }: { chatId: number; message: Message }
     ) {
       if (state.chatEntites[chatId].last_message.id === message.id) {
         state.chatEntites[chatId].last_message = { ...message }
       }
-      console.log(
-        message.custom_json.sending_time,
-        state.chatEntites[chatId].messageEntities[
-          message.custom_json.sending_time
-        ]
-      )
       state.chatEntites[chatId].messageEntities[
         message.custom_json.sending_time
       ] = {

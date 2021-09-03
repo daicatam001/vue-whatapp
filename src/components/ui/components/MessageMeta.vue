@@ -12,7 +12,7 @@ export default {
   props: ['message', 'offState'],
   computed: {
     createdFormat() {
-      return moment(this.message.created).format('hh:mm')
+      return moment(+this.message.custom_json.sending_time).format('hh:mm')
     },
     sendState() {
       if(this.offState){

@@ -16,7 +16,7 @@
         >
           <div class="wrapper">
             <div class="status">
-              <SendState :state="lastMessageState" />
+              <SendState :state="lastMessageState" :size="18" />
             </div>
             <div class="last-message-text" v-html="lastMessageTag"></div>
           </div>
@@ -57,14 +57,14 @@ export default defineComponent({
       return this.lastMessage.text.replaceAll('<p>', '').replaceAll('</p>', '')
     },
     lastSendTime(): string {
-      const lastSent = moment(this.lastMessage.created)
+      const lastSent = moment(+this.lastMessage.custom_json.sending_time)
       const diff = moment().diff(lastSent, 'day')
       if (diff > 7) {
         return lastSent.format('DD-MM-YYYY')
       } else if (diff >= 1) {
         return lastSent.format('dddd')
       } else {
-        return moment(this.lastMessage.created).format('hh:mm')
+        return lastSent.format('hh:mm')
       }
     },
     me() {

@@ -1,4 +1,5 @@
 <template>
+  <Timline :time="timeline" v-if="!!timeline" />
   <div class="my-message" :id="idMessage">
     <div class="message-card">
       <div class="content" :class="{ 'new-cvs': !isSameGroupMessage }">
@@ -43,6 +44,17 @@ export default defineComponent({
     },
     textBody(): string {
       return this.message.text.replaceAll('<p>', '').replaceAll('</p>', '')
+    },
+    timeline() {
+      const msg = moment(this.message.created)
+      const lastMsg = this.lastMessage ? moment(this.lastMessage.created) : null
+      const diff = msg.diff(lastMsg, 'days')
+      if (diff > 7) {
+        return msg.format('DD-MM-YYYY')
+      } else if (diff >= 1) {
+        return msg.format('dddd')
+      }
+      return null
     }
   }
 })

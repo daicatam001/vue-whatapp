@@ -9,7 +9,7 @@ import {
 import { LOAD_STATE } from '@/core/constants'
 import moment from 'moment'
 
-const CHAT_COUNT = 25
+const CHAT_COUNT = 100
 
 export interface MessageEntities {
   [key: number]: Message

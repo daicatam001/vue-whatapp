@@ -24,7 +24,10 @@ import {
   SendState,
   Time,
   Spinner,
-  Close
+  Close,
+  TailOut,
+  TailIn,
+  MessageMeta
 } from '@/components/ui'
 
 // Ant components
@@ -45,6 +48,7 @@ export function setupAnt(app: App): void {
 export function setupGlobalComponents(app: App): void {
   app.component('Avatar', Avatar)
   app.component('SendState', SendState)
+  app.component('MessageMeta', MessageMeta)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)
@@ -59,4 +63,6 @@ export function setupGlobalComponents(app: App): void {
   app.component('Time', Time)
   app.component('Spinner', Spinner)
   app.component('Close', Close)
+  app.component('TailOut', TailOut)
+  app.component('TailIn', TailIn)
 }

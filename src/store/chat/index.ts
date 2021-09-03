@@ -5,7 +5,6 @@ export default {
   namespaced: true,
   getters: {
     chat(state, getters, rootState, rootGetters: any): Chat {
-      console.log(rootGetters['chats/selectedChat'])
       return rootGetters['chats/selectedChat']
     },
     username(state, getters, rootState, rootGetters: any): string {

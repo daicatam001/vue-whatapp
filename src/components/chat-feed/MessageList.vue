@@ -54,7 +54,9 @@ export default defineComponent({
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 10px 30px;
+  padding-left: 9%;
+  padding-right: 9%;
+  padding-bottom: 10px;
   overflow-x: hidden;
   overflow-y: auto;
 }

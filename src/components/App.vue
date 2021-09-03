@@ -39,13 +39,13 @@ svg {
 html,.scroll-element{
   scrollbar-width: thin;
   &::-webkit-scrollbar{
-    width: 0.5vw;
+    width: 6px;
   }
   &::-webkit-scrollbar-thumb{
-    background-color: #c1c1c1;
+    background-color: rgba(0,0,0,.2);
   }
   &::-webkit-scrollbar-track{
-    background-color: #f1f1f1;
+    background-color:transparent;
   }
 }
 </style>

@@ -10,4 +10,6 @@ export { default as DoubleCheck } from './DoubleCheck.vue'
 export { default as Time } from './Time.vue'
 export { default as Close } from './Close.vue'
 export { default as Spinner } from './Spinner.vue'
+export { default as TailOut } from './TailOut.vue'
+export { default as TailIn } from './TailIn.vue'
 

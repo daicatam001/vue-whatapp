@@ -1,22 +1,15 @@
 <template>
   <div class="message" :id="idMessage">
     <div class="message-card">
-      <div class="thumb-wrapper">
-        <div class="thumb" v-if="!isSameGroupMessage">
-          <Avatar :src="avatar"/>
-          <!-- <img v-if="!!avatar" :src="avatar" :alt="senderName" />
-          <template v-else>
-            <div class="avatar-default">
-              <div class="avatar-text">{{ avatarText }}</div>
-            </div>
-          </template> -->
+      <div class="content" :class="{ 'new-cvs': !isSameGroupMessage }">
+        <div class="body">
+          <span class="body-text">{{ textBody }}</span>
+          <span class="meta-space"></span>
+          <MessageMeta :message="message" :offState="true" />
         </div>
       </div>
-      <div class="content">
-        <div class="meta" v-if="!isSameGroupMessage">
-          {{ `${senderFirstName}, ${createdFormat}` }}
-        </div>
-        <div class="body" v-html="textBody"></div>
+      <div class="start-note" v-if="!isSameGroupMessage">
+        <TailIn color="#ffffff" />
       </div>
     </div>
   </div>
@@ -69,38 +62,38 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.message {
+  margin-bottom: 2px;
+}
 .message-card {
   display: flex;
-  gap: 10px;
-  margin-bottom: 2px;
-
-  .thumb-wrapper {
-    width: 47px;
+  justify-content: flex-start;
+  position: relative;
+  .start-note {
+    position: absolute;
+    top: 0;
+    height: 13px;
+    height: 8px;
+    right: 100%;
   }
-  .thumb {
-    .avatar-default {
-      background-color: #e5e4e8;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 45px;
-      height: 45px;
-      .avatar-text {
-        font-weight: 700;
-        font-size: 18px;
-        color: #0078d4;
-      }
+  .content {
+    max-width: 60%;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.13) 0px 1px 0.5px 0px;
+    border-radius: 7.5px;
+    padding: 6px 7px 8px 9px;
+    &.new-cvs{
+      border-top-left-radius: 0;
     }
   }
-  .meta {
-    font-size: 12px;
-    color: rgb(138, 141, 145);
-  }
   .body {
-    background-color: #eeeeee;
-    border-radius: 0 10px 10px 10px;
-    padding: 10px;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 19px;
+    .meta-space {
+      width: 72px;
+      display: inline-block;
+    }
   }
 }
 </style>

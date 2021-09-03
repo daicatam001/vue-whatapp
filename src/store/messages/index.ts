@@ -79,13 +79,15 @@ export default {
         const chatId = getters.chatId
         const chatCount = getters.currentChatCount
         const { data } = await getLatestMessage(chatId, chatCount)
-        const messageEntities = data.reduce(
-          (entity, item) => ({
+        const messageEntities = data.reduce((entity, item) => {
+          item.custom_json = item.custom_json
+            ? JSON.parse(item.custom_json)
+            : {}
+          return {
             ...entity,
             [moment.utc(item.created).valueOf()]: item
-          }),
-          {}
-        )
+          }
+        }, {})
 
         // commit('setMessageChatEntity', { [chatId]: messageEntities })
         dispatch(

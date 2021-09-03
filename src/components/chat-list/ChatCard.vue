@@ -117,6 +117,11 @@ export default defineComponent({
         this.members.every((m) => m.last_read >= this.lastMessage.id)
       ) {
         return SEND_STATE.SEEN
+      } else if (
+        this.lastMessage.id &&
+        this.lastMessage.custom_json.state === SEND_STATE.SENDING
+      ) {
+        return SEND_STATE.RECEIVED
       } else {
         return this.lastMessage.custom_json.state
       }

@@ -83,12 +83,17 @@ function onNewMessage({ id, message }: { id: string; message: Message }) {
   } else {
     store.dispatch('chats/addMessage', {
       chatId: id,
-      message
+      message:{
+        ...message,
+        custom_json:custom_json
+      }
     })
   }
 }
 
 function onEditMessage({ id, message }: { id: number; message: Message }) {
-  message.custom_json = JSON.parse(message.custom_json)
+  if (typeof message.custom_json === 'string') {
+    message.custom_json = JSON.parse(message.custom_json)
+  }
   store.dispatch('chats/editMessage', { chatId: id, message })
 }

@@ -1,11 +1,15 @@
 <template>
   <div class="my-message" :id="idMessage">
     <div class="message-card">
-      <div class="content">
-        <div class="meta" v-if="!isSameGroupMessage">
-          {{ createdFormat }}
+      <div class="content" :class="{ 'new-cvs': !isSameGroupMessage }">
+        <div class="body">
+          <span class="body-text">{{ textBody }}</span>
+          <span class="meta-space"></span>
+          <MessageMeta :message="message" />
         </div>
-        <div class="body" v-html="textBody"></div>
+      </div>
+      <div class="start-note" v-if="!isSameGroupMessage">
+        <TailOut color="#dcf8c6" />
       </div>
     </div>
   </div>
@@ -38,12 +42,7 @@ export default defineComponent({
       return `message-id-${this.message.id}`
     },
     textBody(): string {
-      return this.message.text
-        .replaceAll('<p>', '<div>')
-        .replaceAll('</p>', '</div>')
-    },
-    createdFormat(): string {
-      return moment(this.message.created).format('hh:mm')
+      return this.message.text.replaceAll('<p>', '').replaceAll('</p>', '')
     }
   }
 })
@@ -56,15 +55,32 @@ export default defineComponent({
 .message-card {
   display: flex;
   justify-content: flex-end;
-  .meta {
-    text-align: right;
-    font-size: 12px;
-    color: rgb(138, 141, 145);
+  position: relative;
+  .start-note {
+    position: absolute;
+    top: 0;
+    height: 13px;
+    height: 8px;
+    left: 100%;
+  }
+  .content {
+    max-width: 60%;
+    background-color: #dcf8c6;
+    box-shadow: rgba(0, 0, 0, 0.13) 0px 1px 0.5px 0px;
+    border-radius: 7.5px;
+    padding: 6px 7px 8px 9px;
+    &.new-cvs {
+      border-top-right-radius: 0;
+    }
   }
   .body {
-    background-color: rgb(220, 248, 198);
-    border-radius: 10px 0 10px 10px;
-    padding: 10px;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    line-height: 19px;
+    .meta-space {
+      width: 72px;
+      display: inline-block;
+    }
   }
 }
 </style>

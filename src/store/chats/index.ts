@@ -193,11 +193,15 @@ export default {
     ) {
       // state.chatEntites[chatId].last_message = { ...message }
       state.chatEntites[chatId].last_message = { ...message }
+      console.log(state.chatEntites[chatId].last_message)
       state.chatEntites[chatId].messageEntities[
         message.custom_json.sending_time
       ] = {
         ...message
       }
+      console.log(state.chatEntites[chatId].messageEntities[
+        message.custom_json.sending_time
+      ])
     },
     editMessage(
       state: ChatsState,
@@ -206,6 +210,12 @@ export default {
       if (state.chatEntites[chatId].last_message.id === message.id) {
         state.chatEntites[chatId].last_message = { ...message }
       }
+      console.log(
+        message.custom_json.sending_time,
+        state.chatEntites[chatId].messageEntities[
+          message.custom_json.sending_time
+        ]
+      )
       state.chatEntites[chatId].messageEntities[
         message.custom_json.sending_time
       ] = {
@@ -230,9 +240,7 @@ export default {
       state: ChatsState,
       { selectedChat }
     ): MessageEntities | undefined | null {
-      return selectedChat
-        ? selectedChat.messageEntities
-        : null
+      return selectedChat ? selectedChat.messageEntities : null
     },
     newChatTitle(state: ChatsState): string {
       return state.newChatTitle

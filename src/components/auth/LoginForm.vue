@@ -18,7 +18,9 @@
           placeholder="Mật khẩu"
         />
       </a-form-item>
-      <button class="btn-submit">Đăng nhập</button>
+      <button class="btn-submit">Đăng 
+        
+      </button>
     </a-form>
   </div>
 </template>

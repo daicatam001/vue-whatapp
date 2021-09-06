@@ -42,9 +42,6 @@ export default defineComponent({
     idMessage(): string {
       return `message-id-${this.message.id}`
     },
-    isMine():boolean{
-      return this.message.sender_username === this.username
-    },
     textBody(): string {
       return this.message.text.replaceAll('<p>', '').replaceAll('</p>', '')
     },

@@ -1,7 +1,7 @@
 import { UserInfo } from './users'
 
 export type Message = {
-  id: string
+  id: number
   sender: UserInfo
   text: string
   sender_username: string

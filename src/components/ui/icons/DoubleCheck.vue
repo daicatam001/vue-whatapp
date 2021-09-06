@@ -17,7 +17,6 @@ export default {
   props: ['color', 'size'],
   computed: {
     toSize() {
-      console.log(this.size)
       return this.size || 18
     }
   }

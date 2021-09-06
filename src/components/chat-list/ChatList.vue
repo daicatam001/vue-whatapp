@@ -19,6 +19,7 @@
           @click="selectChat(chat.id)"
           :id="chat.id"
           :title="chat.title"
+          :messageEntities="chat.messageEntities"
           :last-message="chat.last_message"
           :avatar="chat.avatar"
           :people="chat.people"

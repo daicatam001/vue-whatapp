@@ -21,6 +21,9 @@
             <div class="last-message-text" v-html="lastMessageTag"></div>
           </div>
         </div>
+        <div class="unread-count" v-if="!!unreadCount">
+          {{ unreadCount }}
+        </div>
         <div class="action">
           <ChevronDown />
         </div>
@@ -32,12 +35,13 @@
 
 <script lang="ts">
 import { SEND_STATE } from '@/core/constants'
+import { Message } from '@/core/models/messages'
 import { UserInfo } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 
 export default defineComponent({
-  props: ['id', 'title', 'lastMessage', 'people', 'avatar'],
+  props: ['id', 'title', 'lastMessage', 'people', 'avatar', 'messageEntities'],
   computed: {
     username(): string {
       return this.$store.getters['auth/username']
@@ -67,10 +71,18 @@ export default defineComponent({
         return lastSent.format('hh:mm')
       }
     },
-    me() {
+    me(): { person: UserInfo; last_read: number } {
       return this.people.find(
         (item) => item.person && item.person.username === this.username
       )
+    },
+    unreadCount() {
+      return (Object.values(this.messageEntities) as Message[]).filter(
+        (item) =>
+          !!item.id &&
+          item.sender_username !== this.username &&
+          item.id > this.me.last_read
+      ).length
     },
     members(): { person: UserInfo; last_read: number }[] {
       return this.people.filter(
@@ -166,6 +178,18 @@ export default defineComponent({
 .content {
   flex-grow: 1;
   min-width: 0;
+}
+.unread-count {
+  padding: 0 3px;
+  min-width: 20px;
+  line-height: 20px;
+  text-align: center;
+  height: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  border-radius: 17px;
+  background-color: #06d755;
 }
 .line-1 {
   display: flex;

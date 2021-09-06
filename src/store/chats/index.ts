@@ -20,7 +20,7 @@ export interface ChatMessage extends Chat {
 export interface ChatsState {
   newChatTitle: string
   selectedChatId: number
-  chatEntites: ChatEntities
+  chatEntities: ChatEntities
   isSearching: boolean
   query: string
   searchedChats: Partial<Chat>[]
@@ -29,7 +29,7 @@ export interface ChatsState {
 export default {
   namespaced: true,
   state: {
-    chatEntites: {},
+    chatEntities: {},
     selectedChatId: null,
     newChatTitle: '',
     query: '',
@@ -68,21 +68,21 @@ export default {
       commit
     }: ActionContext<ChatsState, AppState>): Promise<void> {
       const { data } = await getChats()
-      const chatEntites = (data as Chat[]).reduce((entity, chat) => {
+      const chatEntities = (data as Chat[]).reduce((entity, chat) => {
         chat.last_message.custom_json = JSON.parse(
           chat.last_message.custom_json
         )
         return { ...entity, [chat.id]: { ...chat } }
       }, {})
 
-      commit('setChatEntities', chatEntites)
+      commit('setChatEntities', chatEntities)
     },
     async getLatestChats(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: number
     ): Promise<void> {
       const { data } = await getLatestChats(payload)
-      const chatEntites = (data as Chat[]).reduce((entity, chat) => {
+      const chatEntities = (data as Chat[]).reduce((entity, chat) => {
         chat.last_message.custom_json = JSON.parse(
           chat.last_message.custom_json
         )
@@ -91,7 +91,7 @@ export default {
           [chat.id]: { ...chat, messageEntities: {} }
         }
       }, {})
-      commit('setChatEntities', chatEntites)
+      commit('setChatEntities', chatEntities)
     },
     async updateChat(
       { commit }: ActionContext<ChatsState, AppState>,
@@ -131,27 +131,51 @@ export default {
     },
     setMessageEntities(
       { commit }: ActionContext<ChatsState, AppState>,
-      payload: { chatId: number; message: MessageEntities }
+      payload: { chatId: number; messageEntities: MessageEntities }
     ) {
-      commit('setMessageEntities', payload)
+      commit('updateChat', {
+        id: payload.chatId,
+        messageEntities: { ...payload.messageEntities }
+      })
     },
     addMessage(
-      { commit }: ActionContext<ChatsState, AppState>,
-      payload: { chatId: number; message: Message }
+      { commit, getters }: ActionContext<ChatsState, AppState>,
+      { chatId, message }: { chatId: number; message: Message }
     ) {
-      commit('addMessage', payload)
+      const last_message = { ...message }
+      const messageEntities = {
+        ...getters.chatEntities[chatId].messageEntities,
+        [message.custom_json.sending_time]: { ...message }
+      }
+      commit('updateChat', {
+        id: chatId,
+        last_message,
+        messageEntities
+      })
     },
     updateMessage(
-      { commit }: ActionContext<ChatsState, AppState>,
-      payload: { chatId: number; message: Message }
+      { commit, getters }: ActionContext<ChatsState, AppState>,
+      { chatId, message }: { chatId: number; message: Message }
     ) {
-      commit('updateMessage', payload)
+      const dataUpdate = { id: chatId } as ChatMessage
+
+      dataUpdate.messageEntities = {
+        ...getters.chatEntities[chatId].messageEntities,
+        [message.custom_json.sending_time]: { ...message }
+      }
+      if (getters.chatEntities[chatId].last_message.id === message.id) {
+        dataUpdate.last_message = { ...message }
+      }
+      commit('updateChat', dataUpdate)
     },
     setLastMessage(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: { chatId: number; message: Message }
     ) {
-      commit('setLastMessage', payload)
+      commit('updateChat', {
+        id: payload.chatId,
+        last_message: payload.message
+      })
     }
   },
   mutations: {
@@ -162,11 +186,11 @@ export default {
       state.newChatTitle = payload
     },
     setChatEntities(state: ChatsState, payload: ChatEntities): void {
-      state.chatEntites = payload
+      state.chatEntities = payload
     },
     updateChat(state: ChatsState, payload: Chat): void {
-      state.chatEntites[payload.id] = {
-        ...state.chatEntites[payload.id],
+      state.chatEntities[payload.id] = {
+        ...state.chatEntities[payload.id],
         ...payload
       }
     },
@@ -178,53 +202,52 @@ export default {
     },
     setIsSearching(state: ChatsState, payload: boolean) {
       state.isSearching = payload
-    },
-    setMessageEntities(
-      state: ChatsState,
-      payload: { chatId: number; messageEntities: MessageEntities }
-    ) {
-      state.chatEntites[payload.chatId].messageEntities = {
-        ...payload.messageEntities
-      }
-    },
-    addMessage(
-      state: ChatsState,
-      { chatId, message }: { chatId: number; message: Message }
-    ) {
-      // state.chatEntites[chatId].last_message = { ...message }
-      state.chatEntites[chatId].last_message = { ...message }
-      state.chatEntites[chatId].messageEntities[
-        message.custom_json.sending_time
-      ] = {
-        ...message
-      }
-    },
-    updateMessage(
-      state: ChatsState,
-      { chatId, message }: { chatId: number; message: Message }
-    ) {
-      if (state.chatEntites[chatId].last_message.id === message.id) {
-        state.chatEntites[chatId].last_message = { ...message }
-      }
-      state.chatEntites[chatId].messageEntities[
-        message.custom_json.sending_time
-      ] = {
-        ...message
-      }
-    },
-    setLastMessage(
-      state: ChatsState,
-      { chatId, message }: { chatId: number; message: Message }
-    ) {
-      state.chatEntites[chatId].last_message = { ...message }
     }
+    // setMessageEntities(
+    //   state: ChatsState,
+    //   payload: { chatId: number; messageEntities: MessageEntities }
+    // ) {
+    //   state.chatEntities[payload.chatId].messageEntities = {
+    //     ...payload.messageEntities
+    //   }
+    // }
+    // addMessage(
+    //   state: ChatsState,
+    //   { chatId, message }: { chatId: number; message: Message }
+    // ) {
+    //   state.chatEntities[chatId].last_message = { ...message }
+    //   state.chatEntities[chatId].messageEntities[
+    //     message.custom_json.sending_time
+    //   ] = {
+    //     ...message
+    //   }
+    // },
+    // updateMessage(
+    //   state: ChatsState,
+    //   { chatId, message }: { chatId: number; message: Message }
+    // ) {
+    //   if (state.chatEntities[chatId].last_message.id === message.id) {
+    //     state.chatEntities[chatId].last_message = { ...message }
+    //   }
+    //   state.chatEntities[chatId].messageEntities[
+    //     message.custom_json.sending_time
+    //   ] = {
+    //     ...message
+    //   }
+    // },
+    // setLastMessage(
+    //   state: ChatsState,
+    //   { chatId, message }: { chatId: number; message: Message }
+    // ) {
+    //   state.chatEntities[chatId].last_message = { ...message }
+    // }
   },
   getters: {
     selectedChatId(state: ChatsState): number {
       return state.selectedChatId
     },
     selectedChat(state: ChatsState, { selectedChatId }): Chat {
-      return state.chatEntites[selectedChatId]
+      return state.chatEntities[selectedChatId]
     },
     selectedMessageEntities(
       state: ChatsState,
@@ -238,11 +261,10 @@ export default {
     hasSelectedChat(state, { selectedChatId }): boolean {
       return !!selectedChatId
     },
-    chatEntities({ chatEntites }: ChatsState) {
-      return chatEntites
+    chatEntities({ chatEntities }: ChatsState) {
+      return chatEntities
     },
     searchedChats({ searchedChats }: ChatsState) {
-      console.log(searchedChats)
       return searchedChats
     },
     isSearching({ isSearching }: ChatsState) {

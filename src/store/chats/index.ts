@@ -5,6 +5,7 @@ import {
   createChat,
   getChats,
   getLatestChats,
+  readMessage,
   searchChats
 } from '@/core/api/chats'
 import moment from 'moment'
@@ -58,9 +59,11 @@ export default {
       }
     },
     selectChat(
-      { commit, dispatch }: ActionContext<ChatsState, AppState>,
+      { commit, dispatch, getters }: ActionContext<ChatsState, AppState>,
       payload: number
     ): void {
+      const chat = getters.chatEntities[payload] as Chat
+      readMessage(payload, chat.last_message.id)
       commit('setSelectedChatId', payload)
       dispatch('messages/loadChatMessages', null, { root: true })
     },

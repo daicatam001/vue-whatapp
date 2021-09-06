@@ -4,6 +4,7 @@ import { getOrCreateSession } from '@/core/api/auth'
 import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
 import { Message } from '@/core/models/messages'
+import { readMessage } from '@/core/api/chats'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
@@ -54,8 +55,12 @@ function onEditChat(data: Chat) {
   store.dispatch('chats/updateChat', chatData)
   // }, 500)
 }
-function onNewMessage({ id, message }: { id: string; message: Message }) {
+function onNewMessage({ id, message }: { id: number; message: Message }) {
   // data = null
+  const selectedChatId = store.getters['chats/selectedChatId']
+  if (selectedChatId === id) {
+    readMessage(id, message.id)
+  }
   const custom_json = JSON.parse(message.custom_json as string)
 
   const username = store.getters['auth/username']

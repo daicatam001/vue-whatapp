@@ -38,3 +38,8 @@ export async function createChat(title: string): Promise<{ data: Chat }> {
     is_direct_chat: false
   })
 }
+export async function readMessage(chatId: number, messageId: number) {
+  return await baseApi.patch(`/chats/${chatId}/people/`, {
+    last_read: messageId
+  })
+}

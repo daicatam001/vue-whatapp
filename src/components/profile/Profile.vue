@@ -4,7 +4,7 @@
       <div class="back">
         <ArrowBack @click="closeProfile" />
       </div>
-      <div class="header-text">Hồ sơ</div>
+      <div class="header-text">{{$t('profile')}}</div>
     </div>
     <div class="body-wrapper">
       <div class="body">

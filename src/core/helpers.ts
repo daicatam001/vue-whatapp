@@ -1,10 +1,10 @@
 import moment from "moment"
 
 function elementInViewport(el) {
-  var top = el.offsetTop
-  var left = el.offsetLeft
-  var width = el.offsetWidth
-  var height = el.offsetHeight
+  let top = el.offsetTop
+  let left = el.offsetLeft
+  const width = el.offsetWidth
+  const height = el.offsetHeight
 
   while (el.offsetParent) {
     el = el.offsetParent

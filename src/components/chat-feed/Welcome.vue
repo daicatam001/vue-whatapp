@@ -2,18 +2,17 @@
   <div class="welcome">
     <div class="wel-content">
       <div class="wel-image"></div>
-      <div class="wel-line-1">Duy trì trạng thái kết nối cho điện thoại</div>
+      <div class="wel-line-1">{{$t('welcome1')}}</div>
       <div class="wel-line-2">
-        WhatsApp kết nối với điện thoại để đồng bộ tin nhắn. Để giảm mức sử dụng
-        dữ liệu, hãy kết nối điện thoại với mạng Wi-Fi.
+        {{$t('welcome2')}}
       </div>
       <hr />
       <div class="wel-note">
         <span class="icon"><Computer /></span>
         <span
-          >WhatsApp đã có cho Windows.
+          >{{$t('welcome3')}}
           <a href="https://www.whatsapp.com/download" target="_blank"
-            >Tải tại đây</a
+            >{{$t('welcome4')}}</a
           >.</span
         >
       </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="edit-information">
     <div class="panel">
-      <div class="title">Tên bạn</div>
+      <div class="title">{{$t('yourName')}}</div>
       <div class="content">
         <div class="wrapper" v-if="!isEditName">
           <span>{{ fullName }}</span>
@@ -17,12 +17,11 @@
     </div>
     <div class="note">
       <span>
-        Đây không phải là tên đăng nhập hoặc mật khẩu của bạn. Tên này sẽ được
-        hiển thị cho các liên lạc WhatsApp khác.
+        {{$t('yourNameNote')}}
       </span>
     </div>
     <div class="panel">
-      <div class="title">Giới thiệu</div>
+      <div class="title">{{$t('introduce')}}</div>
       <div class="content">
         <div class="wrapper" v-if="!isEditIntro">
           <span>{{ introduce }}</span>

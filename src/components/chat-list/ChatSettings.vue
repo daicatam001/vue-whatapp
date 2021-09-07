@@ -1,10 +1,10 @@
 <template>
     <a-menu class="menu-settings-dropdown chat-settings">
-      <a-menu-item> Lưu trữ cuộc trò chuyện </a-menu-item>
-      <a-menu-item @click="showProfile"> Tắt thông báo </a-menu-item>
-      <a-menu-item @click="deleteChat"> Xóa cuộc trò chuyện </a-menu-item>
-      <a-menu-item @click="logout"> Ghim cuộc trò chuyện </a-menu-item>
-      <a-menu-item @click="logout"> Đánh dấu chưa đọc </a-menu-item>
+      <a-menu-item> {{$t('storeChat')}} </a-menu-item>
+      <a-menu-item @click="showProfile"> {{$t('offNotification')}} </a-menu-item>
+      <a-menu-item @click="deleteChat"> {{$t('deleteChat')}} </a-menu-item>
+      <a-menu-item @click="logout"> {{$t('pinChat')}} </a-menu-item>
+      <a-menu-item @click="logout">{{$t('markUnread')}}</a-menu-item>
     </a-menu>
 </template>
 

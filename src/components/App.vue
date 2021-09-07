@@ -14,7 +14,6 @@ export default defineComponent({
 </script>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
-
 html,
 body {
   margin: 0;
@@ -55,5 +54,11 @@ html,
   .ant-dropdown-menu-item {
     padding: 10px 24px;
   }
+}
+</style>
+
+<style lang="less">
+.menu-settings-dropdown {
+  width: 200px;
 }
 </style>

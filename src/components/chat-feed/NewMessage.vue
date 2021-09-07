@@ -1,7 +1,7 @@
 <template>
   <div class="new-message">
     <form @submit.prevent="onSubmit">
-      <input type="text" placeholder="Add new message" v-model.trim="text" />
+      <input type="text" :placeholder="$t('inputMessage')" v-model.trim="text" />
     </form>
   </div>
 </template>

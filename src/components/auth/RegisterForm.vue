@@ -12,7 +12,7 @@
           v-model.trim="registerForm.email"
           autocomplete="off"
           type="text"
-          placeholder="Email"
+          :placeholder="$t('email')"
         />
       </a-form-item>
       <a-form-item has-feedback name="first_name">
@@ -20,27 +20,20 @@
           v-model.trim="registerForm.first_name"
           autocomplete="off"
           type="text"
-          placeholder="Họ tên"
+          :placeholder="$t('fullName')"
         />
       </a-form-item>
-      <!-- <a-form-item has-feedback name="last_name">
-        <input
-          v-model.trim="registerForm.last_name"
-          type="text"
-          placeholder="Last name"
-        />
-      </a-form-item> -->
       <a-form-item has-feedback name="username">
-        <input v-model.trim="registerForm.username" placeholder="Tài khoản" />
+        <input v-model.trim="registerForm.username" :placeholder="$t('username')" />
       </a-form-item>
       <a-form-item has-feedback name="secret">
         <input
           v-model="registerForm.secret"
           type="password"
-          placeholder="Mật khẩu"
+          :placeholder="$('password')"
         />
       </a-form-item>
-      <button class="btn-submit">Đăng ký</button>
+      <button class="btn-submit">{{$('register')}}</button>
     </a-form>
   </div>
 </template>
@@ -54,7 +47,7 @@ export default defineComponent({
   data() {
     const requiredValidator = async (_, value: string) => {
       if (!value) {
-        return Promise.reject(`Field can't not be empty`)
+        return Promise.reject(this.$t('isNotEmpty'))
       }
       return Promise.resolve()
     }
@@ -62,7 +55,7 @@ export default defineComponent({
       await requiredValidator(_, value)
       const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
       if (!pattern.test(value)) {
-        return Promise.reject(`Email's invalid`)
+        return Promise.reject(this.$t('emailInvalid'))
       }
       return Promise.resolve()
     }

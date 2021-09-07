@@ -5,7 +5,7 @@
         <Camera />
       </div>
       <div class="line-2">
-        <div class="choose-image-text">Thêm ảnh đại diện</div>
+        <div class="choose-image-text">{{$t('addAvatar')}}</div>
       </div>
     </div>
     <Avatar size="100%" />

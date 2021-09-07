@@ -15,9 +15,9 @@ export default {
       const time = moment(+this.message.custom_json.sending_time)
       const diff = moment().diff(time, 'day')
       if (diff === 0) {
-        return 'TODAY'
+        return this.$t('today')
       } else if (diff === 1) {
-        return 'YESTDAY'
+        return this.$t('yesterday')
       } else if (diff <= 7) {
         return time.format('dddd')
       } else {

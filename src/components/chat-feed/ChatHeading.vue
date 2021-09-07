@@ -28,7 +28,7 @@ export default {
     },
     status() {
       if (this.isOnline) {
-        return 'trực tuyến'
+        return this.$t('online')
       } else {
         let lastSent = moment(this.chatUpdated)
         const diff = moment().diff(lastSent, 'day')
@@ -39,7 +39,7 @@ export default {
         } else {
           lastSent = moment(lastSent).format('hh:mm')
         }
-        return `lần cuối thấy, ${lastSent}`
+        return this.$t('lastTimeSeen',{time:lastSent})
       }
     }
   }

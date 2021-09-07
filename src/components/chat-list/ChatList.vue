@@ -3,12 +3,12 @@
     <NewChat />
     <div class="notifiy" v-if="isSearching">
       <span>
-        Đang tìm kiếm cuộc trò chuyện, người liên hệ hoặc tin nhắn...
+        {{$t('chatSearching')}}
       </span>
     </div>
     <div class="notifiy" v-else-if="noSearchResult">
       <span>
-        Không tìm thấy cuộc trò chuyện, người liên hệ hoặc tin nhắn nào
+        {{$t('chatNoResult')}}
       </span>
     </div>
     <div class="chat-card-list" v-else>

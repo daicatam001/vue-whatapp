@@ -2,7 +2,7 @@
   <div class="new-chat" :class="{ searching: searching }">
     <div class="input-box">
       <div class="label-text" @click="onSearch">
-        Tìm kiếm hoặc bắt đầu cuộc trò chuyện
+        {{$t('searchOrstartChat')}}
       </div>
 
       <input

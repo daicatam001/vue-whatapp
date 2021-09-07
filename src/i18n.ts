@@ -21,7 +21,8 @@ function loadLocaleMessages(): LocaleMessages<VueMessageType> {
 
 export default createI18n({
   legacy: false,
-  locale: process.env.VUE_APP_I18N_LOCALE || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  globalInjection: true,
+  locale: process.env.VUE_APP_I18N_LOCALE || 'vi',
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'vi',
   messages: loadLocaleMessages()
 })

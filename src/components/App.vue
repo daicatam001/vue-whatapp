@@ -56,9 +56,3 @@ html,
   }
 }
 </style>
-
-<style lang="less">
-.menu-settings-dropdown {
-  width: 200px;
-}
-</style>

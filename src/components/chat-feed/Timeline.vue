@@ -14,7 +14,6 @@ export default {
     timeFormat() {
       const time = moment(+this.message.custom_json.sending_time)
       const diff = moment().diff(time, 'day')
-      console.log(diff)
       if (diff === 0) {
         return 'TODAY'
       } else if (diff === 1) {

@@ -36,16 +36,24 @@ body {
 svg {
   cursor: pointer;
 }
-html,.scroll-element{
+html,
+.scroll-element {
   scrollbar-width: thin;
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     width: 6px;
   }
-  &::-webkit-scrollbar-thumb{
-    background-color: rgba(0,0,0,.2);
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
   }
-  &::-webkit-scrollbar-track{
-    background-color:transparent;
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+}
+
+.menu-settings-dropdown {
+  width: 200px;
+  .ant-dropdown-menu-item {
+    padding: 10px 24px;
   }
 }
 </style>

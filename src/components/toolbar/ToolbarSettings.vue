@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-settings">
+  <div class="toolbar-settings">
     <a-dropdown :trigger="['click']" placement="bottomRight">
       <div class="menu">
         <ThreeDotVertical />
@@ -30,25 +30,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.menu {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  &:active {
-    background-color: #d5d5d5;
-  }
-}
-</style>
-<style lang="scss">
-.menu-settings-dropdown {
-  width: 200px;
-  .ant-dropdown-menu-item {
-    padding: 10px 24px;
-  }
-}
-</style>

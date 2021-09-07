@@ -43,3 +43,7 @@ export async function readMessage(chatId: number, messageId: number) {
     last_read: messageId
   })
 }
+
+export async function deleteChat(chatId:number){
+  return await baseApi.delete(`/chats/${chatId}/`)
+}

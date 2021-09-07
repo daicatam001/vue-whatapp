@@ -1,35 +1,47 @@
 <template>
-  <div class="chat-card" :class="{ active: isActived }">
-    <Avatar :src="avatar" size="50px" />
-    <div class="content">
-      <div class="line-1">
-        <div class="title">{{ chatTitle }}</div>
-        <div class="last-send-time" v-if="!!lastSendTime">
-          {{ lastSendTime }}
-        </div>
-      </div>
-      <div class="line-2">
-        <div
-          class="last-message"
-          v-if="!!lastMessageTag"
-          :title="lastMessageText"
-        >
-          <div class="wrapper">
-            <div class="status">
-              <SendState :state="lastMessageState" :size="18" />
+  <div class="chat-card">
+    <a-dropdown :trigger="['contextmenu']">
+      <div class="chat-card-inner" :class="{ active: isActived }">
+        <Avatar :src="avatar" size="50px" />
+        <div class="content">
+          <div class="line-1">
+            <div class="title">{{ chatTitle }}</div>
+            <div class="last-send-time" v-if="!!lastSendTime">
+              {{ lastSendTime }}
             </div>
-            <div class="last-message-text" v-html="lastMessageTag"></div>
+          </div>
+          <div class="line-2">
+            <div
+              class="last-message"
+              v-if="!!lastMessageTag"
+              :title="lastMessageText"
+            >
+              <div class="wrapper">
+                <div class="status">
+                  <SendState :state="lastMessageState" :size="18" />
+                </div>
+                <div class="last-message-text" v-html="lastMessageTag"></div>
+              </div>
+            </div>
+            <div class="unread-count" v-if="!!unreadCount && !isActived">
+              {{ unreadCount }}
+            </div>
+            <div class="action">
+              <a-dropdown :trigger="['click']">
+                <a><ChevronDown /></a>
+                <template #overlay>
+                   <ChatSettings />
+                </template>
+              </a-dropdown>
+            </div>
+            <!-- <div class="new-message-note" v-if="hasNewMessage"></div> -->
           </div>
         </div>
-        <div class="unread-count" v-if="!!unreadCount && !isActived">
-          {{ unreadCount }}
-        </div>
-        <div class="action">
-          <ChevronDown />
-        </div>
-        <!-- <div class="new-message-note" v-if="hasNewMessage"></div> -->
       </div>
-    </div>
+      <template #overlay>
+        <ChatSettings />
+      </template>
+    </a-dropdown>
   </div>
 </template>
 
@@ -37,10 +49,12 @@
 import { SEND_STATE } from '@/core/constants'
 import { Message } from '@/core/models/messages'
 import { UserInfo } from '@/core/models/users'
+import ChatSettings from './ChatSettings.vue'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 
 export default defineComponent({
+  components: { ChatSettings },
   props: ['id', 'title', 'lastMessage', 'people', 'avatar', 'messageEntities'],
   computed: {
     username(): string {
@@ -143,7 +157,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.chat-card {
+.chat-card-inner {
   cursor: pointer;
   padding: 0 20px;
   display: flex;
@@ -211,9 +225,6 @@ export default defineComponent({
   color: rgba(0, 0, 0, 0.45);
   margin-left: auto;
   white-space: nowrap;
-  // position: absolute;
-  // right: 20px;
-  // top: 7px;
 }
 
 .line-2 {

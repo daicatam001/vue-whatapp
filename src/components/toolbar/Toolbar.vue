@@ -4,7 +4,7 @@
       <Avatar @click="showProfile" size="40px" />
     </div>
     <div class="actions">
-      <MenuSettings />
+      <ToolbarSettings />
     </div>
   </div>
 </template>
@@ -12,10 +12,10 @@
 <script lang="ts">
 import { UserInfo } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
-import MenuSettings from './MenuSettings.vue'
+import ToolbarSettings from './ToolbarSettings.vue'
 
 export default defineComponent({
-  components: { MenuSettings },
+  components: { ToolbarSettings },
   computed: {
     userInfo(): UserInfo {
       return this.$store.getters['auth/userInfo']

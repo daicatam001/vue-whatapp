@@ -3,7 +3,7 @@ import App from '@/components/App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import './assets/styles/ant/main.less'
+import './theme/ant/main.less'
 import { setupAnt, setupGlobalComponents } from './setup'
 import i18n from './i18n'
 

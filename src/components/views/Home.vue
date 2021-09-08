@@ -55,6 +55,9 @@ export default defineComponent({
   methods: {
     logout(): void {
       this.$store.dispatch('auth/logout')
+      this.$router.replace({
+        name: 'login'
+      })
     },
     onCloseProfile() {
       this.$store.dispatch('ui/toggleShowProfile', false)

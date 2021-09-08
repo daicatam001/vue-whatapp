@@ -30,10 +30,10 @@
         <input
           v-model="registerForm.secret"
           type="password"
-          :placeholder="$('password')"
+          :placeholder="$t('password')"
         />
       </a-form-item>
-      <button class="btn-submit">{{$('register')}}</button>
+      <button class="btn-submit">{{$t('register')}}</button>
     </a-form>
   </div>
 </template>

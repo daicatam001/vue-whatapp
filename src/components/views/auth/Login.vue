@@ -2,11 +2,11 @@
   <a-spin :spinning="loading">
     <div class="register">
       <div class="card">
-        <div class="heading">Đăng nhập</div>
+        <div class="heading">{{ $t('login') }}</div>
         <login-form @submit="onSubmit" />
         <div class="switch">
-          Chưa có tài khoản?
-          <router-link to="/register"> Tạo mới! </router-link>
+          {{ $t('dontHaveAccount') }}
+          <router-link to="/register"> {{ $t('createNew') }} </router-link>
         </div>
       </div>
     </div>
@@ -20,20 +20,28 @@ import { defineComponent } from '@vue/runtime-core'
 
 export default defineComponent({
   components: {
-    LoginForm,
+    LoginForm
   },
   data() {
     return {
-      loading: false,
+      loading: false
     }
   },
   methods: {
     async onSubmit(data: AuthLogin) {
       this.loading = true
-      await this.$store.dispatch('auth/login', data)
+      try {
+        await this.$store.dispatch('auth/login', data)
+        this.$message.success(this.$t('loginSuccess'))
+        this.$router.replace({
+          name: 'home'
+        })
+      } catch (e) {
+        this.$message.error(this.$t('loginError'))
+      }
       this.loading = false
-    },
-  },
+    }
+  }
 })
 </script>
 

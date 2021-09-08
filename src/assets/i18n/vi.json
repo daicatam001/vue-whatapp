@@ -1,5 +1,5 @@
 {
-  "usnername": "Tài khoản",
+  "username": "Tài khoản",
   "password":"Mật khẩu",
   "login":"Đăng nhập",
   "loginError":"Vui lòng nhập Tài khoản và mật khẩu",
@@ -32,5 +32,11 @@
   "addAvatar":"Thêm ảnh đại diện",
   "newGroup":"Nhóm mới",
   "setting":"Cài đặt",
-  "logout":"Đăng xuất"
+  "logout":"Đăng xuất",
+  "dontHaveAccount":"Chưa có tài khoản?",
+  "createNew":"Tạo mới!",
+  "alreadyHadAccount":"Đã có tài khoản?",
+  "registerSuccess":"Đăng ký thành công",
+  "loginSuccess":"Đăng nhập thành công",
+  "conversation":"Trò chuyện"
 }

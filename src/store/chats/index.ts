@@ -11,6 +11,7 @@ import {
 import moment from 'moment'
 import { MessageEntities } from '../messages'
 import { Message } from '@/core/models/messages'
+import i18n from '@/core/i18n'
 
 export interface ChatEntities {
   [key: number]: ChatMessage
@@ -118,7 +119,7 @@ export default {
       if (data.length) {
         result = result.concat([
           {
-            title: 'Trò chuyện',
+            title: i18n.global.t('conversation'),
             isHeading: true,
             id: 'conversation'
           } as Partial<Chat>,

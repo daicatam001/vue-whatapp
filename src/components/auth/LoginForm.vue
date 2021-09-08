@@ -15,7 +15,7 @@
         <input
           v-model="loginForm.secret"
           type="password"
-          :placeholder="$t('username')"
+          :placeholder="$t('password')"
         />
       </a-form-item>
       <button class="btn-submit">{{$t('login')}} 

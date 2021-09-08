@@ -1,8 +1,6 @@
 import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
 import { AuthLogin, AuthRegister, UserInfo } from '@/core/models/users'
-import { message } from 'ant-design-vue'
-import router from '@/router'
 import { login, register, update } from '@/core/api/auth'
 
 export interface AuthState {
@@ -27,39 +25,20 @@ export default {
       { commit }: ActionContext<AuthState, AppState>,
       payload: AuthRegister
     ): Promise<void> {
-      try {
-        const { data } = await register(payload)
-        commit('setUserInfo', { ...data, secret: payload.secret })
-        message.success('Register success')
-        router.replace({
-          name: 'home'
-        })
-      } catch (e) {
-        message.error(e.response.data.message)
-      }
+      const { data } = await register(payload)
+      commit('setUserInfo', { ...data, secret: payload.secret })
     },
     async login(
       { commit }: ActionContext<AuthState, AppState>,
       payload: AuthLogin
     ): Promise<void> {
-      try {
-        const { data } = await login(payload.username, payload.secret)
-        commit('setUserInfo', { ...data, secret: payload.secret })
-        message.success('Login success')
-        router.replace({
-          name: 'home'
-        })
-      } catch (e) {
-        message.error('Username or Password is not correct')
-      }
+      const { data } = await login(payload.username, payload.secret)
+      commit('setUserInfo', { ...data, secret: payload.secret })
     },
     async logout({
       commit
     }: ActionContext<AuthState, AppState>): Promise<void> {
       commit('setUserInfo', null)
-      router.replace({
-        name: 'login'
-      })
     },
     async update(
       { commit }: ActionContext<AuthState, AppState>,

@@ -7,6 +7,7 @@ import {
   Dropdown,
   Menu,
   Drawer,
+  Radio,
   notification
 } from 'ant-design-vue'
 import { App } from 'vue'
@@ -39,6 +40,7 @@ export function setupAnt(app: App): void {
     .use(Dropdown)
     .use(Form)
     .use(Menu)
+    .use(Radio)
     .use(Drawer)
   app.config.globalProperties.$message = message
   app.config.globalProperties.$notification = notification

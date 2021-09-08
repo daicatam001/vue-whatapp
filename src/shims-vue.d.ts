@@ -1,5 +1,5 @@
 import { Store } from '@/store';// path to store file
-import { notification,MessageApi} from 'ant-design-vue'
+import { NotificationApi,MessageApi} from 'ant-design-vue'
 
 /* eslint-disable */
 declare module '*.vue' {
@@ -12,7 +12,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $store: Store;
     $message:MessageApi,
-    $notification:notification,
+    $notification:NotificationApi,
     $refs:any
   }
 }

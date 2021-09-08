@@ -30,7 +30,7 @@
               <a-dropdown :trigger="['click']">
                 <a><ChevronDown /></a>
                 <template #overlay>
-                   <ChatSettings />
+                  <ChatSettings :chatTitle="chatTitle" />
                 </template>
               </a-dropdown>
             </div>
@@ -39,7 +39,7 @@
         </div>
       </div>
       <template #overlay>
-        <ChatSettings />
+        <ChatSettings :chatTitle="chatTitle" />
       </template>
     </a-dropdown>
   </div>

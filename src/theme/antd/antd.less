@@ -1,0 +1,46 @@
+// Confirm dialog
+.@{confirm-prefix-cls} {
+  &-body {
+    .@{confirm-prefix-cls}-title {
+      font-weight: 400;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+  }
+  .@{ant-prefix}-modal-body {
+    padding: 22px 24px 20px;
+  }
+
+  .@{confirm-prefix-cls}-content {
+    margin-top: 0px;
+  }
+  .@{confirm-prefix-cls}-btns {
+    margin-top: 50px;
+    button {
+      height: 40px;
+      line-height: 40px;
+      padding: 0 24px;
+      text-transform: uppercase;
+    }
+    button + button {
+      margin-bottom: 0;
+      margin-left: 8px;
+    }
+  }
+}
+
+// notification
+.@{notification-prefix-cls} {
+  &-notice {
+    &-message {
+      margin-bottom: 0;
+      color: @notification-message;
+    }
+    &-closable &-message {
+      padding-right: 48px;
+    }
+    &-close {
+      color: @notification-close;
+    }
+  }
+}

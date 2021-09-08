@@ -1,7 +1,7 @@
 <template>
   <a-menu class="menu-settings-dropdown chat-settings">
-    <a-menu-item> {{ $t('storeChat') }} </a-menu-item>
-    <a-menu-item @click="showProfile">
+    <a-menu-item @click="storeChat"> {{ $t('storeChat') }} </a-menu-item>
+    <a-menu-item @click="offNotify">
       {{ $t('offNotification') }}
     </a-menu-item>
     <a-menu-item @click="deleteChat"> {{ $t('deleteChat') }} </a-menu-item>
@@ -11,24 +11,78 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/runtime-core'
+import { createVNode, defineComponent } from '@vue/runtime-core'
 import { Modal } from 'ant-design-vue'
+import OffNotifyOptionsVue from './OffNotifyOptions.vue'
 
 export default defineComponent({
+  props: ['chatTitle'],
   methods: {
     deleteChat(): void {
       Modal.confirm({
+        class: 'confirm-modal',
         centered: true,
-        content: 'Bla bla ...',
-        okText: '确认',
-        cancelText: '取消'
+        content: this.$t('deleteChatConfirm'),
+        okText: this.$t('deleteChat'),
+        cancelText: this.$t('cancel'),
+        onOk: () => {
+          this.$notification.open({
+            key: 'delete-noti',
+            message: this.$t('deletingChat'),
+            closeIcon: null,
+            placement: 'bottomLeft'
+          })
+          setTimeout(() => {
+            this.$notification.open({
+              key: 'delete-noti',
+              message: this.$t('deletedChat'),
+              placement: 'bottomLeft'
+            })
+          }, 1000)
+        }
       })
     },
-    logout(): void {
-      this.$store.dispatch('auth/logout')
+    storeChat() {
+      this.$notification.open({
+        key: 'store-noti',
+        message: this.$t('storingChat'),
+        closeIcon: null,
+        placement: 'bottomLeft'
+      })
+      setTimeout(() => {
+        this.$notification.open({
+          key: 'store-noti',
+          message: this.$t('storedChat'),
+          placement: 'bottomLeft'
+        })
+      }, 1000)
     },
-    showProfile() {
-      this.$store.dispatch('ui/toggleShowProfile', true)
+    offNotify() {
+      const offNotiNode = createVNode(OffNotifyOptionsVue, null)
+      Modal.confirm({
+        class: 'confirm-modal',
+        centered: true,
+        title: this.$t('offNotifyTime', { name: this.chatTitle }),
+        content: offNotiNode,
+        okText: this.$t('deleteChat'),
+        cancelText: this.$t('cancel'),
+        onOk: () => {
+          console.log(offNotiNode.component?.data.value)
+          this.$notification.open({
+            key: 'delete-noti',
+            message: this.$t('deletingChat'),
+            closeIcon: null,
+            placement: 'bottomLeft'
+          })
+          setTimeout(() => {
+            this.$notification.open({
+              key: 'delete-noti',
+              message: this.$t('deletedChat'),
+              placement: 'bottomLeft'
+            })
+          }, 1000)
+        }
+      })
     }
   }
 })

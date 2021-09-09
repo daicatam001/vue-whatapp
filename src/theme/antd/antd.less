@@ -44,3 +44,16 @@
     }
   }
 }
+
+// drawer
+
+.@{drawer-prefix-cls} {
+  &-left,
+  &-right {
+    &.@{drawer-prefix-cls}-open {
+      .@{drawer-prefix-cls}-content-wrapper {
+        box-shadow: @shadow-1-right;
+      }
+    }
+  }
+}

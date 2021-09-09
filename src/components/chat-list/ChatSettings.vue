@@ -5,7 +5,7 @@
       {{ $t('offNotification') }}
     </a-menu-item>
     <a-menu-item @click="deleteChat"> {{ $t('deleteChat') }} </a-menu-item>
-    <a-menu-item @click="logout"> {{ $t('pinChat') }} </a-menu-item>
+    <a-menu-item @click="pinChat"> {{ $t('pinChat') }} </a-menu-item>
     <a-menu-item @click="logout">{{ $t('markUnread') }}</a-menu-item>
   </a-menu>
 </template>
@@ -57,32 +57,67 @@ export default defineComponent({
         })
       }, 1000)
     },
+
     offNotify() {
-      const offNotiNode = createVNode(OffNotifyOptionsVue, null)
+      const offNotiNode = createVNode(OffNotifyOptionsVue, {
+        options: [
+          {
+            label: this.$t('_8hours'),
+            value: 8
+          },
+          {
+            label: this.$t('aWeek'),
+            value: 56
+          },
+          {
+            label: this.$t('alwaysHidden'),
+            value: 'all'
+          }
+        ],
+        init:8,
+        change: (e) => {
+          console.log(e)
+        }
+      })
       Modal.confirm({
         class: 'confirm-modal',
         centered: true,
         title: this.$t('offNotifyTime', { name: this.chatTitle }),
         content: offNotiNode,
-        okText: this.$t('deleteChat'),
+        okText: this.$t('offNotification'),
         cancelText: this.$t('cancel'),
         onOk: () => {
           console.log(offNotiNode.component?.data.value)
           this.$notification.open({
-            key: 'delete-noti',
-            message: this.$t('deletingChat'),
+            key: 'off-noti',
+            message: this.$t('doingOffNotifyChat'),
             closeIcon: null,
             placement: 'bottomLeft'
           })
           setTimeout(() => {
             this.$notification.open({
-              key: 'delete-noti',
-              message: this.$t('deletedChat'),
+              key: 'off-noti',
+              message: this.$t('doneOffNotifyChat'),
               placement: 'bottomLeft'
             })
           }, 1000)
         }
       })
+    },
+    pinChat(){
+       this.$notification.open({
+        key: 'store-noti',
+        message: this.$t('pinningChat'),
+        closeIcon: null,
+        placement: 'bottomLeft'
+      })
+      setTimeout(() => {
+        this.$notification.open({
+          key: 'store-noti',
+          message: this.$t('pinnedChat'),
+          placement: 'bottomLeft'
+        })
+      }, 1000)
     }
   }
 })

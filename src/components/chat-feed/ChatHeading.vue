@@ -1,11 +1,7 @@
 <template>
   <div class="chat-heading">
-    <Avatar :src="avatar" size="40px" />
-    <div class="content">
-      <div class="line">
-        <div class="title">{{ title }}</div>
-        <div class="last-seen-time">{{ status }}</div>
-      </div>
+    <div class="user-state">
+      <UserCard @click="showChatInfo" />
     </div>
     <div class="action">
       <ThreeDotVertical color="black" />
@@ -14,33 +10,10 @@
 </template>
 
 <script>
-import moment from 'moment'
 export default {
-  computed: {
-    title() {
-      return this.$store.getters['chat/title']
-    },
-    isOnline() {
-      return this.$store.getters['chat/isOnline']
-    },
-    chatUpdated() {
-      return this.$store.getters['chat/chatUpdated']
-    },
-    status() {
-      if (this.isOnline) {
-        return this.$t('online')
-      } else {
-        let lastSent = moment(this.chatUpdated)
-        const diff = moment().diff(lastSent, 'day')
-        if (diff > 7) {
-          lastSent = lastSent.format('DD-MM-YYYY')
-        } else if (diff >= 1) {
-          lastSent = lastSent.format('dddd')
-        } else {
-          lastSent = moment(lastSent).format('hh:mm')
-        }
-        return this.$t('lastTimeSeen',{time:lastSent})
-      }
+  methods: {
+    showChatInfo() {
+      this.$store.dispatch('ui/toggleShowChatInfo', true)
     }
   }
 }
@@ -53,23 +26,10 @@ export default {
   align-items: center;
   display: flex;
   padding: 10px 16px;
+  height: 60px;
 }
-.title {
-  font-weight: 500;
-  color: black;
-}
-.content {
-  height: 100%;
+.user-state {
   flex-grow: 1;
-}
-.line {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  height: 100%;
-}
-.last-seen-time {
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 13px;
+  margin-right: 20px;
 }
 </style>

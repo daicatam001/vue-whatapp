@@ -1,5 +1,5 @@
 <template>
-  <div class="user-settings">
+  <div class="toolbar">
     <div class="thumb-wrapper">
       <Avatar @click="showProfile" size="40px" />
     </div>
@@ -30,9 +30,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.user-settings {
+.toolbar {
   background-color: #ededed;
   padding: 10px 20px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;

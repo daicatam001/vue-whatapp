@@ -251,7 +251,11 @@ export default {
       return state.selectedChatId
     },
     selectedChat(state: ChatsState, { selectedChatId }): Chat {
-      return state.chatEntities[selectedChatId]
+      return (
+        state.chatEntities[selectedChatId] || {
+          people: []
+        }
+      )
     },
     selectedMessageEntities(
       state: ChatsState,

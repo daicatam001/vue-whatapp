@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-avatar">
+  <div class="ui-avatar" :style="imageStyle">
     <img v-if="!!src" :src="src" :style="imageStyle" />
     <template v-else>
       <div class="default" :style="imageStyle">

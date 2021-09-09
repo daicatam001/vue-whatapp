@@ -26,6 +26,7 @@ import {
   Time,
   Spinner,
   Close,
+  UserCard,
   TailOut,
   TailIn,
   MessageMeta,
@@ -51,6 +52,7 @@ export function setupGlobalComponents(app: App): void {
   app.component('Avatar', Avatar)
   app.component('SendState', SendState)
   app.component('MessageMeta', MessageMeta)
+  app.component('UserCard', UserCard)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)

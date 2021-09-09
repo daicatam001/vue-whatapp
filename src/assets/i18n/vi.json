@@ -42,7 +42,14 @@
   "deleteChatConfirm": "Xóa cuộc trò chuyện này?",
   "deletingChat": "Đang xóa cuộc trò chuyện",
   "deletedChat": "Đã xóa cuộc trò chuyện",
+  "doingOffNotifyChat": "Đang tắt thông báo",
+  "doneOffNotifyChat": "Đã tắt thông báo cuộc trò chuyện",
+  "pinningChat": "Đang ghim cuộc trò chuyện",
+  "pinnedChat": "Đã ghim cuộc trò chuyện",
   "storingChat": "Đang lưu trữ cuộc trò chuyện",
   "storedChat": "Đã lưu trữ cuộc trò chuyện",
-  "offNotifyTime": "Tắt âm \"{name}\" trong..."
+  "offNotifyTime": "Tắt âm \"{name}\" trong...",
+  "_8hours": "8 giờ",
+  "aWeek": "1 tuần",
+  "alwaysHidden": "Luôn ẩn"
 }

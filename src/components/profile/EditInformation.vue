@@ -114,10 +114,12 @@ export default defineComponent({
     margin-top: 20px;
     .wrapper {
       font-size: 17px;
+       padding-right: 25px;
       position: relative;
       padding-bottom: 5px;
       &.input-wrapper {
         padding-bottom: 3px;
+       
         border-bottom: 2px solid rgb(0, 191, 165);
       }
       button,
@@ -126,8 +128,7 @@ export default defineComponent({
         background-color: transparent;
         position: absolute;
         right: 0;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 3px;
       }
       input {
         display: block;

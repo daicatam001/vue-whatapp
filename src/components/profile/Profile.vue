@@ -4,10 +4,10 @@
       <div class="back">
         <ArrowBack @click="closeProfile" />
       </div>
-      <div class="header-text">{{$t('profile')}}</div>
+      <div class="header-text">{{ $t('profile') }}</div>
     </div>
-    <div class="body-wrapper">
-      <div class="body">
+    <div class="profile-body-wrapper">
+      <div class="profile-body scroll-element">
         <div class="avatar-section">
           <UploadAvatar />
         </div>
@@ -63,10 +63,10 @@ export default defineComponent({
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.body-wrapper {
+.profile-body-wrapper {
   flex-grow: 1;
   position: relative;
-  .body {
+  .profile-body {
     position: absolute;
     top: 0;
     left: 0;

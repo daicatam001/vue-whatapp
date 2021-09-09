@@ -23,7 +23,26 @@
         </a-drawer>
       </div>
       <div class="right-side">
-        <ChatFeed />
+        <div class="chat-body" :class="{ 'show-info': showChatInfo }">
+          <ChatFeed />
+          <div class="detail-wrapper">
+            <a-drawer
+              placement="right"
+              :closable="false"
+              :visible="showChatInfo"
+              :get-container="false"
+              width="100%"
+              :bodyStyle="{
+                padding: 0,
+                height: '100%',
+                backgroundColor: 'transparent'
+              }"
+              :wrapStyle="{ position: 'absolute' }"
+            >
+              <ChatDetail />
+            </a-drawer>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -36,17 +55,21 @@ import { defineComponent } from '@vue/runtime-core'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 import Toolbar from '@/components/toolbar/Toolbar.vue'
 import Profile from '@/components/profile/Profile.vue'
-
+import ChatDetail from '@/components/chat-detail/ChatDetail.vue'
 export default defineComponent({
   components: {
     ChatList,
     ChatFeed,
     Toolbar,
-    Profile
+    Profile,
+    ChatDetail
   },
   computed: {
     showProfile() {
       return this.$store.getters['ui/showProfile']
+    },
+    showChatInfo() {
+      return this.$store.getters['ui/showChatInfo']
     }
   },
   created() {
@@ -81,8 +104,8 @@ export default defineComponent({
 }
 
 .left-side {
-  background: white;
-  border-right: 1px solid rgb(213, 217, 222);
+  background: rgb(237, 237, 237);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
   width: 30%;
   position: relative;
   flex-shrink: 0;
@@ -90,10 +113,37 @@ export default defineComponent({
 
 .right-side {
   height: 100%;
+  width: 100%;
   position: relative;
   flex-grow: 1;
+  overflow: hidden;
   background-color: #e5ddd5;
 }
+
+.chat-body {
+  display: flex;
+  height: 100%;
+  .chat-feed {
+    width: 100%;
+    transition: width 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+  }
+
+  .detail-wrapper {
+    width: 0;
+    position: relative;
+    transition: width 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
+  }
+
+  &.show-info {
+    .chat-feed {
+      width: calc(100% - 420px);
+    }
+    .detail-wrapper {
+      width: 420px;
+    }
+  }
+}
+
 .chat-container {
   background-color: rgb(247, 247, 247);
   z-index: 1;

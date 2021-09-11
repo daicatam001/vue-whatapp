@@ -1,7 +1,7 @@
 <template>
   <div class="user-card" :class="type">
-    <Avatar :src="avatar" :size="avatarSize" @click="showChatInfo" />
-    <div class="content" @click="showChatInfo">
+    <Avatar :src="avatar" :size="avatarSize" />
+    <div class="content">
       <div class="line">
         <div class="title">{{ title }}</div>
         <div class="last-seen-time">{{ status }}</div>

@@ -27,5 +27,6 @@ export default {
 .title {
   margin-left: 30px;
   font-size: 16px;
+  margin-top: -4px;
 }
 </style>

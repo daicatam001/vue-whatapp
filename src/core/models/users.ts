@@ -12,7 +12,7 @@ export interface UserInfo {
   secret?: string
   custom_json: {
     [key: string]: any
-  }
+  } | string
   first_name: string
   last_name: string
   avatar: string

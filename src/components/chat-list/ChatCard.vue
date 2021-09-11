@@ -165,6 +165,7 @@ export default defineComponent({
   gap: 15px;
   height: 72px;
   position: relative;
+  background-color: white;
   // &:not(:last-child) {
   border-bottom: 1px solid rgb(213, 217, 222);
   // }

@@ -19,7 +19,7 @@
           :wrapStyle="{ position: 'absolute', overflow: 'hidden' }"
           @close="onCloseProfile"
         >
-          <Profile />
+          <Profile v-if="showProfile" />
         </a-drawer>
       </div>
       <div class="right-side">
@@ -39,7 +39,7 @@
               }"
               :wrapStyle="{ position: 'absolute' }"
             >
-              <ChatDetail />
+              <ChatDetail v-if="showChatInfo" />
             </a-drawer>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default defineComponent({
 .left-side {
   background: rgb(237, 237, 237);
   border-right: 1px solid rgba(0, 0, 0, 0.08);
-  width: 30%;
+  width: 25%;
   position: relative;
   flex-shrink: 0;
 }
@@ -150,7 +150,8 @@ export default defineComponent({
   margin: 0 auto;
   top: 20px;
   position: relative;
-  max-width: 1400px;
+  width: 1400px;
+  max-width: 100%;
   display: flex;
   height: calc(100% - 40px);
   min-height: 600px;

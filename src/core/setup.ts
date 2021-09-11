@@ -29,7 +29,11 @@ import {
   UserCard,
   TailOut,
   TailIn,
+  ChevronRight,
   MessageMeta,
+  Ban,
+  ThumbDown,
+  Trash
 } from '@/components/ui'
 
 // Ant components
@@ -69,4 +73,8 @@ export function setupGlobalComponents(app: App): void {
   app.component('Close', Close)
   app.component('TailOut', TailOut)
   app.component('TailIn', TailIn)
+  app.component('ChevronRight', ChevronRight)
+  app.component('Ban', Ban)
+  app.component('ThumbDown', ThumbDown)
+  app.component('Trash', Trash)
 }

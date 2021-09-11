@@ -51,5 +51,13 @@
   "offNotifyTime": "Tắt âm \"{name}\" trong...",
   "_8hours": "8 giờ",
   "aWeek": "1 tuần",
-  "alwaysHidden": "Luôn ẩn"
+  "alwaysHidden": "Luôn ẩn",
+  "contactInformation":"Thông tin liên hệ",
+  "mediaAll":"Tệp phương tiện, liên kết và tài liệu",
+  "noMediaAll":"Không có tệp phương tiện, liên kết và tài liệu",
+  "messageMarkStar":"Tin nhắn gắn sao",
+  "selfDestroyMessage":"Tin nhắn tự hủy",
+  "introAndPhone":"Giới thiệu và số điện thoại",
+  "ban":"Chặn",
+  "reportUser":"Báo cáo người liên hệ"
 }

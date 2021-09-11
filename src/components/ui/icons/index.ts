@@ -12,4 +12,8 @@ export { default as Close } from './Close.vue'
 export { default as Spinner } from './Spinner.vue'
 export { default as TailOut } from './TailOut.vue'
 export { default as TailIn } from './TailIn.vue'
+export { default as ChevronRight } from './ChevronRight.vue'
+export { default as Ban } from './Ban.vue'
+export { default as ThumbDown } from './ThumbDown.vue'
+export { default as Trash } from './Trash.vue'
 

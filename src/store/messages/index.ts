@@ -9,6 +9,7 @@ import {
 import { LOAD_STATE } from '@/core/constants'
 import moment from 'moment'
 import { Chat } from '@/core/models/chats'
+import { createChat } from '@/core/api/chats'
 
 const CHAT_COUNT = 20
 
@@ -37,9 +38,17 @@ export default {
   },
   actions: {
     async sendMessage(
-      { getters, dispatch }: ActionContext<MessagesState, AppState>,
+      {
+        getters,
+        dispatch,
+        rootGetters
+      }: ActionContext<MessagesState, AppState>,
       message: MessageCreate
     ): Promise<void> {
+      const newChatUser = rootGetters['chats/newChatUser'];
+      if(newChatUser){
+        const chat = await createChat(`direct_to_${newChatUser.username}`)
+      }
       const chatId = getters.chatId
       dispatch('chats/addMessage', { chatId, message }, { root: true })
       await sendMessage(chatId, message)

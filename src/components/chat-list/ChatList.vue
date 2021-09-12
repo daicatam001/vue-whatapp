@@ -19,7 +19,7 @@
         />
         <PhoneBookCard
           v-else-if="chat.type === CHAT_CARD_TYPE.PHONE_BOOK"
-          @click="setNewChatUser(chat)"
+          @click="createNewChatUser(chat)"
           :first_name="chat.first_name"
           :custom_json="chat.custom_json"
         />
@@ -77,8 +77,8 @@ export default {
       }
       this.$store.dispatch('chats/selectChat', id)
     },
-    setNewChatUser(user){
-       this.$store.dispatch('chats/setNewChatUser', user)
+    createNewChatUser(user){
+       this.$store.dispatch('chats/createNewChatUser', user)
     }
   },
   created() {

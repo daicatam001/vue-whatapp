@@ -2,6 +2,7 @@ import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
 import { Chat } from '@/core/models/chats'
 import {
+  addChatMember,
   createChat,
   getChats,
   getLatestChats,
@@ -44,6 +45,15 @@ export default {
     searchedChats: []
   },
   actions: {
+    async createNewChatUser(
+      { commit, rootGetters }: ActionContext<ChatsState, AppState>,
+      payload: UserInfo
+    ) {
+      commit('setNewChatUser', payload)
+      const username = rootGetters['auth/username']
+      const { data } = await createChat(`${username}_to_${payload.username}`)
+      await addChatMember(data.id as number, payload.username)
+    },
     onInput(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: string
@@ -84,10 +94,14 @@ export default {
     }: ActionContext<ChatsState, AppState>): Promise<void> {
       const { data } = await getChats()
       const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-        chat.last_message.custom_json = JSON.parse(
-          chat.last_message.custom_json
-        )
-        return { ...entity, [chat.id]: { ...chat } }
+        try {
+          chat.last_message.custom_json = JSON.parse(
+            chat.last_message.custom_json
+          )
+        } catch (e) {
+          chat.last_message.custom_json = {}
+        }
+        return { ...entity, [chat.id]: { ...chat, messageEntities: {} } }
       }, {})
 
       commit('setChatEntities', chatEntities)
@@ -98,9 +112,13 @@ export default {
     ): Promise<void> {
       const { data } = await getLatestChats(payload)
       const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-        chat.last_message.custom_json = JSON.parse(
-          chat.last_message.custom_json
-        )
+        try {
+          chat.last_message.custom_json = JSON.parse(
+            chat.last_message.custom_json
+          )
+        } catch (e) {
+          chat.last_message.custom_json = {}
+        }
         return {
           ...entity,
           [chat.id]: { ...chat, messageEntities: {} }
@@ -146,6 +164,7 @@ export default {
         const users = userRes.data.map(item => ({
           id: item.id,
           avatar: item.avatar,
+          username: item.username,
           first_name: item.first_name,
           custom_json: item.custom_json,
           type: CHAT_CARD_TYPE.PHONE_BOOK

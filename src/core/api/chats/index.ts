@@ -41,6 +41,14 @@ export async function createChat(
     is_direct_chat: isDirectChat
   })
 }
+
+export async function addChatMember(
+  chatId: number,
+  username: string
+): Promise<{ data: any }> {
+  return await baseApi.post(`/chats/${chatId}/people/`, { username })
+}
+
 export async function readMessage(chatId: number, messageId: number) {
   return await baseApi.patch(`/chats/${chatId}/people/`, {
     last_read: messageId

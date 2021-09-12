@@ -107,6 +107,7 @@ export default defineComponent({
   background: rgb(237, 237, 237);
   border-right: 1px solid rgba(0, 0, 0, 0.08);
   width: 25%;
+  min-width:300px;
   position: relative;
   flex-shrink: 0;
 }
@@ -155,6 +156,7 @@ export default defineComponent({
   display: flex;
   height: calc(100% - 40px);
   min-height: 600px;
+  min-width: 700px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 1px 0px,
     rgba(0, 0, 0, 0.2) 0px 2px 5px 0px;
 }

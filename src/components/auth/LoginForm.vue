@@ -9,7 +9,13 @@
       @finishFailed="onSubmitError"
     >
       <a-form-item name="username">
-        <input v-model.trim="loginForm.username" :placeholder="$t('username')" />
+        <div class="phone-number">
+          <input value="+84" readonly class="phone-code"/>
+          <input
+            v-model.trim="loginForm.username"
+            :placeholder="$t('phoneNumber')"
+          />
+        </div>
       </a-form-item>
       <a-form-item name="secret">
         <input

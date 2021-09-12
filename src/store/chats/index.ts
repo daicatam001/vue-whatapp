@@ -12,6 +12,9 @@ import moment from 'moment'
 import { MessageEntities } from '../messages'
 import { Message } from '@/core/models/messages'
 import i18n from '@/core/i18n'
+import { getUsers } from '@/core/api/users'
+import { CHAT_CARD_TYPE } from '@/core/constants'
+import { UserInfo } from '@/core/models/users'
 
 export interface ChatEntities {
   [key: number]: ChatMessage
@@ -22,6 +25,7 @@ export interface ChatMessage extends Chat {
 export interface ChatsState {
   newChatTitle: string
   selectedChatId: number
+  newChatUser: UserInfo
   chatEntities: ChatEntities
   isSearching: boolean
   query: string
@@ -33,6 +37,7 @@ export default {
   state: {
     chatEntities: {},
     selectedChatId: null,
+    newChatUser: null,
     newChatTitle: '',
     query: '',
     isSearching: false,
@@ -58,6 +63,12 @@ export default {
       } catch (e) {
         // ..
       }
+    },
+    setNewChatUser(
+      { commit }: ActionContext<ChatsState, AppState>,
+      payload: UserInfo
+    ) {
+      commit('setNewChatUser', payload)
     },
     selectChat(
       { commit, dispatch, getters }: ActionContext<ChatsState, AppState>,
@@ -115,15 +126,37 @@ export default {
       commit('setIsSearching', true)
       const username = rootGetters['auth/username']
       let result = [] as Partial<Chat>[]
-      const { data } = await searchChats(payload, username)
-      if (data.length) {
+      const [convoRes, userRes] = await Promise.all([
+        searchChats(payload, username),
+        getUsers()
+      ])
+      // const convoRes = await searchChats(payload, username)
+      if (convoRes.data.length) {
         result = result.concat([
           {
             title: i18n.global.t('conversation'),
-            isHeading: true,
+            type: CHAT_CARD_TYPE.HEADING,
             id: 'conversation'
           } as Partial<Chat>,
-          ...data
+          ...convoRes.data
+        ])
+      }
+      // const userRes = await getUsers()
+      if (userRes.data.length) {
+        const users = userRes.data.map(item => ({
+          id: item.id,
+          avatar: item.avatar,
+          first_name: item.first_name,
+          custom_json: item.custom_json,
+          type: CHAT_CARD_TYPE.PHONE_BOOK
+        }))
+        result = result.concat([
+          {
+            title: i18n.global.t('phoneBook'),
+            type: CHAT_CARD_TYPE.HEADING,
+            id: 'phoneBook'
+          } as Partial<Chat>,
+          ...users
         ])
       }
       commit('setSearchedChats', result)
@@ -183,6 +216,9 @@ export default {
     }
   },
   mutations: {
+    setNewChatUser(state: ChatsState, payload: UserInfo): void {
+      state.newChatUser = payload
+    },
     setSelectedChatId(state: ChatsState, payload: number): void {
       state.selectedChatId = payload
     },
@@ -207,48 +243,13 @@ export default {
     setIsSearching(state: ChatsState, payload: boolean) {
       state.isSearching = payload
     }
-    // setMessageEntities(
-    //   state: ChatsState,
-    //   payload: { chatId: number; messageEntities: MessageEntities }
-    // ) {
-    //   state.chatEntities[payload.chatId].messageEntities = {
-    //     ...payload.messageEntities
-    //   }
-    // }
-    // addMessage(
-    //   state: ChatsState,
-    //   { chatId, message }: { chatId: number; message: Message }
-    // ) {
-    //   state.chatEntities[chatId].last_message = { ...message }
-    //   state.chatEntities[chatId].messageEntities[
-    //     message.custom_json.sending_time
-    //   ] = {
-    //     ...message
-    //   }
-    // },
-    // updateMessage(
-    //   state: ChatsState,
-    //   { chatId, message }: { chatId: number; message: Message }
-    // ) {
-    //   if (state.chatEntities[chatId].last_message.id === message.id) {
-    //     state.chatEntities[chatId].last_message = { ...message }
-    //   }
-    //   state.chatEntities[chatId].messageEntities[
-    //     message.custom_json.sending_time
-    //   ] = {
-    //     ...message
-    //   }
-    // },
-    // setLastMessage(
-    //   state: ChatsState,
-    //   { chatId, message }: { chatId: number; message: Message }
-    // ) {
-    //   state.chatEntities[chatId].last_message = { ...message }
-    // }
   },
   getters: {
     selectedChatId(state: ChatsState): number {
       return state.selectedChatId
+    },
+    newChatUser(state: ChatsState): UserInfo {
+      return state.newChatUser
     },
     selectedChat(state: ChatsState, { selectedChatId }): Chat {
       return (
@@ -266,8 +267,8 @@ export default {
     newChatTitle(state: ChatsState): string {
       return state.newChatTitle
     },
-    hasSelectedChat(state, { selectedChatId }): boolean {
-      return !!selectedChatId
+    hasSelectedChat(state, { selectedChatId, newChatUser }): boolean {
+      return !!selectedChatId || !!newChatUser
     },
     chatEntities({ chatEntities }: ChatsState) {
       return chatEntities

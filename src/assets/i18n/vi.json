@@ -59,5 +59,7 @@
   "selfDestroyMessage":"Tin nhắn tự hủy",
   "introAndPhone":"Giới thiệu và số điện thoại",
   "ban":"Chặn",
-  "reportUser":"Báo cáo người liên hệ"
+  "reportUser":"Báo cáo người liên hệ",
+  "phoneFormat":"SĐT chỉ bao gồm chữ số và có độ dài 9",
+  "phoneNumber":"Số điện thoại"
 }

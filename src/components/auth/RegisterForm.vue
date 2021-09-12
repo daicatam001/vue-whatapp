@@ -7,12 +7,20 @@
       :rules="rules"
       @finish="onSubmit"
     >
-      <a-form-item has-feedback name="email">
+      <a-form-item has-feedback name="username">
+        <div class="phone-number">
+          <input value="+84" readonly class="phone-code" />
+          <input
+            v-model.trim="registerForm.username"
+            :placeholder="$t('phoneNumber')"
+          />
+        </div>
+      </a-form-item>
+      <a-form-item has-feedback name="secret">
         <input
-          v-model.trim="registerForm.email"
-          autocomplete="off"
-          type="text"
-          :placeholder="$t('email')"
+          v-model="registerForm.secret"
+          type="password"
+          :placeholder="$t('password')"
         />
       </a-form-item>
       <a-form-item has-feedback name="first_name">
@@ -23,17 +31,7 @@
           :placeholder="$t('fullName')"
         />
       </a-form-item>
-      <a-form-item has-feedback name="username">
-        <input v-model.trim="registerForm.username" :placeholder="$t('username')" />
-      </a-form-item>
-      <a-form-item has-feedback name="secret">
-        <input
-          v-model="registerForm.secret"
-          type="password"
-          :placeholder="$t('password')"
-        />
-      </a-form-item>
-      <button class="btn-submit">{{$t('register')}}</button>
+      <button class="btn-submit">{{ $t('register') }}</button>
     </a-form>
   </div>
 </template>
@@ -51,11 +49,11 @@ export default defineComponent({
       }
       return Promise.resolve()
     }
-    const emailValidator = async (_, value: string) => {
+    const phoneValidator = async (_, value: string) => {
       await requiredValidator(_, value)
-      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+      const pattern = /\b[0-9]{9}\b/
       if (!pattern.test(value)) {
-        return Promise.reject(this.$t('emailInvalid'))
+        return Promise.reject(this.$t('phoneFormat'))
       }
       return Promise.resolve()
     }
@@ -65,22 +63,24 @@ export default defineComponent({
         first_name: '',
         last_name: '',
         username: '',
-        secret: '',
+        secret: ''
       },
       rules: {
-        email: [{ validator: emailValidator }],
         first_name: [{ validator: requiredValidator }],
         last_name: [{ validator: requiredValidator }],
-        username: [{ validator: requiredValidator }],
-        secret: [{ validator: requiredValidator }],
-      },
+        username: [{ validator: phoneValidator }],
+        secret: [{ validator: requiredValidator }]
+      }
     }
   },
   methods: {
     onSubmit(data: AuthRegister) {
-      this.$emit('submit', { ...data })
-    },
-  },
+      this.$emit('submit', {
+        ...data,
+        custom_json: JSON.stringify({ code: '+84', introduce: 'Hello world' })
+      })
+    }
+  }
 })
 </script>
 

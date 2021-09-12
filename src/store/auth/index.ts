@@ -33,6 +33,9 @@ export default {
       payload: AuthLogin
     ): Promise<void> {
       const { data } = await login(payload.username, payload.secret)
+      if (data.custom_json) {
+        data.custom_json = JSON.parse(data.custom_json as string)
+      }
       commit('setUserInfo', { ...data, secret: payload.secret })
     },
     async logout({

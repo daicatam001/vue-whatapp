@@ -22,3 +22,14 @@ export enum MESSAGE_TYPE {
   MESSAGE = 'MESSAGE',
   DAY_NOTIFICATION = 'DAY_NOTIFICATION'
 }
+
+export enum CHAT_CARD_TYPE {
+  CONVO = 'CONVO',
+  HEADING = 'HEADING',
+  PHONE_BOOK = 'PHONE_BOOK'
+}
+
+export enum CHAT_TYPE {
+  DIRECT = 'DIRECT',
+  GROUP = 'GROUP'
+}

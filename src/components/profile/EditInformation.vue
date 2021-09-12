@@ -1,7 +1,7 @@
 <template>
   <div class="edit-information">
     <div class="panel">
-      <div class="title">{{$t('yourName')}}</div>
+      <div class="title">{{ $t('yourName') }}</div>
       <div class="content">
         <div class="wrapper" v-if="!isEditName">
           <span>{{ fullName }}</span>
@@ -17,11 +17,11 @@
     </div>
     <div class="note">
       <span>
-        {{$t('yourNameNote')}}
+        {{ $t('yourNameNote') }}
       </span>
     </div>
     <div class="panel">
-      <div class="title">{{$t('introduce')}}</div>
+      <div class="title">{{ $t('introduce') }}</div>
       <div class="content">
         <div class="wrapper" v-if="!isEditIntro">
           <span>{{ introduce }}</span>
@@ -114,12 +114,14 @@ export default defineComponent({
     margin-top: 20px;
     .wrapper {
       font-size: 17px;
-       padding-right: 25px;
+      padding-right: 25px;
+      display: block;
+      height: 31px;
       position: relative;
       padding-bottom: 5px;
       &.input-wrapper {
         padding-bottom: 3px;
-       
+
         border-bottom: 2px solid rgb(0, 191, 165);
       }
       button,

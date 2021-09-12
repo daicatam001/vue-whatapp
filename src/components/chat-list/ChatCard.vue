@@ -118,15 +118,6 @@ export default defineComponent({
       }
       return false
     },
-    // lastMessageIsMine() {
-    //   return this.lastMessage.sender_username === this.username
-    // },
-    // lastSent() {
-    //   return this.lastMessage.id <= this.me.last_read
-    // },
-    // allSeen() {
-    //   return this.members.every((m) => m.last_read >= this.lastMessage.id)
-    // },
     chatTitle(): string {
       if (this.directUser) {
         return `${this.directUser.first_name}`

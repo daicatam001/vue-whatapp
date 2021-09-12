@@ -4,7 +4,7 @@
     <div class="content">
       <div class="line">
         <div class="title">{{ title }}</div>
-        <div class="last-seen-time">{{ status }}</div>
+        <div class="brief">{{ brief }}</div>
       </div>
     </div>
   </div>

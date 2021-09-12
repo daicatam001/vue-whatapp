@@ -44,5 +44,6 @@ export interface Chat {
   last_message: Message
   title: string
   created: string
+  is_direct_chat: boolean
   isHeading?: boolean
 }

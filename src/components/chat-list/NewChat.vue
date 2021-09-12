@@ -9,7 +9,7 @@
         type="text"
         ref="inputSearch"
         v-model.trim="text"
-        @blur="offSearch"
+        @blur="onBlur"
         @keyup.esc="offSearch"
         @input="doSearch"
       />
@@ -59,10 +59,15 @@ export default {
         this.$refs.inputSearch.focus()
       })
     },
+    onBlur(){
+      if(this.text ===''){
+        this.offSearch()
+      }
+    },
     offSearch() {
-      // this.searching = false
-      // this.$refs.inputSearch.value = ''
-      // this.$store.dispatch('chats/offSearchChats')
+      this.searching = false
+      this.$refs.inputSearch.value = ''
+      this.$store.dispatch('chats/offSearchChats')
     },
     doSearch() {
       clearTimeout(this.searchingTimer)

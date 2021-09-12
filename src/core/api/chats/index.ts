@@ -32,10 +32,13 @@ export async function getLatestChats(count: number): Promise<{ data: Chat[] }> {
   return await baseApi.get(`/chats/latest/${count}`)
 }
 
-export async function createChat(title: string): Promise<{ data: Chat }> {
+export async function createChat(
+  title: string,
+  isDirectChat = true
+): Promise<{ data: Chat }> {
   return await baseApi.post('/chats/', {
     title,
-    is_direct_chat: false
+    is_direct_chat: isDirectChat
   })
 }
 export async function readMessage(chatId: number, messageId: number) {
@@ -44,6 +47,6 @@ export async function readMessage(chatId: number, messageId: number) {
   })
 }
 
-export async function deleteChat(chatId:number){
+export async function deleteChat(chatId: number) {
   return await baseApi.delete(`/chats/${chatId}/`)
 }

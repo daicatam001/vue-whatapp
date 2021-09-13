@@ -8,6 +8,7 @@ import { readMessage } from '@/core/api/chats'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
+const SOCKET_ACTION_ADD_PERSON = 'add_person'
 
 const SOCKET_ACTION_NEW_MESSAGE = 'new_message'
 const SOCKET_ACTION_EDIT_MESSAGE = 'edit_message'
@@ -31,6 +32,9 @@ export async function setupSocket(): Promise<void> {
       case SOCKET_ACTION_NEW_CHAT:
         onNewChat(socketData.data)
         break
+      case SOCKET_ACTION_ADD_PERSON:
+        onAddPerson(socketData.data)
+        break
       case SOCKET_ACTION_EDIT_CHAT:
         onEditChat(socketData.data)
         break
@@ -44,8 +48,11 @@ export async function setupSocket(): Promise<void> {
 }
 
 function onNewChat(data: Chat) {
-  const chats = store.getters['chats/chats']
-  store.dispatch('chats/setChats', [...chats, data])
+  store.dispatch('chats/updateChat', { ...data, messageEntities: {} })
+}
+
+function onAddPerson(data: Chat) {
+  store.dispatch('chats/updateChat', { ...data })
 }
 
 function onEditChat(data: Chat) {

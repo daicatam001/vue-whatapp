@@ -41,14 +41,9 @@ export default {
       {
         getters,
         dispatch,
-        rootGetters
       }: ActionContext<MessagesState, AppState>,
       message: MessageCreate
     ): Promise<void> {
-      const newChatUser = rootGetters['chats/newChatUser'];
-      if(newChatUser){
-        const chat = await createChat(`direct_to_${newChatUser.username}`)
-      }
       const chatId = getters.chatId
       dispatch('chats/addMessage', { chatId, message }, { root: true })
       await sendMessage(chatId, message)

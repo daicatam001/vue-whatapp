@@ -38,20 +38,21 @@ export default {
       }
       return null
     },
+    members(
+      state,
+      { chat, username }
+    ): { person: UserInfo; last_read: number }[] {
+      return chat.people.filter(
+        it => it.person && it.person.username !== username
+      )
+    },
     // title(state, { newChatUser, chat }) {
     //   if (newChatUser) {
     //     return newChatUser.first_name
     //   }
     // },
 
-    // members(
-    //   state,
-    //   { chat, username }
-    // ): { person: UserInfo; last_read: number }[] {
-    //   return chat.people.filter(
-    //     it => it.person && it.person.username !== username
-    //   )
-    // },
+   
     // directUser(state, { members }) {
     //   return members.length === 1
     //     ? members[0]

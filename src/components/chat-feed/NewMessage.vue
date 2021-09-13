@@ -1,7 +1,11 @@
 <template>
   <div class="new-message">
     <form @submit.prevent="onSubmit">
-      <input type="text" :placeholder="$t('inputMessage')" v-model.trim="text" />
+      <input
+        type="text"
+        :placeholder="$t('inputMessage')"
+        v-model.trim="text"
+      />
     </form>
   </div>
 </template>
@@ -31,8 +35,9 @@ export default defineComponent({
       if (this.text === '') {
         return
       }
+      this.$store.dispatch('chats/offSearchChats')
       const sendingTime = moment.utc()
-      if (
+      if (!this.chat.last_message.created ||
         sendingTime.diff(
           moment(+this.chat.last_message.custom_json.sending_time),
           'day'

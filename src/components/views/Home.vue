@@ -107,7 +107,7 @@ export default defineComponent({
   background: rgb(237, 237, 237);
   border-right: 1px solid rgba(0, 0, 0, 0.08);
   width: 25%;
-  min-width:300px;
+  min-width: 300px;
   position: relative;
   flex-shrink: 0;
 }

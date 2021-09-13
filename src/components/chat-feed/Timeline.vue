@@ -8,11 +8,11 @@
 import moment from 'moment'
 export default {
   props: {
-    message: Object
+    timeline: String
   },
   computed: {
     timeFormat() {
-      const time = moment(+this.message.custom_json.sending_time)
+      const time = moment(+this.timeline)
       const diff = moment().diff(time, 'day')
       if (diff === 0) {
         return this.$t('today')

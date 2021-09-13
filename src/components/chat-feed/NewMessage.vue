@@ -35,26 +35,28 @@ export default defineComponent({
       if (this.text === '') {
         return
       }
-      this.$store.dispatch('chats/offSearchChats')
+
       const sendingTime = moment.utc()
-      if (!this.chat.last_message.created ||
-        sendingTime.diff(
-          moment(+this.chat.last_message.custom_json.sending_time),
-          'day'
-        ) >= 1
-      ) {
-        const startOfDay = sendingTime.clone().startOf('day')
-        const notify = {
-          text: '',
-          sender: this.chat.admin,
-          sender_username: this.chat.admin.username,
-          custom_json: {
-            sending_time: startOfDay.valueOf(),
-            type: MESSAGE_TYPE.DAY_NOTIFICATION
-          }
-        }
-        this.$store.dispatch('messages/sendMessage', notify)
-      }
+      // if (
+      //   !this.chat.last_message.created ||
+      //   sendingTime.diff(
+      //     moment(+this.chat.last_message.custom_json.sending_time),
+      //     'day'
+      //   ) >= 1
+      // ) {
+      //   const startOfDay = sendingTime.clone().startOf('day')
+      //   const notify = {
+      //     text: '',
+      //     sender: this.chat.admin,
+      //     sender_username: this.chat.admin.username,
+      //     custom_json: {
+      //       sending_time: startOfDay.valueOf(),
+      //       type: MESSAGE_TYPE.DAY_NOTIFICATION
+      //     }
+      //   }
+      //   await this.$store.dispatch('messages/sendMessage', notify)
+      // }
+      this.$store.dispatch('chats/offSearchChats')
       const message = {
         text: this.text,
         sender: { ...this.userInfo },
@@ -64,14 +66,9 @@ export default defineComponent({
           type: MESSAGE_TYPE.MESSAGE
         },
         sender_username: this.userInfo.username
-        // created: sendingTime.format('YYYY-MM-DD HH:mm:ss.000000+00:00')
       }
-      try {
-        this.text = ''
-        this.$store.dispatch('messages/sendMessage', message)
-      } catch (e) {
-        // ..
-      }
+      this.text = ''
+      await this.$store.dispatch('messages/sendMessage', message)
     }
   }
 })

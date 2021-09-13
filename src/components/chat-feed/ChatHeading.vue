@@ -1,7 +1,7 @@
 <template>
   <div class="chat-heading">
     <div class="chat-heading-content">
-      <div class="content-wrapper">
+      <div class="content-wrapper" @click="showChatInfo">
         <Avatar :src="data.avatar" size="40px" />
         <div class="content">
           <div class="line">

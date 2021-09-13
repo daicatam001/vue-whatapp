@@ -2,7 +2,7 @@
   <div class="new-chat" :class="{ searching: searching }">
     <div class="input-box">
       <div class="label-text" @click="onSearch">
-        {{$t('searchOrstartChat')}}
+        {{ $t('searchOrstartChat') }}
       </div>
 
       <input
@@ -59,8 +59,8 @@ export default {
         this.$refs.inputSearch.focus()
       })
     },
-    onBlur(){
-      if(this.text ===''){
+    onBlur() {
+      if (this.text === '') {
         this.offSearch()
       }
     },

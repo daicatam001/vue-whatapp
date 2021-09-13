@@ -54,6 +54,7 @@ export default {
       const { data } = await createChat(`${username}_to_${payload.username}`)
       commit('setSelectedChatId', data.id)
       await addChatMember(data.id as number, payload.username)
+      commit('setNewChatUser', null)
     },
     onInput(
       { commit }: ActionContext<ChatsState, AppState>,

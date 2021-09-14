@@ -3,7 +3,7 @@
     <div class="setup" v-if="loading">
       <PhoneCircle />
       <a-progress
-        :percent="100"
+        :percent="percent"
         size="small"
         strokeWidth="3"
         strokeColor="#00d9bb"
@@ -66,10 +66,14 @@
 <script lang="ts">
 import { setupSocket } from '@/socket'
 import ChatList from '@/components/chat-list/ChatList.vue'
-import { defineComponent } from '@vue/runtime-core'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 import Profile from '@/components/profile/Profile.vue'
 import ChatDetail from '@/components/chat-detail/ChatDetail.vue'
+import { getLatestChats } from '@/core/api/chats'
+import { getLatestMessage } from '@/core/api/messages'
+import { formatChat } from '@/core/helpers'
+import moment from 'moment'
+import { defineComponent } from 'vue'
 export default defineComponent({
   components: {
     ChatList,
@@ -85,12 +89,52 @@ export default defineComponent({
       return this.$store.getters['ui/showChatInfo']
     }
   },
-  data() {
+  data(): {
+    loading: boolean
+    percent: number
+  } {
     return {
-      loading: true
+      loading: true,
+      percent: 20
     }
   },
-  created() {
+  async created() {
+    const { data } = await getLatestChats(25)
+    const chats = data.filter((item) => !!item.last_message.created)
+
+    const chatEntities = chats.reduce((entity, chat) => {
+      chat = formatChat(chat)
+      return {
+        ...entity,
+        [chat.id]: { ...chat, messageEntities: {} }
+      }
+    }, {})
+    this.$store.dispatch('chats/setChatEntities', chatEntities)
+    this.percent = 60
+    const messagePros = chats.map((chat) =>
+      getLatestMessage(chat.id as number, 25)
+    )
+    const messageListRes = await Promise.all(messagePros)
+    messageListRes.forEach((messageRes, index) => {
+      const messageEntities = messageRes.data.reduce((entity, item) => {
+        item.custom_json = item.custom_json ? JSON.parse(item.custom_json) : {}
+        return {
+          ...entity,
+          [moment.utc(item.created).valueOf()]: item
+        }
+      }, {})
+      this.$store.dispatch('chats/setMessageEntities', {
+        chatId: chats[index].id,
+        messageEntities
+      })
+    })
+    this.percent = 95
+    setTimeout(() => {
+      this.percent = 100
+      setTimeout(() => {
+        this.loading = false
+      }, 200)
+    }, 300)
     setupSocket()
   },
   methods: {

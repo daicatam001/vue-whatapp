@@ -91,30 +91,36 @@ export default {
       commit('setSelectedChatId', payload)
       dispatch('messages/loadChatMessages', null, { root: true })
     },
-    async getChats({
-      commit
-    }: ActionContext<ChatsState, AppState>): Promise<void> {
-      const { data } = await getChats()
-      const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-        chat = formatChat(chat)
-        return { ...entity, [chat.id]: { ...chat, messageEntities: {} } }
-      }, {})
+    // async getChats({
+    //   commit
+    // }: ActionContext<ChatsState, AppState>): Promise<void> {
+    //   const { data } = await getChats()
+    //   const chatEntities = (data as Chat[]).reduce((entity, chat) => {
+    //     chat = formatChat(chat)
+    //     return { ...entity, [chat.id]: { ...chat, messageEntities: {} } }
+    //   }, {})
 
-      commit('setChatEntities', chatEntities)
-    },
-    async getLatestChats(
+    //   commit('setChatEntities', chatEntities)
+    // },
+    // async getLatestChats(
+    //   { commit }: ActionContext<ChatsState, AppState>,
+    //   payload: number
+    // ): Promise<void> {
+    //   const { data } = await getLatestChats(payload)
+    //   const chatEntities = (data as Chat[]).reduce((entity, chat) => {
+    //     chat = formatChat(chat)
+    //     return {
+    //       ...entity,
+    //       [chat.id]: { ...chat, messageEntities: {} }
+    //     }
+    //   }, {})
+    //   commit('setChatEntities', chatEntities)
+    // },
+    async setChatEntities(
       { commit }: ActionContext<ChatsState, AppState>,
-      payload: number
+      payload: ChatEntities
     ): Promise<void> {
-      const { data } = await getLatestChats(payload)
-      const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-        chat = formatChat(chat)
-        return {
-          ...entity,
-          [chat.id]: { ...chat, messageEntities: {} }
-        }
-      }, {})
-      commit('setChatEntities', chatEntities)
+      commit('setChatEntities', payload)
     },
     async updateChat(
       { commit }: ActionContext<ChatsState, AppState>,
@@ -149,8 +155,6 @@ export default {
           ...convoRes.data.map(item => formatChat(item))
         ])
       }
-      console.log(result)
-      // const userRes = await getUsers()
       if (userRes.data.length) {
         const users = userRes.data.map(item => ({
           id: item.id,

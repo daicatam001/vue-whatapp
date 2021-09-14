@@ -14,5 +14,6 @@ declare module '@vue/runtime-core' {
     $message:MessageApi,
     $notification:NotificationApi,
     $refs:any
+    [key:string]:any
   }
 }

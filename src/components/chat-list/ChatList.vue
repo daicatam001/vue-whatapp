@@ -94,7 +94,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('chats/getLatestChats', 25)
+    // this.$store.dispatch('chats/getLatestChats', 25)
   }
 }
 </script>

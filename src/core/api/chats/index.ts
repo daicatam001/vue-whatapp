@@ -11,10 +11,11 @@ export async function searchChats(
 ): Promise<{ data: Chat[] }> {
   const { data } = await getChats()
   const result = data.filter((chat: Chat) => {
-    const members = chat.people.filter(p => p.person.username != myUsername)
-    if (members.length > 1 && chat.title.includes(query)) {
+ 
+    if (!chat.is_direct_chat && chat.title.includes(query)) {
       return true
     }
+    const members = chat.people.filter(p => p.person.username != myUsername)
     if (
       members.find(
         p =>

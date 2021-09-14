@@ -66,6 +66,7 @@ export default {
     },
     offSearch() {
       this.searching = false
+      this.text=''
       this.$refs.inputSearch.value = ''
       this.$store.dispatch('chats/offSearchChats')
     },
@@ -88,6 +89,8 @@ export default {
   background: #f6f6f6;
   transition: box-shadow 0.18s ease-out, background-color 0.25s ease-out;
   height: 50px;
+  position: relative;
+  z-index: 1;
   .label-text,
   .ic-search {
     opacity: 1;

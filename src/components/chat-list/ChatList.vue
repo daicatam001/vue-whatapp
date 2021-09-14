@@ -1,5 +1,6 @@
 <template>
   <div class="chat-list">
+    <Toolbar />
     <ChatSearch />
     <div class="notifiy" v-if="isSearching">
       <span>
@@ -11,28 +12,30 @@
         {{ $t('chatNoResult') }}
       </span>
     </div>
-    <div class="chat-card-list" v-else>
-      <div v-for="chat of chats" :key="chat.id">
-        <HeadingCard
-          v-if="chat.type === CHAT_CARD_TYPE.HEADING"
-          :title="chat.title"
-        />
-        <PhoneBookCard
-          v-else-if="chat.type === CHAT_CARD_TYPE.PHONE_BOOK"
-          @click="createNewChatUser(chat)"
-          :first_name="chat.first_name"
-          :custom_json="chat.custom_json"
-        />
-        <ChatCard
-          v-else
-          @click="selectChat(chat.id)"
-          :id="chat.id"
-          :title="chat.title"
-          :messageEntities="chat.messageEntities"
-          :last-message="chat.last_message"
-          :avatar="chat.avatar"
-          :people="chat.people"
-        />
+    <div class="chat-card-list-wrapper" v-else>
+      <div class="chat-card-list scroll-element">
+        <div v-for="chat of chats" :key="chat.id">
+          <HeadingCard
+            v-if="chat.type === CHAT_CARD_TYPE.HEADING"
+            :title="chat.title"
+          />
+          <PhoneBookCard
+            v-else-if="chat.type === CHAT_CARD_TYPE.PHONE_BOOK"
+            @click="createNewChatUser(chat)"
+            :first_name="chat.first_name"
+            :custom_json="chat.custom_json"
+          />
+          <ChatCard
+            v-else
+            @click="selectChat(chat.id)"
+            :id="chat.id"
+            :title="chat.title"
+            :messageEntities="chat.messageEntities"
+            :last-message="chat.last_message"
+            :avatar="chat.avatar"
+            :people="chat.people"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -43,13 +46,15 @@ import ChatCard from './ChatCard.vue'
 import HeadingCard from './HeadingCard.vue'
 import PhoneBookCard from './PhoneBookCard.vue'
 import ChatSearch from './ChatSearch.vue'
+import Toolbar from '@/components/toolbar/Toolbar.vue'
 import { CHAT_CARD_TYPE } from '@/core/constants'
 export default {
   components: {
     ChatCard,
     ChatSearch,
     HeadingCard,
-    PhoneBookCard
+    PhoneBookCard,
+    Toolbar
   },
   computed: {
     chats() {
@@ -94,11 +99,29 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .notifiy {
   padding: 72px 50px;
   text-align: center;
   color: rgba(0, 0, 0, 0.45);
+}
+.chat-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.chat-card-list-wrapper {
+  flex-grow: 1;
+  position: relative;
+  .chat-card-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 </style>
  

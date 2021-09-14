@@ -91,6 +91,9 @@ export default defineComponent({
       )
     },
     unreadCount() {
+      if(!this.messageEntities){
+        return 0
+      }
       return (Object.values(this.messageEntities) as Message[]).filter(
         (item) =>
           !!item.id &&

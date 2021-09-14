@@ -149,6 +149,7 @@ export default {
           ...convoRes.data.map(item => formatChat(item))
         ])
       }
+      console.log(result)
       // const userRes = await getUsers()
       if (userRes.data.length) {
         const users = userRes.data.map(item => ({

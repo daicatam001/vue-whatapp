@@ -2,7 +2,6 @@
   <div class="home">
     <div class="chat-container">
       <div class="left-side">
-        <Toolbar />
         <ChatList />
         <a-drawer
           placement="left"
@@ -60,7 +59,6 @@ export default defineComponent({
   components: {
     ChatList,
     ChatFeed,
-    Toolbar,
     Profile,
     ChatDetail
   },

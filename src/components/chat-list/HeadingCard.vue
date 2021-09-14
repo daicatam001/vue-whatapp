@@ -17,6 +17,7 @@ export default {
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgb(213, 217, 222);
+  background-color: white;
 
   .heading-text {
     text-transform: uppercase;

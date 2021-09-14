@@ -1,6 +1,22 @@
 <template>
-  <div class="home">
-    <div class="chat-container">
+  <div class="home" :class="{ loading: loading }">
+    <div class="setup" v-if="loading">
+      <PhoneCircle />
+      <a-progress
+        :percent="100"
+        size="small"
+        strokeWidth="3"
+        strokeColor="#00d9bb"
+        :show-info="false"
+        :success="{ percent: 100, strokeColor: '#00d9bb' }"
+      />
+      <div class="app-name">WhatsApp</div>
+      <div class="app-des">
+        <Lock />
+        <span>{{ $t('appDes') }}</span>
+      </div>
+    </div>
+    <div class="chat-container" v-else>
       <div class="left-side">
         <ChatList />
         <a-drawer
@@ -52,7 +68,6 @@ import { setupSocket } from '@/socket'
 import ChatList from '@/components/chat-list/ChatList.vue'
 import { defineComponent } from '@vue/runtime-core'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
-import Toolbar from '@/components/toolbar/Toolbar.vue'
 import Profile from '@/components/profile/Profile.vue'
 import ChatDetail from '@/components/chat-detail/ChatDetail.vue'
 export default defineComponent({
@@ -68,6 +83,11 @@ export default defineComponent({
     },
     showChatInfo() {
       return this.$store.getters['ui/showChatInfo']
+    }
+  },
+  data() {
+    return {
+      loading: true
     }
   },
   created() {
@@ -88,10 +108,11 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .home {
-  background-color: #d8dbd5;
+  background-color: #f0f0f0;
+  position: relative;
 
   height: 100%;
-  &::before {
+  &:not(.loading)::before {
     background-color: #009688;
     position: fixed;
     top: 0;
@@ -157,5 +178,34 @@ export default defineComponent({
   min-width: 700px;
   box-shadow: rgba(0, 0, 0, 0.06) 0px 1px 1px 0px,
     rgba(0, 0, 0, 0.2) 0px 2px 5px 0px;
+}
+.setup {
+  width: 420px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  .app-name {
+    margin-top: 30px;
+    color: #525252;
+    font-size: 17px;
+  }
+  .app-des {
+    font-size: 14px;
+    margin-top: 8px;
+    color: rgba(0, 0, 0, 0.45);
+    .lock {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+  }
+}
+
+.phone-circle {
+  color: #bfbfbf;
+  display: inline-block;
+  margin-bottom: 25px;
 }
 </style>

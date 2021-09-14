@@ -16,4 +16,6 @@ export { default as ChevronRight } from './ChevronRight.vue'
 export { default as Ban } from './Ban.vue'
 export { default as ThumbDown } from './ThumbDown.vue'
 export { default as Trash } from './Trash.vue'
+export { default as PhoneCircle } from './PhoneCircle.vue'
+export { default as Lock } from './Lock.vue'
 

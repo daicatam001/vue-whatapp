@@ -7,6 +7,7 @@ import {
   Dropdown,
   Menu,
   Drawer,
+  Progress,
   Radio,
   notification
 } from 'ant-design-vue'
@@ -32,7 +33,9 @@ import {
   ChevronRight,
   MessageMeta,
   Ban,
+  Lock,
   ThumbDown,
+  PhoneCircle,
   OnlineState,
   Trash
 } from '@/components/ui'
@@ -48,6 +51,7 @@ export function setupAnt(app: App): void {
     .use(Menu)
     .use(Radio)
     .use(Drawer)
+    .use(Progress)
   app.config.globalProperties.$message = message
   app.config.globalProperties.$notification = notification
 }
@@ -79,4 +83,6 @@ export function setupGlobalComponents(app: App): void {
   app.component('Ban', Ban)
   app.component('ThumbDown', ThumbDown)
   app.component('Trash', Trash)
+  app.component('PhoneCircle', PhoneCircle)
+  app.component('Lock', Lock)
 }

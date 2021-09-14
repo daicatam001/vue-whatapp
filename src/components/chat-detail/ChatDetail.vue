@@ -125,15 +125,17 @@ export default defineComponent({
         brief: null,
         isOnline: false,
         chatUpdated: '',
-        username:'',
-        introduce:''
+        username: '',
+        introduce: ''
       }
       if (this.directChatUser) {
         data.avatar = this.directChatUser.person.avatar
         data.title = this.directChatUser.person.first_name
         data.isOnline = this.directChatUser.person.is_online
         data.username = this.directChatUser.person.username
-        data.introduce = (this.directChatUser.person.custom_json as {introduce:string}).introduce
+        data.introduce = (
+          this.directChatUser.person.custom_json as { introduce: string }
+        ).introduce
         data.chatUpdated = this.directChatUser.chat_updated as string
       } else {
         data.title = this.chat.title

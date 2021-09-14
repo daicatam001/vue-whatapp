@@ -61,5 +61,6 @@
   "ban":"Chặn",
   "reportUser":"Báo cáo người liên hệ",
   "phoneFormat":"SĐT chỉ bao gồm chữ số và có độ dài 9",
-  "phoneNumber":"Số điện thoại"
+  "phoneNumber":"Số điện thoại",
+  "appDes":"Được mã hóa đầu cuối"
 }

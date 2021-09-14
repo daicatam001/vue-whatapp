@@ -1,5 +1,5 @@
 import { CHAT_TYPE } from '@/core/constants'
-import { Chat } from '@/core/models/chats'
+import { Chat, UserChat } from '@/core/models/chats'
 import { UserInfo } from '@/core/models/users'
 
 export default {
@@ -27,14 +27,13 @@ export default {
         chat,
         username
       }: { newChatUser: UserInfo; chat: Chat; username: string }
-    ) {
+    ): UserChat | null {
       if (newChatUser) {
-        return newChatUser
+        return { person: newChatUser }
       }
       if (chat.is_direct_chat) {
         return chat.people
-          .filter(p => p.person.username !== username)
-          .map(item => ({ last_read: item.last_read, ...item.person }))[0]
+          .filter(p => p.person.username !== username)[0]
       }
       return null
     },
@@ -45,14 +44,13 @@ export default {
       return chat.people.filter(
         it => it.person && it.person.username !== username
       )
-    },
+    }
     // title(state, { newChatUser, chat }) {
     //   if (newChatUser) {
     //     return newChatUser.first_name
     //   }
     // },
 
-   
     // directUser(state, { members }) {
     //   return members.length === 1
     //     ? members[0]

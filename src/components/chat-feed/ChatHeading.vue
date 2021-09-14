@@ -6,7 +6,9 @@
         <div class="content">
           <div class="line">
             <div class="title">{{ data.title }}</div>
-            <div class="brief">{{ data.brief }}</div>
+            <div class="brief">
+              <OnlineState :isOnline="data.isOnline" :chatUpdated="data.chatUpdated" />
+            </div>
           </div>
         </div>
       </div>
@@ -18,8 +20,7 @@
 </template>
 
 <script lang="ts">
-import { Chat } from '@/core/models/chats'
-import { UserInfo } from '@/core/models/users'
+import { Chat, UserChat } from '@/core/models/chats'
 import { defineComponent } from '@vue/runtime-core'
 
 export default defineComponent({
@@ -27,21 +28,22 @@ export default defineComponent({
     chat(): Chat {
       return this.$store.getters['chat/chat']
     },
-    directChatUser(): UserInfo {
+    directChatUser(): UserChat {
       return this.$store.getters['chat/directChatUser']
     },
     data() {
       const data = {
         avatar: '',
         title: '',
-        brief: null
+        brief: null,
+        isOnline: false,
+        chatUpdated:''
       }
       if (this.directChatUser) {
-        data.avatar = this.directChatUser.avatar
-        data.title = this.directChatUser.first_name
-        data.brief = this.directChatUser.custom_json
-          ? JSON.parse(this.directChatUser.custom_json as string).introduce
-          : ''
+        data.avatar = this.directChatUser.person.avatar
+        data.title = this.directChatUser.person.first_name
+        data.isOnline = this.directChatUser.person.is_online
+        data.chatUpdated  = this.directChatUser.chat_updated as string
       } else {
         data.title = this.chat.title
       }
@@ -88,7 +90,7 @@ export default defineComponent({
   flex-direction: column;
   height: 100%;
 }
-.breif {
+.online-state {
   color: rgba(0, 0, 0, 0.6);
   font-size: 13px;
 }

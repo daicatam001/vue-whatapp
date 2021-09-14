@@ -33,6 +33,7 @@ import {
   MessageMeta,
   Ban,
   ThumbDown,
+  OnlineState,
   Trash
 } from '@/components/ui'
 
@@ -57,6 +58,7 @@ export function setupGlobalComponents(app: App): void {
   app.component('SendState', SendState)
   app.component('MessageMeta', MessageMeta)
   app.component('UserCard', UserCard)
+  app.component('OnlineState', OnlineState)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)

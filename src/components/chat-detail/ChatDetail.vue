@@ -4,7 +4,18 @@
     <div class="detail-body-wrapper">
       <div class="detail-body scroll-element">
         <div class="user-block block">
-          <UserCard type="big" />
+          <Avatar :src="avatar" size="200px" />
+          <div class="content">
+            <div class="line">
+              <div class="title">{{ data.title }}</div>
+              <div class="brief">
+                <OnlineState
+                  :isOnline="data.isOnline"
+                  :chatUpdated="data.chatUpdated"
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div class="media-block block">
           <div class="media-title">
@@ -53,12 +64,12 @@
           </div>
           <div class="list-item">
             <div class="item-title">
-              {{ introduce }}
+              {{ data.introduce }}
             </div>
           </div>
           <div class="list-item">
             <div class="item-title">
-              {{ username }}
+              {{ data.username }}
             </div>
           </div>
         </div>
@@ -67,7 +78,7 @@
             <Ban />
           </div>
           <div class="danger-label">
-            {{$t('ban')}}
+            {{ $t('ban') }}
           </div>
         </div>
         <div class="danger-block block">
@@ -75,7 +86,7 @@
             <ThumbDown />
           </div>
           <div class="danger-label">
-            {{$t('reportUser')}}
+            {{ $t('reportUser') }}
           </div>
         </div>
         <div class="danger-block block">
@@ -83,7 +94,7 @@
             <Trash />
           </div>
           <div class="danger-label">
-            {{$t('deleteChat')}}
+            {{ $t('deleteChat') }}
           </div>
         </div>
       </div>
@@ -92,7 +103,7 @@
 </template>
 
 <script lang="ts">
-import { UserInfo } from '@/core/models/users'
+import { Chat, UserChat } from '@/core/models/chats'
 import { defineComponent } from '@vue/runtime-core'
 import ChatDetailHeading from './ChatDetailHeading.vue'
 
@@ -101,18 +112,33 @@ export default defineComponent({
     ChatDetailHeading
   },
   computed: {
-    person(): UserInfo {
-      return this.$store.getters['chat/directUser'].person
+    chat(): Chat {
+      return this.$store.getters['chat/chat']
     },
-    username(): string {
-      return this.person.username
+    directChatUser(): UserChat {
+      return this.$store.getters['chat/directChatUser']
     },
-    introduce(): string {
-      try {
-        return JSON.parse(this.person.custom_json as string).introduce
-      } catch (e) {
-        return ''
+    data() {
+      const data = {
+        avatar: '',
+        title: '',
+        brief: null,
+        isOnline: false,
+        chatUpdated: '',
+        username:'',
+        introduce:''
       }
+      if (this.directChatUser) {
+        data.avatar = this.directChatUser.person.avatar
+        data.title = this.directChatUser.person.first_name
+        data.isOnline = this.directChatUser.person.is_online
+        data.username = this.directChatUser.person.username
+        data.introduce = (this.directChatUser.person.custom_json as {introduce:string}).introduce
+        data.chatUpdated = this.directChatUser.chat_updated as string
+      } else {
+        data.title = this.chat.title
+      }
+      return data
     }
   }
 })
@@ -149,6 +175,26 @@ export default defineComponent({
 }
 .user-block {
   padding: 28px 30px 19px;
+  .ui-avatar {
+    margin: 0 auto;
+  }
+  .content {
+    margin-top: 20px;
+  }
+  .title {
+    font-size: 19px;
+    margin-bottom: 5px;
+    color: black;
+  }
+  .online-state {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+  }
+  .content {
+    cursor: pointer;
+    height: 100%;
+    flex-grow: 1;
+  }
 }
 .media-block {
   padding: 14px 30px 10px;
@@ -207,7 +253,7 @@ export default defineComponent({
     justify-content: center;
     width: 74px;
   }
-  .danger-label{
+  .danger-label {
     color: #df3333;
     font-size: 17px;
     line-height: 21px;

@@ -16,6 +16,7 @@ import i18n from '@/core/i18n'
 import { getUsers } from '@/core/api/users'
 import { CHAT_CARD_TYPE } from '@/core/constants'
 import { UserInfo } from '@/core/models/users'
+import { formatChat } from '@/core/helpers'
 
 export interface ChatEntities {
   [key: number]: ChatMessage
@@ -49,12 +50,11 @@ export default {
       { commit, rootGetters }: ActionContext<ChatsState, AppState>,
       payload: UserInfo
     ) {
-      commit('setNewChatUser', payload)
       const username = rootGetters['auth/username']
       const { data } = await createChat(`${username}_to_${payload.username}`)
       commit('setSelectedChatId', data.id)
       await addChatMember(data.id as number, payload.username)
-      commit('setNewChatUser', null)
+      // commit('setNewChatUser', null)
     },
     onInput(
       { commit }: ActionContext<ChatsState, AppState>,
@@ -96,13 +96,7 @@ export default {
     }: ActionContext<ChatsState, AppState>): Promise<void> {
       const { data } = await getChats()
       const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-        try {
-          chat.last_message.custom_json = JSON.parse(
-            chat.last_message.custom_json
-          )
-        } catch (e) {
-          chat.last_message.custom_json = {}
-        }
+        chat = formatChat(chat)
         return { ...entity, [chat.id]: { ...chat, messageEntities: {} } }
       }, {})
 
@@ -114,13 +108,7 @@ export default {
     ): Promise<void> {
       const { data } = await getLatestChats(payload)
       const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-        try {
-          chat.last_message.custom_json = JSON.parse(
-            chat.last_message.custom_json
-          )
-        } catch (e) {
-          chat.last_message.custom_json = {}
-        }
+        chat = formatChat(chat)
         return {
           ...entity,
           [chat.id]: { ...chat, messageEntities: {} }
@@ -158,7 +146,7 @@ export default {
             type: CHAT_CARD_TYPE.HEADING,
             id: 'conversation'
           } as Partial<Chat>,
-          ...convoRes.data
+          ...convoRes.data.map(item => formatChat(item))
         ])
       }
       // const userRes = await getUsers()
@@ -168,7 +156,9 @@ export default {
           avatar: item.avatar,
           username: item.username,
           first_name: item.first_name,
-          custom_json: item.custom_json,
+          custom_json: item.custom_json
+            ? JSON.parse(item.custom_json as string)
+            : {},
           type: CHAT_CARD_TYPE.PHONE_BOOK
         }))
         result = result.concat([
@@ -310,8 +300,9 @@ export default {
       if (searchedChats.length) {
         return searchedChats
       }
-      return Object.values(chatEntities as ChatEntities).sort(
-        (a: Chat, b: Chat) => {
+      return Object.values(chatEntities as ChatEntities)
+        .filter((item: Chat) => !!item.last_message.created)
+        .sort((a: Chat, b: Chat) => {
           const lastMessageA = moment(
             a.last_message ? a.last_message.created : a.created
           )
@@ -325,8 +316,7 @@ export default {
             return 1
           }
           return 0
-        }
-      )
+        })
     }
   }
 }

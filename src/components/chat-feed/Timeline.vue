@@ -7,9 +7,7 @@
 <script>
 import moment from 'moment'
 export default {
-  props: {
-    timeline: String
-  },
+  props: ['timeline'],
   computed: {
     timeFormat() {
       const time = moment(+this.timeline)

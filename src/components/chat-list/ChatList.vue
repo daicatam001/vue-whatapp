@@ -1,6 +1,6 @@
 <template>
   <div class="chat-list">
-    <NewChat />
+    <ChatSearch />
     <div class="notifiy" v-if="isSearching">
       <span>
         {{ $t('chatSearching') }}
@@ -42,12 +42,12 @@
 import ChatCard from './ChatCard.vue'
 import HeadingCard from './HeadingCard.vue'
 import PhoneBookCard from './PhoneBookCard.vue'
-import NewChat from './NewChat.vue'
+import ChatSearch from './ChatSearch.vue'
 import { CHAT_CARD_TYPE } from '@/core/constants'
 export default {
   components: {
     ChatCard,
-    NewChat,
+    ChatSearch,
     HeadingCard,
     PhoneBookCard
   },
@@ -67,7 +67,8 @@ export default {
   },
   data() {
     return {
-      CHAT_CARD_TYPE: CHAT_CARD_TYPE
+      CHAT_CARD_TYPE: CHAT_CARD_TYPE,
+      newChatTimer: null
     }
   },
   methods: {
@@ -77,8 +78,14 @@ export default {
       }
       this.$store.dispatch('chats/selectChat', id)
     },
-    createNewChatUser(user){
-       this.$store.dispatch('chats/createNewChatUser', user)
+    createNewChatUser(user) {
+      clearTimeout(this.newChatTimer)
+      this.$store.dispatch('chats/setNewChatUser', user)
+
+      this.newChatTimer = setTimeout(async () => {
+        await this.$store.dispatch('chats/createNewChatUser', user)
+        this.$store.dispatch('chats/setNewChatUser', null)
+      }, 1000)
     }
   },
   created() {

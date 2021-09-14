@@ -1,5 +1,5 @@
 <template>
-  <div class="new-chat" :class="{ searching: searching }">
+  <div class="chat-search" :class="{ searching: searching }">
     <div class="input-box">
       <div class="label-text" @click="onSearch">
         {{ $t('searchOrstartChat') }}
@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.new-chat {
+.chat-search {
   background: #f6f6f6;
   transition: box-shadow 0.18s ease-out, background-color 0.25s ease-out;
   height: 50px;

@@ -1,4 +1,5 @@
-import moment from "moment"
+import moment from 'moment'
+import { Chat } from './models/chats'
 
 function elementInViewport(el) {
   let top = el.offsetTop
@@ -30,4 +31,17 @@ export function timelineFormat(date: string) {
   } else {
     return moment(date).format('hh:mm')
   }
+}
+
+export function formatChat(chat: Chat) {
+  const formatedChat = {...chat}
+  if (formatedChat.last_message && formatedChat.last_message.custom_json) {
+    formatedChat.last_message.custom_json = JSON.parse(formatedChat.last_message.custom_json)
+  }
+  formatedChat.people.forEach(item => {
+    if (item.person.custom_json) {
+      item.person.custom_json = JSON.parse(item.person.custom_json as string)
+    }
+  })
+  return formatedChat
 }

@@ -5,6 +5,7 @@ import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
 import { Message } from '@/core/models/messages'
 import { readMessage } from '@/core/api/chats'
+import { formatChat } from '@/core/helpers'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
@@ -48,10 +49,12 @@ export async function setupSocket(): Promise<void> {
 }
 
 function onNewChat(data: Chat) {
+  data = formatChat(data)
   store.dispatch('chats/updateChat', { ...data, messageEntities: {} })
 }
 
 function onAddPerson(data: Chat) {
+  data = formatChat(data)
   store.dispatch('chats/updateChat', { ...data })
 }
 
@@ -59,7 +62,8 @@ function onEditChat(data: Chat) {
   // setTimeout(() => {
   // data.last_message.custom_json = JSON.stringify(data.last_message.custom_json)
   const { last_message, ...chatData } = data
-  store.dispatch('chats/updateChat', chatData)
+  const formatedChat = formatChat(chatData as Chat)
+  store.dispatch('chats/updateChat', formatedChat)
   // }, 500)
 }
 function onNewMessage({ id, message }: { id: number; message: Message }) {

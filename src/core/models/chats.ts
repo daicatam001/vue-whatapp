@@ -34,7 +34,8 @@ import { UserInfo } from './users'
 import { Message } from './messages'
 
 export interface UserChat {
-  last_read: string
+  last_read?: string
+  chat_updated?:string
   person: UserInfo
 }
 export interface Chat {

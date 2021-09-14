@@ -17,6 +17,7 @@ export interface UserInfo {
   last_name: string
   avatar: string
   is_online: boolean
+
 }
 
 export interface AuthLogin {

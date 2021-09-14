@@ -21,7 +21,7 @@ export default defineComponent({
   props: ['id', 'first_name', 'custom_json'],
   computed: {
     introduce() {
-      return this.custom_json ? JSON.parse(this.custom_json).introduce : ''
+      return this.custom_json.introduce
     }
   }
 })

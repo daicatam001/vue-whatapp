@@ -2,6 +2,7 @@ import { ActionContext } from 'vuex'
 import { AppState } from '@/store'
 
 export interface UIState {
+  messageInputFocus: number
   showProfile: boolean
   showChatInfo: boolean
 }
@@ -9,10 +10,16 @@ export interface UIState {
 export default {
   namespaced: true,
   state: {
+    messageInputFocus: null,
     showProfile: false,
     showChatInfo: false
   },
   actions: {
+    focusMessageInput(
+      { commit }: ActionContext<UIState, AppState>,
+    ): void {
+      commit('setMessageInputFocus', Date.now())
+    },
     toggleShowProfile(
       { commit }: ActionContext<UIState, AppState>,
       payload: boolean
@@ -27,6 +34,9 @@ export default {
     }
   },
   mutations: {
+    setMessageInputFocus(state: UIState, payload: number): void {
+      state.messageInputFocus = payload
+    },
     setShowProfile(state: UIState, payload: boolean): void {
       state.showProfile = payload
     },
@@ -40,6 +50,9 @@ export default {
     },
     showChatInfo({ showChatInfo }: UIState) {
       return showChatInfo
+    },
+    messageInputFocus({ messageInputFocus }: UIState) {
+      return messageInputFocus
     }
   }
 }

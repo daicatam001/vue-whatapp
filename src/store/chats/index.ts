@@ -90,6 +90,9 @@ export default {
       readMessage(payload, chat.last_message.id)
       commit('setSelectedChatId', payload)
       dispatch('messages/loadChatMessages', null, { root: true })
+      setTimeout(() => {
+        dispatch('ui/focusMessageInput', null, { root: true })
+      })
     },
     // async getChats({
     //   commit

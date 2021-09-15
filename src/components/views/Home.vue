@@ -69,7 +69,7 @@ import ChatList from '@/components/chat-list/ChatList.vue'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 import Profile from '@/components/profile/Profile.vue'
 import ChatDetail from '@/components/chat-detail/ChatDetail.vue'
-import { getLatestChats } from '@/core/api/chats'
+import { deleteChat, getLatestChats } from '@/core/api/chats'
 import { getLatestMessage } from '@/core/api/messages'
 import { formatChat } from '@/core/helpers'
 import moment from 'moment'
@@ -128,13 +128,20 @@ export default defineComponent({
         messageEntities
       })
     })
-    this.percent = 95
+    this.percent = 90
+    const emptyChats = data.filter((item) => !item.last_message.created)
+    if (emptyChats.length) {
+      const deleteChatPos = emptyChats.map((chat) =>
+        deleteChat(chat.id as number)
+      )
+      await Promise.all(deleteChatPos)
+    }
     setTimeout(() => {
       this.percent = 100
       setTimeout(() => {
         this.loading = false
       }, 200)
-    }, 300)
+    }, 200)
     setupSocket()
   },
   methods: {

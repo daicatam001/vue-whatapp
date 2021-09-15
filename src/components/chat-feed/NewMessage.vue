@@ -2,6 +2,7 @@
   <div class="new-message">
     <form @submit.prevent="onSubmit">
       <input
+        ref="input"
         type="text"
         :placeholder="$t('inputMessage')"
         v-model.trim="text"
@@ -23,6 +24,9 @@ export default defineComponent({
     },
     chat(): Chat {
       return this.$store.getters['chat/chat']
+    },
+    messageInputFocus() {
+      return this.$store.getters['ui/messageInputFocus']
     }
   },
   data() {
@@ -35,27 +39,7 @@ export default defineComponent({
       if (this.text === '') {
         return
       }
-
       const sendingTime = moment.utc()
-      // if (
-      //   !this.chat.last_message.created ||
-      //   sendingTime.diff(
-      //     moment(+this.chat.last_message.custom_json.sending_time),
-      //     'day'
-      //   ) >= 1
-      // ) {
-      //   const startOfDay = sendingTime.clone().startOf('day')
-      //   const notify = {
-      //     text: '',
-      //     sender: this.chat.admin,
-      //     sender_username: this.chat.admin.username,
-      //     custom_json: {
-      //       sending_time: startOfDay.valueOf(),
-      //       type: MESSAGE_TYPE.DAY_NOTIFICATION
-      //     }
-      //   }
-      //   await this.$store.dispatch('messages/sendMessage', notify)
-      // }
       this.$store.dispatch('chats/offSearchChats')
       const message = {
         text: this.text,
@@ -69,6 +53,11 @@ export default defineComponent({
       }
       this.text = ''
       await this.$store.dispatch('messages/sendMessage', message)
+    }
+  },
+  watch: {
+    messageInputFocus() {
+      this.$refs.input.focus()
     }
   }
 })

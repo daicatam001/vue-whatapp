@@ -32,7 +32,7 @@
             backgroundColor: '#ededed'
           }"
           :wrapStyle="{ position: 'absolute', overflow: 'hidden' }"
-          @close="onCloseProfile"
+          @close="onCloseLeftSetting"
         >
           <AddMembers v-if="showAddMembers" />
           <Profile v-if="showProfile" />
@@ -196,8 +196,9 @@ export default defineComponent({
         name: 'login'
       })
     },
-    onCloseProfile() {
+    onCloseLeftSetting() {
       this.$store.dispatch('ui/toggleShowProfile', false)
+      this.$store.dispatch('ui/toggleShowAddMembers', false)
     }
   }
 })

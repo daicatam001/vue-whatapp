@@ -1,15 +1,12 @@
 <template>
-  <svg
-    viewBox="0 0 24 24"
-    :width="toSize"
-    :height="toSize"
-    class="close"
-  >
-    <path
-      :fill="color"
-      d="M17.25 7.8L16.2 6.75l-4.2 4.2-4.2-4.2L6.75 7.8l4.2 4.2-4.2 4.2 1.05 1.05 4.2-4.2 4.2 4.2 1.05-1.05-4.2-4.2 4.2-4.2z"
-    ></path>
-  </svg>
+  <span class="close">
+    <svg viewBox="0 0 24 24" :width="toSize" :height="toSize">
+      <path
+        fill="currentColor"
+        d="M17.25 7.8L16.2 6.75l-4.2 4.2-4.2-4.2L6.75 7.8l4.2 4.2-4.2 4.2 1.05 1.05 4.2-4.2 4.2 4.2 1.05-1.05-4.2-4.2 4.2-4.2z"
+      ></path>
+    </svg>
+  </span>
 </template>
 
 <script>
@@ -25,6 +22,6 @@ export default {
 
 <style scoped lang="scss">
 svg {
-  color: #919191;
+  display: block;
 }
 </style>

@@ -41,6 +41,8 @@ import {
   Trash,
   PhoneBookCard,
   HeadingCard,
+  UserTag,
+  ArrowForward,
   ChatCard
 } from '@/components/ui'
 
@@ -71,6 +73,7 @@ export function setupGlobalComponents(app: App): void {
   app.component('ChatCard', ChatCard)
   app.component('HeadingCard', HeadingCard)
   app.component('PhoneBookCard', PhoneBookCard)
+  app.component('UserTag', UserTag)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)
@@ -93,4 +96,5 @@ export function setupGlobalComponents(app: App): void {
   app.component('Trash', Trash)
   app.component('PhoneCircle', PhoneCircle)
   app.component('Lock', Lock)
+  app.component('ArrowForward', ArrowForward)
 }

@@ -1,7 +1,15 @@
 <template>
   <div class="add-members">
     <PanelTitle :title="$t('addMembers')" @back="closeAddMembers" />
-    <div class="input-members">
+    <div class="members-block">
+      <div class="user-tag-list">
+        <UserTag
+          :title="member.first_name"
+          v-for="member of addingMembers"
+          :key="member.id"
+          @remove="removeMember(member.id)"
+        />
+      </div>
       <div class="input-wrapper">
         <input
           type="text"
@@ -14,18 +22,24 @@
     </div>
     <div class="phone-book-wrapper">
       <div class="phone-book-list scroll-element">
-        <div v-for="phonebook of phoneBookAlphabet" :key="phonebook.id">
+        <div v-for="phoneBook of phoneBookAlphabet" :key="phoneBook.id">
           <HeadingCard
-            v-if="phonebook.type === CHAT_CARD_TYPE.HEADING"
-            :title="phonebook.title"
+            v-if="phoneBook.type === CHAT_CARD_TYPE.HEADING"
+            :title="phoneBook.title"
           />
           <PhoneBookCard
-            v-else-if="phonebook.type === CHAT_CARD_TYPE.PHONE_BOOK"
-            :first_name="phonebook.first_name"
-            :custom_json="phonebook.custom_json"
+            @click="addMember(phoneBook)"
+            v-else-if="phoneBook.type === CHAT_CARD_TYPE.PHONE_BOOK"
+            :first_name="phoneBook.first_name"
+            :custom_json="phoneBook.custom_json"
           />
         </div>
       </div>
+    </div>
+    <div class="action-wrapper">
+      <button class="next" v-if="!!addingMembers.length">
+        <ArrowForward />
+      </button>
     </div>
   </div>
 </template>
@@ -36,6 +50,9 @@ export default {
   computed: {
     phoneBookAlphabet() {
       return this.$store.getters['phoneBook/phoneBookAlphabet']
+    },
+    addingMembers() {
+      return this.$store.getters['phoneBook/addingMembers']
     }
   },
   data() {
@@ -44,12 +61,18 @@ export default {
       text: ''
     }
   },
-  mounted(){
-    setTimeout(()=>{
+  mounted() {
+    setTimeout(() => {
       this.$refs.input.focus()
     })
   },
   methods: {
+    addMember(member) {
+      this.$store.dispatch('phoneBook/insertAddingMember', member)
+    },
+    removeMember(memberId) {
+      this.$store.dispatch('phoneBook/removeAddingMember', memberId)
+    },
     closeAddMembers() {
       this.$store.dispatch('phoneBook/setQuery', '')
       this.$store.dispatch('ui/toggleShowAddMembers', false)
@@ -68,7 +91,7 @@ export default {
   height: 100%;
 }
 
-.input-members {
+.members-block {
   padding-left: 34px;
   padding-top: 26px;
   padding-bottom: 12px;
@@ -97,6 +120,36 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
   }
+}
+.user-tag-list {
+  .user-tag {
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+}
+.action-wrapper {
+  padding-bottom: 32px;
+  margin-top: 28px;
+  text-align: center;
+}
+button.next {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  font-size: 14px;
+  font-weight: 500;
+  color:white;
+  text-transform: uppercase;
+  transition: box-shadow 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  background-color: #09e85e;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  border: 0;
+  outline: 0;
 }
 </style>
 <style>

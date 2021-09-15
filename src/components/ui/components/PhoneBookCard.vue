@@ -1,6 +1,6 @@
 <template>
-  <div class="user-card">
-    <div class="user-card-inner">
+  <div class="phone-book">
+    <div class="phone-book-inner">
       <Avatar :src="avatar" size="50px" />
       <div class="content">
         <div class="line-1">
@@ -18,7 +18,7 @@
 import { defineComponent } from '@vue/runtime-core'
 
 export default defineComponent({
-  props: ['id', 'first_name', 'custom_json'],
+  props: ['id', 'first_name', 'custom_json', 'avatar'],
   computed: {
     introduce() {
       return this.custom_json.introduce
@@ -28,7 +28,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.user-card-inner {
+.phone-book-inner {
   cursor: pointer;
   padding: 0 20px;
   display: flex;
@@ -37,7 +37,6 @@ export default defineComponent({
   height: 72px;
   position: relative;
   background-color: white;
-  border-bottom: 1px solid rgb(213, 217, 222);
   &:hover {
     background-color: rgb(245, 245, 245);
     .action svg {

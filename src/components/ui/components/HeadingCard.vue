@@ -16,7 +16,6 @@ export default {
   padding-left: 20px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgb(213, 217, 222);
   background-color: white;
 
   .heading-text {

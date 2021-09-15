@@ -4,6 +4,7 @@ import chats from './chats'
 import messages from './messages'
 import ui from './ui'
 import chat from './chat'
+import phoneBook from './phone-book'
 
 export interface AppState {
   app: string
@@ -15,6 +16,7 @@ export default createStore<AppState>({
     chats,
     chat,
     messages,
+    phoneBook,
     ui
   },
   state: {

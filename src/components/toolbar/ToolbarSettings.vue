@@ -6,7 +6,7 @@
       </div>
       <template #overlay>
         <a-menu class="menu-settings-dropdown">
-          <a-menu-item> {{ $t('newGroup') }} </a-menu-item>
+          <a-menu-item @click="createGroup"> {{ $t('newGroup') }} </a-menu-item>
           <a-menu-item @click="showProfile"> {{ $t('profile') }} </a-menu-item>
           <a-menu-item> {{ $t('setting') }} </a-menu-item>
           <a-menu-item @click="logout"> {{ $t('logout') }} </a-menu-item>
@@ -29,6 +29,9 @@ export default defineComponent({
     },
     showProfile() {
       this.$store.dispatch('ui/toggleShowProfile', true)
+    },
+    createGroup() {
+      this.$store.dispatch('ui/toggleShowAddMembers', true)
     }
   }
 })

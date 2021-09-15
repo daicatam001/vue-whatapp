@@ -14,7 +14,7 @@
     </div>
     <div class="chat-card-list-wrapper" v-else>
       <div class="chat-card-list scroll-element">
-        <div v-for="chat of chats" :key="chat.id">
+        <template v-for="chat of chats" :key="chat.id">
           <HeadingCard
             v-if="chat.type === CHAT_CARD_TYPE.HEADING"
             :title="chat.title"
@@ -35,25 +35,19 @@
             :avatar="chat.avatar"
             :people="chat.people"
           />
-        </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ChatCard from './ChatCard.vue'
-import HeadingCard from './HeadingCard.vue'
-import PhoneBookCard from './PhoneBookCard.vue'
 import ChatSearch from './ChatSearch.vue'
 import Toolbar from '@/components/toolbar/Toolbar.vue'
 import { CHAT_CARD_TYPE } from '@/core/constants'
 export default {
   components: {
-    ChatCard,
     ChatSearch,
-    HeadingCard,
-    PhoneBookCard,
     Toolbar
   },
   computed: {
@@ -121,7 +115,11 @@ export default {
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
+    > * {
+      border-bottom: 1px solid rgb(213, 217, 222);
+    }
   }
 }
 </style>
+
  

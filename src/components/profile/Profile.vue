@@ -1,11 +1,6 @@
 <template>
   <div class="profile">
-    <div class="header">
-      <div class="back">
-        <ArrowBack @click="closeProfile" />
-      </div>
-      <div class="header-text">{{ $t('profile') }}</div>
-    </div>
+    <PanelTitle :title=" $t('profile')" @back="closeProfile" />
     <div class="profile-body-wrapper">
       <div class="profile-body scroll-element">
         <div class="avatar-section">
@@ -41,27 +36,6 @@ export default defineComponent({
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-.header {
-  height: 100px;
-  background-color: #00bfa5;
-  padding: 0 20px 20px 20px;
-  display: flex;
-  align-items: flex-end;
-}
-.back {
-  width: 50px;
-  height: 24px;
-}
-.header-text {
-  flex-grow: 1;
-  overflow: hidden;
-  font-size: 19px;
-  line-height: normal;
-  font-weight: 600;
-  color: white;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .profile-body-wrapper {
   flex-grow: 1;

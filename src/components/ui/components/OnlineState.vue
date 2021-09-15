@@ -31,45 +31,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.user-card {
-  &.big {
-    display: block;
-
-    .ui-avatar {
-      margin: 0 auto;
-    }
-    .content {
-      margin-top: 20px;
-    }
-    .title {
-      font-size: 19px;
-      margin-bottom: 5px;
-    }
-    .last-seen-time {
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.45);
-    }
-  }
-  display: flex;
-  gap: 15px;
-}
-.title {
-  font-weight: 500;
-  color: black;
-}
-.content {
-  cursor: pointer;
-  height: 100%;
-  flex-grow: 1;
-}
-.line {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  height: 100%;
-}
-.last-seen-time {
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 13px;
-}
 </style>

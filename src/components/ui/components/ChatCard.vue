@@ -161,7 +161,6 @@ export default defineComponent({
   position: relative;
   background-color: white;
   // &:not(:last-child) {
-  border-bottom: 1px solid rgb(213, 217, 222);
   // }
   .action svg {
     display: none;

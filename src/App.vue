@@ -37,6 +37,8 @@ svg {
 }
 html,
 .scroll-element {
+  overflow-x: hidden;
+  overflow-y: auto;
   scrollbar-width: thin;
   &::-webkit-scrollbar {
     width: 6px;

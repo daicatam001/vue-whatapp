@@ -5,19 +5,19 @@ export interface UIState {
   messageInputFocus: number
   showProfile: boolean
   showChatInfo: boolean
+  showAddMembers: boolean
 }
 
 export default {
   namespaced: true,
   state: {
     messageInputFocus: null,
+    showAddMembers: true,
     showProfile: false,
     showChatInfo: false
   },
   actions: {
-    focusMessageInput(
-      { commit }: ActionContext<UIState, AppState>,
-    ): void {
+    focusMessageInput({ commit }: ActionContext<UIState, AppState>): void {
       commit('setMessageInputFocus', Date.now())
     },
     toggleShowProfile(
@@ -25,6 +25,12 @@ export default {
       payload: boolean
     ): void {
       commit('setShowProfile', payload)
+    },
+    toggleShowAddMembers(
+      { commit }: ActionContext<UIState, AppState>,
+      payload: boolean
+    ): void {
+      commit('setShowAddMembers', payload)
     },
     toggleShowChatInfo(
       { commit }: ActionContext<UIState, AppState>,
@@ -42,6 +48,9 @@ export default {
     },
     setShowChatInfo(state: UIState, payload: boolean): void {
       state.showChatInfo = payload
+    },
+    setShowAddMembers(state: UIState, payload: boolean): void {
+      state.showAddMembers = payload
     }
   },
   getters: {
@@ -50,6 +59,9 @@ export default {
     },
     showChatInfo({ showChatInfo }: UIState) {
       return showChatInfo
+    },
+    showAddMembers({ showAddMembers }: UIState) {
+      return showAddMembers
     },
     messageInputFocus({ messageInputFocus }: UIState) {
       return messageInputFocus

@@ -22,7 +22,7 @@
         <a-drawer
           placement="left"
           :closable="false"
-          :visible="showProfile"
+          :visible="showLeftSetting"
           :get-container="false"
           width="100%"
           :maskStyle="{ backgroundColor: 'transparent' }"
@@ -34,6 +34,7 @@
           :wrapStyle="{ position: 'absolute', overflow: 'hidden' }"
           @close="onCloseProfile"
         >
+          <AddMembers v-if="showAddMembers" />
           <Profile v-if="showProfile" />
         </a-drawer>
       </div>
@@ -68,25 +69,39 @@ import { setupSocket } from '@/socket'
 import ChatList from '@/components/chat-list/ChatList.vue'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 import Profile from '@/components/profile/Profile.vue'
+import AddMembers from '@/components/create-group/AddMembers.vue'
 import ChatDetail from '@/components/chat-detail/ChatDetail.vue'
 import { deleteChat, getLatestChats } from '@/core/api/chats'
 import { getLatestMessage } from '@/core/api/messages'
 import { formatChat } from '@/core/helpers'
 import moment from 'moment'
 import { defineComponent } from 'vue'
+import { Message } from '@/core/models/messages'
+import { getUsers } from '@/core/api/users'
 export default defineComponent({
   components: {
     ChatList,
     ChatFeed,
     Profile,
-    ChatDetail
+    ChatDetail,
+    AddMembers
   },
   computed: {
     showProfile() {
       return this.$store.getters['ui/showProfile']
     },
+    showAddMembers() {
+      return this.$store.getters['ui/showAddMembers']
+    },
+    showLeftSetting() {
+      console.log(this.showProfile, this.showAddMembers)
+      return this.showProfile || this.showAddMembers
+    },
     showChatInfo() {
       return this.$store.getters['ui/showChatInfo']
+    },
+    username() {
+      return this.$store.getters['']
     }
   },
   data(): {
@@ -94,7 +109,7 @@ export default defineComponent({
     percent: number
   } {
     return {
-      loading: true,
+      loading: false,
       percent: 20
     }
   },
@@ -102,44 +117,20 @@ export default defineComponent({
     // load chats
     const { data } = await getLatestChats(25)
     const chats = data.filter((item) => !!item.last_message.created)
-    const chatEntities = chats.reduce((entity, chat) => {
-      chat = formatChat(chat)
-      return {
-        ...entity,
-        [chat.id]: { ...chat, messageEntities: {} }
-      }
-    }, {})
-    this.$store.dispatch('chats/setChatEntities', chatEntities)
-    this.percent = 60
-
-    // load message for each chat
-    const messagePros = chats.map((chat) =>
-      getLatestMessage(chat.id as number, 25)
-    )
-    const messageListRes = await Promise.all(messagePros)
-    messageListRes.forEach((messageRes, index) => {
-      const messageEntities = messageRes.data.reduce((entity, item) => {
-        item.custom_json = item.custom_json ? JSON.parse(item.custom_json) : {}
-        return {
-          ...entity,
-          [moment.utc(item.created).valueOf()]: item
-        }
-      }, {})
-      this.$store.dispatch('chats/setMessageEntities', {
-        chatId: chats[index].id,
-        messageEntities
-      })
-    })
-    this.percent = 90
-
-    // remove empty chat
     const emptyChats = data.filter((item) => !item.last_message.created)
+    // remove empty chat
     if (emptyChats.length) {
-      const deleteChatPos = emptyChats.map((chat) =>
-        deleteChat(chat.id as number)
-      )
-      await Promise.all(deleteChatPos)
+      await this.removeEmptyChats(emptyChats)
     }
+    // load message for each chat
+    this.setupChats(chats)
+    this.percent = 40
+    await this.setupMessages(chats)
+    this.percent = 80
+
+    // load phone books
+    await this.loadPhoneBook()
+    this.percent = 95
     setTimeout(() => {
       this.percent = 100
       setTimeout(() => {
@@ -149,6 +140,56 @@ export default defineComponent({
     setupSocket()
   },
   methods: {
+    setupChats(chats) {
+      const chatEntities = chats.reduce((entity, chat) => {
+        chat = formatChat(chat)
+        return {
+          ...entity,
+          [chat.id]: { ...chat, messageEntities: {} }
+        }
+      }, {})
+      this.$store.dispatch('chats/setChatEntities', chatEntities)
+    },
+    async setupMessages(chats) {
+      const messagePros = chats.map((chat) =>
+        getLatestMessage(chat.id as number, 25)
+      )
+      const messageListRes = await Promise.all(messagePros)
+      messageListRes.forEach((messageRes, index) => {
+        const messageEntities = (messageRes as { data: Message[] }).data.reduce(
+          (entity, item) => {
+            item.custom_json = item.custom_json
+              ? JSON.parse(item.custom_json)
+              : {}
+            return {
+              ...entity,
+              [moment.utc(item.created).valueOf()]: item
+            }
+          },
+          {}
+        )
+        this.$store.dispatch('chats/setMessageEntities', {
+          chatId: chats[index].id,
+          messageEntities
+        })
+      })
+    },
+    async removeEmptyChats(chats) {
+      const deleteChatPos = chats.map((chat) => deleteChat(chat.id as number))
+      await Promise.all(deleteChatPos)
+    },
+    async loadPhoneBook() {
+      const { data } = await getUsers()
+      const phoneBook = data
+        .filter((item) => item.username !== this.username)
+        .map((item) => {
+          item.custom_json = item.custom_json
+            ? JSON.parse(item.custom_json as string)
+            : {}
+          return item
+        })
+      this.$store.dispatch('phoneBook/setPhoneBook', phoneBook)
+    },
     logout(): void {
       this.$store.dispatch('auth/logout')
       this.$router.replace({

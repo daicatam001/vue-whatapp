@@ -37,7 +37,11 @@ import {
   ThumbDown,
   PhoneCircle,
   OnlineState,
-  Trash
+  PanelTitle,
+  Trash,
+  PhoneBookCard,
+  HeadingCard,
+  ChatCard
 } from '@/components/ui'
 
 // Ant components
@@ -63,6 +67,10 @@ export function setupGlobalComponents(app: App): void {
   app.component('MessageMeta', MessageMeta)
   app.component('UserCard', UserCard)
   app.component('OnlineState', OnlineState)
+  app.component('PanelTitle', PanelTitle)
+  app.component('ChatCard', ChatCard)
+  app.component('HeadingCard', HeadingCard)
+  app.component('PhoneBookCard', PhoneBookCard)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)

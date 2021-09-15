@@ -143,23 +143,55 @@ export default {
       commit('setIsSearching', true)
       const username = rootGetters['auth/username']
       let result = [] as Partial<Chat>[]
-      const [convoRes, userRes] = await Promise.all([
-        searchChats(payload, username),
-        getUsers()
-      ])
-      // const convoRes = await searchChats(payload, username)
-      if (convoRes.data.length) {
+      const [chatRes, userRes] = await Promise.all([getChats(), getUsers()])
+      // filter conversation
+      const convos = chatRes.data.filter((chat: Chat) => {
+        if (!chat.last_message.created) {
+          return false
+        }
+        if (!chat.is_direct_chat && chat.title.includes(payload)) {
+          return true
+        }
+        const members = chat.people.filter(p => p.person.username != username)
+        if (
+          members.find(
+            p =>
+              (p.person.first_name && p.person.first_name.includes(payload)) ||
+              (p.person.email && p.person.email.includes(payload))
+          )
+        ) {
+          return true
+        }
+      })
+
+      if (convos.length) {
         result = result.concat([
           {
             title: i18n.global.t('conversation'),
             type: CHAT_CARD_TYPE.HEADING,
             id: 'conversation'
           } as Partial<Chat>,
-          ...convoRes.data.map(item => formatChat(item))
+          ...convos.map(item => formatChat(item))
         ])
       }
-      if (userRes.data.length) {
-        const users = userRes.data.map(item => ({
+      // filter user
+      const users = userRes.data
+        .filter((user: UserInfo) => {
+          if (
+            chatRes.data.find(
+              chat => chat.is_direct_chat && chat.title.includes(user.username)
+            )
+          ) {
+            return false
+          }
+          if (
+            user.first_name.includes(payload) ||
+            user.username.includes(payload)
+          ) {
+            return true
+          }
+        })
+        .map(item => ({
           id: item.id,
           avatar: item.avatar,
           username: item.username,
@@ -169,6 +201,8 @@ export default {
             : {},
           type: CHAT_CARD_TYPE.PHONE_BOOK
         }))
+
+      if (users.length) {
         result = result.concat([
           {
             title: i18n.global.t('phoneBook'),

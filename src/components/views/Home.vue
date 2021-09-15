@@ -99,9 +99,9 @@ export default defineComponent({
     }
   },
   async created() {
+    // load chats
     const { data } = await getLatestChats(25)
     const chats = data.filter((item) => !!item.last_message.created)
-
     const chatEntities = chats.reduce((entity, chat) => {
       chat = formatChat(chat)
       return {
@@ -111,6 +111,8 @@ export default defineComponent({
     }, {})
     this.$store.dispatch('chats/setChatEntities', chatEntities)
     this.percent = 60
+
+    // load message for each chat
     const messagePros = chats.map((chat) =>
       getLatestMessage(chat.id as number, 25)
     )
@@ -129,6 +131,8 @@ export default defineComponent({
       })
     })
     this.percent = 90
+
+    // remove empty chat
     const emptyChats = data.filter((item) => !item.last_message.created)
     if (emptyChats.length) {
       const deleteChatPos = emptyChats.map((chat) =>

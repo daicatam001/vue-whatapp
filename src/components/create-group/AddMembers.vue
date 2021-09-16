@@ -22,22 +22,27 @@
     </div>
     <div class="phone-book-wrapper">
       <div class="phone-book-list scroll-element">
-        <div v-for="phoneBook of phoneBookAlphabet" :key="phoneBook.id">
-          <HeadingCard
-            v-if="phoneBook.type === CHAT_CARD_TYPE.HEADING"
-            :title="phoneBook.title"
-          />
-          <PhoneBookCard
-            @click="addMember(phoneBook)"
-            v-else-if="phoneBook.type === CHAT_CARD_TYPE.PHONE_BOOK"
-            :first_name="phoneBook.first_name"
-            :custom_json="phoneBook.custom_json"
-          />
+        <template v-if="!!phoneBookAlphabet.length">
+          <div v-for="phoneBook of phoneBookAlphabet" :key="phoneBook.id">
+            <HeadingCard
+              v-if="phoneBook.type === CHAT_CARD_TYPE.HEADING"
+              :title="phoneBook.title"
+            />
+            <PhoneBookCard
+              @click="addMember(phoneBook)"
+              v-else-if="phoneBook.type === CHAT_CARD_TYPE.PHONE_BOOK"
+              :first_name="phoneBook.first_name"
+              :custom_json="phoneBook.custom_json"
+            />
+          </div>
+        </template>
+        <div v-else class="no-found-contact">
+          {{ $t('noFoundContact') }}
         </div>
       </div>
     </div>
     <div class="action-wrapper">
-      <button class="next" v-if="!!addingMembers.length">
+      <button class="next" v-if="!!addingMembers.length" @click="toCreateGroup">
         <ArrowForward />
       </button>
     </div>
@@ -69,13 +74,20 @@ export default {
   methods: {
     addMember(member) {
       this.$store.dispatch('phoneBook/insertAddingMember', member)
+      this.text = ''
+      this.$store.dispatch('phoneBook/setQuery', '')
     },
     removeMember(memberId) {
       this.$store.dispatch('phoneBook/removeAddingMember', memberId)
     },
     closeAddMembers() {
       this.$store.dispatch('phoneBook/setQuery', '')
+      this.text = ''
       this.$store.dispatch('ui/toggleShowAddMembers', false)
+    },
+    toCreateGroup() {
+      this.closeAddMembers()
+      this.$store.dispatch('ui/toggleShowCreateGroup', true)
     },
     doSearch() {
       this.$store.dispatch('phoneBook/setQuery', this.text)
@@ -111,6 +123,7 @@ export default {
 .phone-book-wrapper {
   flex-grow: 1;
   position: relative;
+  background-color: #fff;
   .phone-book-list {
     position: absolute;
     top: 0;
@@ -127,6 +140,11 @@ export default {
     margin-bottom: 6px;
   }
 }
+.no-found-contact {
+  padding: 72px 50px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.45);
+}
 .action-wrapper {
   padding-bottom: 32px;
   margin-top: 28px;
@@ -141,7 +159,7 @@ button.next {
   height: 46px;
   font-size: 14px;
   font-weight: 500;
-  color:white;
+  color: white;
   text-transform: uppercase;
   transition: box-shadow 0.08s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;

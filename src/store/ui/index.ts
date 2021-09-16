@@ -6,6 +6,7 @@ export interface UIState {
   showProfile: boolean
   showChatInfo: boolean
   showAddMembers: boolean
+  showCreateGroup: boolean
 }
 
 export default {
@@ -13,6 +14,7 @@ export default {
   state: {
     messageInputFocus: null,
     showAddMembers: true,
+    showCreateGroup: true,
     showProfile: false,
     showChatInfo: false
   },
@@ -25,6 +27,12 @@ export default {
       payload: boolean
     ): void {
       commit('setShowProfile', payload)
+    },
+    toggleShowCreateGroup(
+      { commit }: ActionContext<UIState, AppState>,
+      payload: boolean
+    ): void {
+      commit('setShowCreateGroup', payload)
     },
     toggleShowAddMembers(
       { commit }: ActionContext<UIState, AppState>,
@@ -51,11 +59,17 @@ export default {
     },
     setShowAddMembers(state: UIState, payload: boolean): void {
       state.showAddMembers = payload
+    },
+    setShowCreateGroup(state: UIState, payload: boolean): void {
+      state.showCreateGroup = payload
     }
   },
   getters: {
     showProfile({ showProfile }: UIState) {
       return showProfile
+    },
+    showCreateGroup({ showCreateGroup }: UIState) {
+      return showCreateGroup
     },
     showChatInfo({ showChatInfo }: UIState) {
       return showChatInfo

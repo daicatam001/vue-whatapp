@@ -35,6 +35,7 @@
           @close="onCloseLeftSetting"
         >
           <AddMembers v-if="showAddMembers" />
+          <CreateGroup v-if="showCreateGroup" />
           <Profile v-if="showProfile" />
         </a-drawer>
       </div>
@@ -70,6 +71,7 @@ import ChatList from '@/components/chat-list/ChatList.vue'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 import Profile from '@/components/profile/Profile.vue'
 import AddMembers from '@/components/create-group/AddMembers.vue'
+import CreateGroup from '@/components/create-group/CreateGroup.vue'
 import ChatDetail from '@/components/chat-detail/ChatDetail.vue'
 import { deleteChat, getLatestChats } from '@/core/api/chats'
 import { getLatestMessage } from '@/core/api/messages'
@@ -84,7 +86,8 @@ export default defineComponent({
     ChatFeed,
     Profile,
     ChatDetail,
-    AddMembers
+    AddMembers,
+    CreateGroup
   },
   computed: {
     showProfile() {
@@ -93,15 +96,17 @@ export default defineComponent({
     showAddMembers() {
       return this.$store.getters['ui/showAddMembers']
     },
+    showCreateGroup() {
+      return this.$store.getters['ui/showCreateGroup']
+    },
     showLeftSetting() {
-      console.log(this.showProfile, this.showAddMembers)
-      return this.showProfile || this.showAddMembers
+      return this.showProfile || this.showAddMembers || this.showCreateGroup
     },
     showChatInfo() {
       return this.$store.getters['ui/showChatInfo']
     },
     username() {
-      return this.$store.getters['']
+      return this.$store.getters['auth/username']
     }
   },
   data(): {
@@ -197,8 +202,12 @@ export default defineComponent({
       })
     },
     onCloseLeftSetting() {
+      if(this.showCreateGroup){
+         this.$store.dispatch('ui/toggleShowCreateGroup', false)
+         this.$store.dispatch('ui/toggleShowAddMembers', true)
+      }
       this.$store.dispatch('ui/toggleShowProfile', false)
-      this.$store.dispatch('ui/toggleShowAddMembers', false)
+      
     }
   }
 })

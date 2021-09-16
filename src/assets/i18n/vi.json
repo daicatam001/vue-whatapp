@@ -62,5 +62,8 @@
   "reportUser":"Báo cáo người liên hệ",
   "phoneFormat":"SĐT chỉ bao gồm chữ số và có độ dài 9",
   "phoneNumber":"Số điện thoại",
-  "appDes":"Được mã hóa đầu cuối"
+  "appDes":"Được mã hóa đầu cuối",
+  "addMembers":"Thêm thành viên nhóm",
+  "inputContact":"Nhập tên liên lạc",
+  "noFoundContact":"Không tìm thấy người liên hệ"
 }

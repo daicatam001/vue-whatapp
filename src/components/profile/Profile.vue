@@ -17,10 +17,8 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import EditInformation from './EditInformation.vue'
-import UploadAvatar from './UploadAvatar.vue'
 export default defineComponent({
   components: {
-    UploadAvatar,
     EditInformation
   },
   methods: {

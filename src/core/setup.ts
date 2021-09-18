@@ -43,6 +43,7 @@ import {
   HeadingCard,
   UserTag,
   ArrowForward,
+  UploadAvatar,
   ChatCard
 } from '@/components/ui'
 
@@ -74,6 +75,7 @@ export function setupGlobalComponents(app: App): void {
   app.component('HeadingCard', HeadingCard)
   app.component('PhoneBookCard', PhoneBookCard)
   app.component('UserTag', UserTag)
+  app.component('UploadAvatar', UploadAvatar)
 
   // icons
   app.component('ThreeDotVertical', ThreeDotVertical)

@@ -55,7 +55,15 @@ import moment from 'moment'
 
 export default defineComponent({
   components: { ChatSettings },
-  props: ['id', 'title', 'lastMessage', 'people', 'avatar', 'messageEntities'],
+  props: [
+    'id',
+    'title',
+    'lastMessage',
+    'people',
+    'avatar',
+    'messageEntities',
+    'isDirectChat'
+  ],
   computed: {
     username(): string {
       return this.$store.getters['auth/username']
@@ -91,7 +99,7 @@ export default defineComponent({
       )
     },
     unreadCount() {
-      if(!this.messageEntities){
+      if (!this.messageEntities) {
         return 0
       }
       return (Object.values(this.messageEntities) as Message[]).filter(
@@ -106,9 +114,6 @@ export default defineComponent({
         (it) => it.person && it.person.username !== this.username
       )
     },
-    directUser() {
-      return this.members.length === 1 ? this.members[0].person : null
-    },
     hasNewMessage(): boolean {
       if (!this.lastMessage || !this.me) {
         return false
@@ -122,8 +127,8 @@ export default defineComponent({
       return false
     },
     chatTitle(): string {
-      if (this.directUser) {
-        return `${this.directUser.first_name}`
+      if (this.isDirectChat) {
+        return `${this.members[0].person.first_name}`
       }
 
       return this.title

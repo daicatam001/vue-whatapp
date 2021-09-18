@@ -1,15 +1,17 @@
 <template>
-  <svg viewBox="0 0 24 24" :width="toSize" :height="toSize" class="checkmark">
-    <path
-      :fill="color"
-      d="M9 17.2l-4-4-1.4 1.3L9 19.9 20.4 8.5 19 7.1 9 17.2z"
-    ></path>
-  </svg>
+  <span class="checkmark">
+    <svg viewBox="0 0 24 24" :width="toSize" :height="toSize">
+      <path
+        fill="currentColor"
+        d="M9 17.2l-4-4-1.4 1.3L9 19.9 20.4 8.5 19 7.1 9 17.2z"
+      ></path>
+    </svg>
+  </span>
 </template>
 
 <script>
 export default {
-  props: ['color', 'size'],
+  props: ['size'],
   computed: {
     toSize() {
       return this.size || 24
@@ -20,6 +22,6 @@ export default {
 
 <style scoped lang="scss">
 svg {
-  fill: #919191;;
+  display: block;
 }
 </style>

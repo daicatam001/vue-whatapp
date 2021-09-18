@@ -2,7 +2,11 @@
   <div class="message-list">
     <div class="message-list-panel scroll-element" ref="panel">
       <div v-for="(message, index) of messages" :key="message.id">
-        <Message :message="message" :lastMessage="messages[index - 1]" />
+        <Timeline :message="message" :lastMessage="messages[index - 1]" />
+        <template v-if="message.custom_json.type === MESSAGE_TYPE.NOTIFICATION">
+          <Notification />
+        </template>
+        <Message v-else :message="message" :lastMessage="messages[index - 1]" />
       </div>
       <div id="message-bottom" ref="msgBottom"></div>
     </div>
@@ -14,8 +18,11 @@ import { LOAD_STATE, MESSAGE_TYPE } from '@/core/constants'
 import { Message as Msg } from '@/core/models/messages'
 import { defineComponent } from '@vue/runtime-core'
 import Message from './Message.vue'
+import Notification from './Notification.vue'
+import Timeline from './Timeline.vue'
+
 export default defineComponent({
-  components: { Message },
+  components: { Message, Notification, Timeline },
   computed: {
     username(): string {
       return this.$store.getters['auth/username']

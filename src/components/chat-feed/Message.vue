@@ -1,5 +1,4 @@
 <template>
-  <Timeline :timeline="timeline" v-if="!!timeline" />
   <div class="message" :id="idMessage" :class="{ 'my-message': isMine }">
     <div class="message-card">
       <div class="content" :class="{ 'new-cvs': !isSameGroupMessage }">
@@ -23,11 +22,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
-import Timeline from './Timeline.vue'
 export default defineComponent({
-  components: {
-    Timeline
-  },
   props: {
     message: {
       type: Object,
@@ -66,18 +61,6 @@ export default defineComponent({
     avatar(): string {
       return this.message.avatar
     },
-    timeline() {
-      if (
-        !this.lastMessage ||
-        moment(+this.message.custom_json.sending_time).diff(
-          moment(+this.lastMessage.custom_json.sending_time),
-          'day'
-        ) >= 1
-      ) {
-        return this.message.custom_json.sending_time
-      }
-      return null
-    }
   }
 })
 </script>

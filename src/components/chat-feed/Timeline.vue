@@ -1,5 +1,5 @@
 <template>
-  <div class="timeline">
+  <div class="timeline" v-if="isShow">
     <div class="time">{{ timeFormat }}</div>
   </div>
 </template>
@@ -7,10 +7,31 @@
 <script>
 import moment from 'moment'
 export default {
-  props: ['timeline'],
+  props: {
+    message: {
+      type: Object,
+      required: true
+    },
+    lastMessage: Object
+  },
   computed: {
+    isShow() {
+      if (
+        !this.lastMessage ||
+        moment(+this.message.custom_json.sending_time).diff(
+          moment(+this.lastMessage.custom_json.sending_time),
+          'day'
+        ) >= 1
+      ) {
+        return this.message.custom_json.sending_time
+      }
+      return null
+    },
     timeFormat() {
-      const time = moment(+this.timeline)
+      if (!this.isShow) {
+        return
+      }
+      const time = moment(+this.message.custom_json.sending_time)
       const diff = moment().diff(time, 'day')
       if (diff === 0) {
         return this.$t('today')

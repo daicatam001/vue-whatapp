@@ -14,7 +14,7 @@ export default {
   state: {
     messageInputFocus: null,
     showAddMembers: true,
-    showCreateGroup: true,
+    showCreateGroup: false,
     showProfile: false,
     showChatInfo: false
   },

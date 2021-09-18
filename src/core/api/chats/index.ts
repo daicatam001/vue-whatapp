@@ -11,7 +11,6 @@ export async function searchChats(
 ): Promise<{ data: Chat[] }> {
   const { data } = await getChats()
   const result = data.filter((chat: Chat) => {
- 
     if (!chat.is_direct_chat && chat.title.includes(query)) {
       return true
     }
@@ -48,6 +47,12 @@ export async function addChatMember(
   username: string
 ): Promise<{ data: any }> {
   return await baseApi.post(`/chats/${chatId}/people/`, { username })
+}
+export async function addChatMembers(
+  chatId: number,
+  usernameEntry: { [username: string]: string }
+): Promise<{ data: any }> {
+  return await baseApi.post(`/chats/${chatId}/people/`, usernameEntry)
 }
 
 export async function readMessage(chatId: number, messageId: number) {

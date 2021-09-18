@@ -44,6 +44,7 @@ export default defineComponent({})
   color: rgba(255, 255, 255, 0.8);
 }
 .line-1 {
+  color: white;
   margin-top: 20px;
 }
 .line-2 {

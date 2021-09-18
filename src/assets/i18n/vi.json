@@ -65,5 +65,6 @@
   "appDes":"Được mã hóa đầu cuối",
   "addMembers":"Thêm thành viên nhóm",
   "inputContact":"Nhập tên liên lạc",
-  "noFoundContact":"Không tìm thấy người liên hệ"
+  "noFoundContact":"Không tìm thấy người liên hệ",
+  "youCreatedChat":"Bạn đã tạo nhóm \"{title}\""
 }

@@ -11,34 +11,34 @@
 </template>
 
 <script lang="ts">
+import { deleteChat } from '@/core/api/chats'
 import { createVNode, defineComponent } from '@vue/runtime-core'
 import { Modal } from 'ant-design-vue'
 import OffNotifyOptionsVue from './OffNotifyOptions.vue'
 
 export default defineComponent({
-  props: ['chatTitle'],
+  props: ['chatTitle', 'chatId'],
   methods: {
-    deleteChat(): void {
-      Modal.confirm({
+    async deleteChat() {
+      await Modal.confirm({
         class: 'confirm-modal',
         centered: true,
         content: this.$t('deleteChatConfirm'),
         okText: this.$t('deleteChat'),
         cancelText: this.$t('cancel'),
-        onOk: () => {
+        onOk: async () => {
           this.$notification.open({
             key: 'delete-noti',
             message: this.$t('deletingChat'),
             closeIcon: null,
             placement: 'bottomLeft'
           })
-          setTimeout(() => {
-            this.$notification.open({
-              key: 'delete-noti',
-              message: this.$t('deletedChat'),
-              placement: 'bottomLeft'
-            })
-          }, 1000)
+          await deleteChat(this.chatId)
+          this.$notification.open({
+            key: 'delete-noti',
+            message: this.$t('deletedChat'),
+            placement: 'bottomLeft'
+          })
         }
       })
     },
@@ -74,7 +74,7 @@ export default defineComponent({
             value: 'all'
           }
         ],
-        init:8,
+        init: 8,
         change: (e) => {
           console.log(e)
         }
@@ -104,8 +104,8 @@ export default defineComponent({
         }
       })
     },
-    pinChat(){
-       this.$notification.open({
+    pinChat() {
+      this.$notification.open({
         key: 'store-noti',
         message: this.$t('pinningChat'),
         closeIcon: null,

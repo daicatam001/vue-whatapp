@@ -13,7 +13,7 @@ export default {
   namespaced: true,
   state: {
     messageInputFocus: null,
-    showAddMembers: true,
+    showAddMembers: false,
     showCreateGroup: false,
     showProfile: false,
     showChatInfo: false
@@ -35,7 +35,7 @@ export default {
       commit('setShowCreateGroup', payload)
     },
     toggleShowAddMembers(
-      { commit }: ActionContext<UIState, AppState>,
+      { commit, dispatch }: ActionContext<UIState, AppState>,
       payload: boolean
     ): void {
       commit('setShowAddMembers', payload)

@@ -342,7 +342,7 @@ export default {
       if (searchedChats.length) {
         return searchedChats
       }
-      return Object.values(chatEntities as ChatEntities)
+      return Object.values(chatEntities as ChatEntities || {})
         .filter((item: Chat) => !!item.last_message.created)
         .sort((a: Chat, b: Chat) => {
           const lastMessageA = moment(

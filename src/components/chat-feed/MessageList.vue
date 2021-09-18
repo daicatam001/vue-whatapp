@@ -4,7 +4,7 @@
       <div v-for="(message, index) of messages" :key="message.id">
         <Timeline :message="message" :lastMessage="messages[index - 1]" />
         <template v-if="message.custom_json.type === MESSAGE_TYPE.NOTIFICATION">
-          <Notification />
+          <Notification :message="message"/>
         </template>
         <Message v-else :message="message" :lastMessage="messages[index - 1]" />
       </div>

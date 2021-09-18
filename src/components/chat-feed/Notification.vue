@@ -1,22 +1,13 @@
 <template>
-  <div class="notitication">
-    <div class="noti-text">{{ noti }}</div>
+  <div class="notification">
+    <div class="noti-text">{{ message.text }}</div>
   </div>
 </template>
 
 <script>
-import { NOTIFY_TYPE } from '@/core/constants'
 export default {
-  props: ['title', 'type'],
-  computed: {
-    noti() {
-      switch (this.type) {
-        case NOTIFY_TYPE.CREATED_GROUP:
-          return this.$t('label.youCreatedGroup')
-        default:
-          return ''
-      }
-    }
+  props: {
+    message: Object
   }
 }
 </script>
@@ -28,9 +19,10 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.title {
+.noti-text {
   padding: 5px 12px 6px;
   text-align: center;
+  font-size: 12.5px;
   border-radius: 7.5px;
   background-color: rgba(225, 245, 254, 0.92);
   box-shadow: rgba(0, 0, 0, 0.13) 0px 1px 0.5px 0px;

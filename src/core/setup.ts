@@ -46,6 +46,7 @@ import {
   UploadAvatar,
   ChatCard
 } from '@/components/ui'
+import i18n from './i18n'
 
 // Ant components
 export function setupAnt(app: App): void {
@@ -61,6 +62,7 @@ export function setupAnt(app: App): void {
     .use(Progress)
   app.config.globalProperties.$message = message
   app.config.globalProperties.$notification = notification
+  app.config.globalProperties.$t = i18n.global.t
 }
 
 // Globla components

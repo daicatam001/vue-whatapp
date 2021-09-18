@@ -76,17 +76,18 @@ export default {
       this.$store.dispatch('phoneBook/insertAddingMember', member)
       this.text = ''
       this.$store.dispatch('phoneBook/setQuery', '')
+      this.$refs.input.focus()
     },
     removeMember(memberId) {
       this.$store.dispatch('phoneBook/removeAddingMember', memberId)
     },
     closeAddMembers() {
-      this.$store.dispatch('phoneBook/setQuery', '')
       this.text = ''
+      this.$store.dispatch('phoneBook/offAddMembers')
       this.$store.dispatch('ui/toggleShowAddMembers', false)
     },
     toCreateGroup() {
-      this.closeAddMembers()
+      this.$store.dispatch('ui/toggleShowAddMembers', false)
       this.$store.dispatch('ui/toggleShowCreateGroup', true)
     },
     doSearch() {

@@ -75,24 +75,28 @@ export default defineComponent({
         }),
         {}
       )
+      console.log(usernameEntry)
       const sendingTime = moment.utc()
       const message = {
-        text: this.$t('youCreatedChat',{title:data.title}),
+        text: this.$t('youCreatedChat', { title: data.title }),
         custom_json: {
           sending_time: sendingTime.valueOf(),
           type: MESSAGE_TYPE.NOTIFICATION
         },
         sender_username: this.username
       }
-      await this.$store.dispatch('messages/sendMessage', message)
-      await addChatMembers(data.id, usernameEntry)
-
+      await Promise.all([
+        this.$store.dispatch('messages/sendMessage', message),
+        addChatMembers(data.id, usernameEntry)
+      ])
       this.$notification.open({
         key: 'create-group-noti',
         message: this.$t('createdGroup'),
         closeIcon: null,
         placement: 'bottomLeft'
       })
+      this.$store.dispatch('phoneBook/offAddMembers')
+      this.$store.dispatch('ui/toggleShowCreateGroup', false)
     }
   },
   mounted() {

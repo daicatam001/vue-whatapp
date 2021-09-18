@@ -52,15 +52,20 @@ export async function addChatMembers(
   chatId: number,
   usernameEntry: { [username: string]: string }
 ): Promise<{ data: any }> {
+  console.log(usernameEntry)
   return await baseApi.post(`/chats/${chatId}/people/`, usernameEntry)
 }
 
 export async function readMessage(chatId: number, messageId: number) {
-  return await baseApi.patch(`/chats/${chatId}/people/`, {
-    last_read: messageId
-  })
+  try {
+    return await baseApi.patch(`/chats/${chatId}/people/`, {
+      last_read: messageId
+    })
+  } catch (e) {
+    ///
+  }
 }
 
-export async function deleteChat(chatId: number) {
+export const deleteChat = async (chatId: number) => {
   return await baseApi.delete(`/chats/${chatId}/`)
 }

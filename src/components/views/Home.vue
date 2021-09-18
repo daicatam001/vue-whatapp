@@ -114,7 +114,7 @@ export default defineComponent({
     percent: number
   } {
     return {
-      loading: false,
+      loading: true,
       percent: 20
     }
   },
@@ -205,6 +205,10 @@ export default defineComponent({
       if(this.showCreateGroup){
          this.$store.dispatch('ui/toggleShowCreateGroup', false)
          this.$store.dispatch('ui/toggleShowAddMembers', true)
+      }
+      if(this.showAddMembers){
+        this.$store.dispatch('phoneBook/offAddMembers')
+        this.$store.dispatch('ui/toggleShowAddMembers', false)
       }
       this.$store.dispatch('ui/toggleShowProfile', false)
       

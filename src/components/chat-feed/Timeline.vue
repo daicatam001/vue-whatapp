@@ -58,6 +58,7 @@ export default {
   padding: 5px 12px 6px;
   text-align: center;
   border-radius: 7.5px;
+  font-size:12.5px;
   background-color: rgba(225, 245, 254, 0.92);
   box-shadow: rgba(0, 0, 0, 0.13) 0px 1px 0.5px 0px;
   text-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px;

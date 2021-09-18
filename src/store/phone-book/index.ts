@@ -21,8 +21,16 @@ export default {
       { commit }: ActionContext<PhoneBookState, AppState>,
       payload: UserInfo[]
     ): void {
-      commit('setAddingMember', payload)
+      commit('setAddingMembers', payload)
     },
+    offAddMembers(
+      { commit }: ActionContext<PhoneBookState, AppState>,
+      payload: UserInfo[]
+    ): void {
+      commit('setQuery', '')
+      commit('setAddingMembers', [])
+    },
+
     insertAddingMember(
       { commit, getters }: ActionContext<PhoneBookState, AppState>,
       payload: UserInfo[]

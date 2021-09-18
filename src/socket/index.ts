@@ -9,6 +9,7 @@ import { formatChat } from '@/core/helpers'
 
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
+const SOCKET_ACTION_DELETE_CHAT = 'delete_chat'
 const SOCKET_ACTION_ADD_PERSON = 'add_person'
 
 const SOCKET_ACTION_NEW_MESSAGE = 'new_message'
@@ -39,6 +40,9 @@ export async function setupSocket(): Promise<void> {
       case SOCKET_ACTION_EDIT_CHAT:
         onEditChat(socketData.data)
         break
+      case SOCKET_ACTION_DELETE_CHAT:
+        onDeleteChat(socketData.data)
+        break
       case SOCKET_ACTION_NEW_MESSAGE:
         onNewMessage(socketData.data)
         break
@@ -66,6 +70,13 @@ function onEditChat(data: Chat) {
   store.dispatch('chats/updateChat', formatedChat)
   // }, 500)
 }
+
+function onDeleteChat(data: Chat) {
+  const chatEntities = { ...store.getters['chats/chatEntities'] }
+  delete chatEntities[data.id]
+  store.dispatch('chats/setChatEntities', chatEntities)
+}
+
 function onNewMessage({ id, message }: { id: number; message: Message }) {
   // data = null
   const selectedChatId = store.getters['chats/selectedChatId']

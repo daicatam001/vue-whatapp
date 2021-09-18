@@ -90,7 +90,7 @@ export default {
             : {}
           return {
             ...entity,
-            [moment.utc(item.created).valueOf()]: item
+            [item.custom_json.sending_time]: item
           }
         }, {})
 

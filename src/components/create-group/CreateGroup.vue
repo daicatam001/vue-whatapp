@@ -56,8 +56,7 @@ export default defineComponent({
   },
   methods: {
     backToAddMembers() {
-      this.$store.dispatch('ui/toggleShowCreateGroup', false)
-      this.$store.dispatch('ui/toggleShowAddMembers', true)
+      this.$store.dispatch('ui/backToAddMembers')
     },
     async createGroup() {
       this.$notification.open({
@@ -67,7 +66,6 @@ export default defineComponent({
         placement: 'bottomLeft'
       })
       const { data } = await createChat(this.text, false)
-      this.$store.dispatch('chats/selectChat', data.id)
       const usernameEntry = this.addingMembers.reduce(
         (entity, member) => ({
           ...entity,
@@ -75,7 +73,6 @@ export default defineComponent({
         }),
         {}
       )
-      console.log(usernameEntry)
       const sendingTime = moment.utc()
       const message = {
         text: this.$t('youCreatedChat', { title: data.title }),
@@ -86,7 +83,10 @@ export default defineComponent({
         sender_username: this.username
       }
       await Promise.all([
-        this.$store.dispatch('messages/sendMessage', message),
+        this.$store.dispatch('messages/sendMessage', {
+          message,
+          chatId: data.id
+        }),
         addChatMembers(data.id, usernameEntry)
       ])
       this.$notification.open({
@@ -95,6 +95,7 @@ export default defineComponent({
         closeIcon: null,
         placement: 'bottomLeft'
       })
+      this.$store.dispatch('chats/selectChat', data.id)
       this.$store.dispatch('phoneBook/offAddMembers')
       this.$store.dispatch('ui/toggleShowCreateGroup', false)
     }

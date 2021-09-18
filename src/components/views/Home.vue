@@ -203,8 +203,7 @@ export default defineComponent({
     },
     onCloseLeftSetting() {
       if(this.showCreateGroup){
-         this.$store.dispatch('ui/toggleShowCreateGroup', false)
-         this.$store.dispatch('ui/toggleShowAddMembers', true)
+         this.$store.dispatch('ui/backToAddMembers')
       }
       if(this.showAddMembers){
         this.$store.dispatch('phoneBook/offAddMembers')

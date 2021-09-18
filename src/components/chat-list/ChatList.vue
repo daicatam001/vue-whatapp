@@ -30,7 +30,7 @@
             @click="selectChat(chat.id)"
             :id="chat.id"
             :title="chat.title"
-            :isDirectChat="chat.isDirectChat"
+            :isDirectChat="chat.is_direct_chat"
             :messageEntities="chat.messageEntities"
             :lastMessage="chat.last_message"
             :avatar="chat.avatar"

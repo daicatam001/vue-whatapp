@@ -22,6 +22,7 @@ export default {
     focusMessageInput({ commit }: ActionContext<UIState, AppState>): void {
       commit('setMessageInputFocus', Date.now())
     },
+
     toggleShowProfile(
       { commit }: ActionContext<UIState, AppState>,
       payload: boolean
@@ -45,6 +46,14 @@ export default {
       payload: boolean
     ): void {
       commit('setShowChatInfo', payload)
+    },
+    goToCreateGroup({ commit }: ActionContext<UIState, AppState>): void {
+      commit('setShowAddMembers', false)
+      commit('setShowCreateGroup', true)
+    },
+    backToAddMembers({ commit }: ActionContext<UIState, AppState>): void {
+      commit('setShowAddMembers', true)
+      commit('setShowCreateGroup', false)
     }
   },
   mutations: {

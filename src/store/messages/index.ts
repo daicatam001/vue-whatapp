@@ -38,13 +38,10 @@ export default {
   },
   actions: {
     async sendMessage(
-      {
-        getters,
-        dispatch,
-      }: ActionContext<MessagesState, AppState>,
-      message: MessageCreate
+      { getters, dispatch }: ActionContext<MessagesState, AppState>,
+      { message, chatId }: { message: MessageCreate; chatId: number }
     ): Promise<void> {
-      const chatId = getters.chatId
+      chatId = chatId || getters.chatId
       dispatch('chats/addMessage', { chatId, message }, { root: true })
       await sendMessage(chatId, message)
     },

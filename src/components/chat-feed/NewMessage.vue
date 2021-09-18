@@ -52,7 +52,7 @@ export default defineComponent({
         sender_username: this.userInfo.username
       }
       this.text = ''
-      await this.$store.dispatch('messages/sendMessage', message)
+      await this.$store.dispatch('messages/sendMessage', {message})
     }
   },
   watch: {

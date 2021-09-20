@@ -54,7 +54,6 @@ export default {
   },
   computed: {
     chats() {
-      console.log(this.$store.getters['chats/chats'].map(item=>item.id))
       return this.$store.getters['chats/chats']
     },
     noSearchResult() {

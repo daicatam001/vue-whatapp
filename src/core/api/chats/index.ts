@@ -52,7 +52,6 @@ export async function addChatMembers(
   chatId: number,
   usernameEntry: { [username: string]: string }
 ): Promise<{ data: any }> {
-  console.log(usernameEntry)
   return await baseApi.post(`/chats/${chatId}/people/`, usernameEntry)
 }
 

@@ -14,6 +14,9 @@ export default {
     isDirectChat(state, { chat }) {
       return chat.is_direct_chat
     },
+    lastMessage(state, { chat }) {
+      return chat.last_message
+    },
     newChatUser(state, getters, rootState, rootGetters: any): UserInfo {
       return rootGetters['chats/newChatUser']
     },
@@ -47,6 +50,11 @@ export default {
       return chat.people.filter(
         it => it.person && it.person.username !== username
       )
+    },
+    me(state, { chat, username }) {
+      return chat.people.filter(
+        it => it.person && it.person.username === username
+      )[0]
     }
     // title(state, { newChatUser, chat }) {
     //   if (newChatUser) {

@@ -80,18 +80,6 @@ export default defineComponent({
           { admin: this.admin, people: this.people, title: this.title } as Chat,
           this.username
         )
-        // switch (this.lastMessage.custom_json.notify) {
-        //   case NOTIFY_TYPE.CREATED_GROUP:
-        //     return this.$t(
-        //       this.admin.username === this.username
-        //         ? 'youCreatedGroup'
-        //         : 'adminCreateGroup',
-        //       {
-        //         groupName: this.title,
-        //         admin: this.admin.first_name
-        //       }
-        //     )
-        // }
       }
 
       return this.lastMessage.text.replaceAll('<p>', '').replaceAll('</p>', '')

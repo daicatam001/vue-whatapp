@@ -25,9 +25,6 @@ export default {
       return notifyMessage(this.message, this.chat, this.username)
     }
   },
-  data(){
-    NOTIFY_TYPE
-  }
 }
 </script>
 

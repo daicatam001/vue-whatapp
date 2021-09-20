@@ -78,11 +78,6 @@ function onDeleteChat(data: Chat) {
 }
 
 function onNewMessage({ id, message }: { id: number; message: Message }) {
-  // data = null
-  const selectedChatId = store.getters['chats/selectedChatId']
-  if (selectedChatId === id) {
-    readMessage(id, message.id)
-  }
   const custom_json = JSON.parse(message.custom_json as string)
 
   const username = store.getters['auth/username']

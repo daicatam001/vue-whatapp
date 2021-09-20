@@ -36,14 +36,14 @@ export default defineComponent({
       MESSAGE_TYPE: MESSAGE_TYPE
     }
   },
-  updated() {
-    if (
-      this.$store.getters['messages/loadState'] === LOAD_STATE.LOADING_LATEST
-    ) {
-      this.$refs.msgBottom.scrollIntoView()
-      this.$store.dispatch('messages/setLoadState', LOAD_STATE.LOADING_LATEST)
-    }
-  }
+  // updated() {
+  //   if (
+  //     this.$store.getters['messages/loadState'] === LOAD_STATE.LOADING_LATEST
+  //   ) {
+  //     this.$refs.msgBottom.scrollIntoView()
+  //     this.$store.dispatch('messages/setLoadState', LOAD_STATE.LOADING_LATEST)
+  //   }
+  // }
 })
 </script>
 

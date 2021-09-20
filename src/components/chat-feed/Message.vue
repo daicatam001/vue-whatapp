@@ -38,7 +38,7 @@ export default defineComponent({
     username(): string {
       return this.$store.getters['auth/username']
     },
-    isDrectChat(): boolean {
+    isDirectChat(): boolean {
       return this.$store.getters['chat/isDirectChat']
     },
     isSameGroupMessage(): boolean {

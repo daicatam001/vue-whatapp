@@ -87,7 +87,6 @@ export default defineComponent({
         okText: this.$t('offNotification'),
         cancelText: this.$t('cancel'),
         onOk: () => {
-          console.log(offNotiNode.component?.data.value)
           this.$notification.open({
             key: 'off-noti',
             message: this.$t('doingOffNotifyChat'),

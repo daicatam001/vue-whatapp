@@ -29,7 +29,7 @@
 
 <script>
 import { addChatMembers, createChat } from '@/core/api/chats'
-import { MESSAGE_TYPE } from '@/core/constants'
+import { MESSAGE_TYPE, NOTIFY_TYPE } from '@/core/constants'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 
@@ -66,29 +66,40 @@ export default defineComponent({
         placement: 'bottomLeft'
       })
       const { data } = await createChat(this.text, false)
-      const usernameEntry = this.addingMembers.reduce(
-        (entity, member) => ({
-          ...entity,
-          username: member.username
-        }),
-        {}
-      )
-      const sendingTime = moment.utc()
-      const message = {
-        text: this.$t('youCreatedChat', { title: data.title }),
+      const createGroupMsg = {
+        text: '',
         custom_json: {
-          sending_time: sendingTime.valueOf(),
-          type: MESSAGE_TYPE.NOTIFICATION
+          sending_time: moment.utc().valueOf(),
+          type: MESSAGE_TYPE.NOTIFICATION,
+          notify: NOTIFY_TYPE.CREATE_GROUP
         },
         sender_username: this.username
       }
-      await Promise.all([
-        this.$store.dispatch('messages/sendMessage', {
-          message,
-          chatId: data.id
-        }),
-        addChatMembers(data.id, usernameEntry)
-      ])
+      await this.$store.dispatch('messages/sendMessage', {
+        message: createGroupMsg,
+        chatId: data.id
+      })
+
+      const addMemberPros = this.addingMembers.reduce((arr, member) => {
+        const addMemberMsg = {
+          text: '',
+          custom_json: {
+            sending_time: moment.utc().valueOf(),
+            type: MESSAGE_TYPE.NOTIFICATION,
+            notify: NOTIFY_TYPE.ADD_MEMBER,
+            member: member.username
+          },
+          sender_username: this.username
+        }
+        return arr.concat([
+          this.$store.dispatch('messages/sendMessage', {
+            message: addMemberMsg,
+            chatId: data.id
+          }),
+           addChatMembers(data.id, { username: member.username })
+        ])
+      }, [])
+      await Promise.all(addMemberPros)
       this.$notification.open({
         key: 'create-group-noti',
         message: this.$t('createdGroup'),

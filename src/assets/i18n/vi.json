@@ -66,7 +66,11 @@
   "addMembers": "Thêm thành viên nhóm",
   "inputContact": "Nhập tên liên lạc",
   "noFoundContact": "Không tìm thấy người liên hệ",
-  "youCreatedChat": "Bạn đã tạo nhóm \"{title}\"",
+  "youCreatedGroup": "Bạn đã tạo nhóm \"{group}\"",
+  "adminCreatedGroup": "{admin} đã tạo nhóm \"{group}\"",
   "creatingGroup": "Đang tạo nhóm",
-  "createdGroup": "Đã tạo nhóm"
+  "createdGroup": "Đã tạo nhóm",
+  "youInvitedPerson" : "Bạn đã mời {invitee} vào nhóm",
+  "youWereInvited" : "{inviter} đã mời bạn vào nhóm",
+  "invitedSomeone" : "{inviter} đã mời {invitee} vào nhóm",
 }

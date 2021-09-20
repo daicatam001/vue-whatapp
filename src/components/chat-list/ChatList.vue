@@ -30,6 +30,7 @@
             @click="selectChat(chat.id)"
             :id="chat.id"
             :title="chat.title"
+            :admin="chat.admin"
             :isDirectChat="chat.is_direct_chat"
             :messageEntities="chat.messageEntities"
             :lastMessage="chat.last_message"
@@ -53,6 +54,7 @@ export default {
   },
   computed: {
     chats() {
+      console.log(this.$store.getters['chats/chats'].map(item=>item.id))
       return this.$store.getters['chats/chats']
     },
     noSearchResult() {

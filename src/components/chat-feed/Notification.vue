@@ -1,13 +1,32 @@
 <template>
   <div class="notification">
-    <div class="noti-text">{{ message.text }}</div>
+    <div class="noti-text">{{ notify }}</div>
   </div>
 </template>
 
 <script>
+import { notifyMessage } from '@/core/helpers'
+import { NOTIFY_TYPE } from '@/core/constants'
 export default {
   props: {
     message: Object
+  },
+  computed: {
+    chat() {
+      return this.$store.getters['chat/chat']
+    },
+    username() {
+      return this.$store.getters['auth/username']
+    },
+    isPersonAddMembers(){
+      return this.message.custom_json.notify === NOTIFY_TYPE.ADD_MEMBER && this.message.sender_username === this.username
+    },
+    notify() {
+      return notifyMessage(this.message, this.chat, this.username)
+    }
+  },
+  data(){
+    NOTIFY_TYPE
   }
 }
 </script>

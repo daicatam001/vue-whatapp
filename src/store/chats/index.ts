@@ -342,8 +342,8 @@ export default {
       if (searchedChats.length) {
         return searchedChats
       }
-      return Object.values(chatEntities as ChatEntities || {})
-        .filter((item: Chat) => !!item.last_message.created)
+      return Object.values(chatEntities as ChatEntities)
+        .filter((item: Chat) => !!item.last_message.sender_username)
         .sort((a: Chat, b: Chat) => {
           const lastMessageA = moment(
             a.last_message ? a.last_message.created : a.created

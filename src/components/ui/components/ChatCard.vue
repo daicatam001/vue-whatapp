@@ -11,16 +11,12 @@
             </div>
           </div>
           <div class="line-2">
-            <div
-              class="last-message"
-              v-if="!!lastMessageTag"
-              :title="lastMessageText"
-            >
+            <div class="last-message" :title="lastMessageText">
               <div class="wrapper">
-                <div class="status">
+                <div class="status" v-if="!!lastMessageState">
                   <SendState :state="lastMessageState" :size="18" />
                 </div>
-                <div class="last-message-text" v-html="lastMessageTag"></div>
+                <div class="last-message-text" v-html="lastMessageText"></div>
               </div>
             </div>
             <div class="unread-count" v-if="!!unreadCount && !isActived">
@@ -46,12 +42,14 @@
 </template>
 
 <script lang="ts">
-import { SEND_STATE } from '@/core/constants'
+import { MESSAGE_TYPE, NOTIFY_TYPE, SEND_STATE } from '@/core/constants'
 import { Message } from '@/core/models/messages'
 import { UserInfo } from '@/core/models/users'
 import ChatSettings from './ChatSettings.vue'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
+import { notifyMessage } from '@/core/helpers'
+import { Chat } from '@/core/models/chats'
 
 export default defineComponent({
   components: { ChatSettings },
@@ -60,6 +58,7 @@ export default defineComponent({
     'title',
     'lastMessage',
     'people',
+    'admin',
     'avatar',
     'messageEntities',
     'isDirectChat'
@@ -74,12 +73,27 @@ export default defineComponent({
     isActived(): boolean {
       return this.id === this.selectedChatId
     },
-    lastMessageTag(): string {
-      return this.lastMessage.text
-        .replaceAll('<p>', '<div>')
-        .replaceAll('</p>', '</div>')
-    },
     lastMessageText(): string {
+      if (this.lastMessage.custom_json.type === MESSAGE_TYPE.NOTIFICATION) {
+        return notifyMessage(
+          this.lastMessage,
+          { admin: this.admin, people: this.people, title: this.title } as Chat,
+          this.username
+        )
+        // switch (this.lastMessage.custom_json.notify) {
+        //   case NOTIFY_TYPE.CREATED_GROUP:
+        //     return this.$t(
+        //       this.admin.username === this.username
+        //         ? 'youCreatedGroup'
+        //         : 'adminCreateGroup',
+        //       {
+        //         groupName: this.title,
+        //         admin: this.admin.first_name
+        //       }
+        //     )
+        // }
+      }
+
       return this.lastMessage.text.replaceAll('<p>', '').replaceAll('</p>', '')
     },
     lastSendTime(): string {
@@ -134,7 +148,10 @@ export default defineComponent({
       return this.title
     },
     lastMessageState() {
-      if (this.lastMessage.sender_username !== this.username) {
+      if (
+        this.lastMessage.sender_username !== this.username ||
+        this.lastMessage.custom_json.type !== MESSAGE_TYPE.MESSAGE
+      ) {
         return null
       }
       if (
@@ -230,6 +247,8 @@ export default defineComponent({
   display: flex;
   white-space: nowrap;
   overflow: hidden;
+  line-height: 24px;
+  min-height: 24px;
   text-overflow: ellipsis;
 }
 .last-message {

@@ -1,5 +1,8 @@
 import moment from 'moment'
+import { NOTIFY_TYPE } from './constants'
+import i18n from './i18n'
 import { Chat } from './models/chats'
+import { Message } from './models/messages'
 
 function elementInViewport(el) {
   let top = el.offsetTop
@@ -34,7 +37,7 @@ export function timelineFormat(date: string) {
 }
 
 export function formatChat(chat: Chat) {
-  const formatedChat = {...chat}
+  const formatedChat = { ...chat }
   if (formatedChat.last_message && formatedChat.last_message.custom_json) {
     formatedChat.last_message.custom_json = JSON.parse(formatedChat.last_message.custom_json)
   }
@@ -44,4 +47,34 @@ export function formatChat(chat: Chat) {
     }
   })
   return formatedChat
+}
+
+export function notifyMessage(notify: Message, chat: Chat, username: string) {
+  let creater, invitee;
+  switch (notify.custom_json.notify) {
+    case NOTIFY_TYPE.CREATE_GROUP:
+      return i18n.global.t(
+        chat.admin.username === username
+          ? 'youCreatedGroup'
+          : 'adminCreatedGroup',
+        {
+          group: chat.title,
+          admin: chat.admin.first_name
+        }
+      )
+    case NOTIFY_TYPE.ADD_MEMBER:
+      invitee = chat.people.filter(item => item.person.username === notify.custom_json.member)[0]
+      creater = chat.people.filter(item => item.person.username === notify.sender_username)[0]
+      return i18n.global.t(
+        notify.sender_username === username ?
+          'youInvitedPerson' : notify.custom_json.member === username ?
+            'youWereInvited' : 'invitedSomeone',
+        {
+          invitee: invitee.person.first_name,
+          inviter: creater.person.first_name
+        }
+      )
+
+  }
+  return ''
 }

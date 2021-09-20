@@ -11,6 +11,9 @@ export default {
     chat(state, getters, rootState, rootGetters: any): Chat {
       return rootGetters['chats/selectedChat']
     },
+    isDirectChat(state, { chat }) {
+      return chat.is_direct_chat
+    },
     newChatUser(state, getters, rootState, rootGetters: any): UserInfo {
       return rootGetters['chats/newChatUser']
     },

@@ -2,6 +2,7 @@
   <div class="message" :id="idMessage" :class="{ 'my-message': isMine }">
     <div class="message-card">
       <div class="content" :class="{ 'new-cvs': !isSameGroupMessage }">
+        <div class="user" v-if="!isDirectChat && !isSameGroupMessage && !isMine">{{ senderFirstName }}</div>
         <div class="body">
           <span class="body-text">{{ textBody }}</span>
           <span class="meta-space"></span>
@@ -37,6 +38,9 @@ export default defineComponent({
     username(): string {
       return this.$store.getters['auth/username']
     },
+    isDrectChat(): boolean {
+      return this.$store.getters['chat/isDirectChat']
+    },
     isSameGroupMessage(): boolean {
       return (
         !!this.lastMessage &&
@@ -60,7 +64,7 @@ export default defineComponent({
     },
     avatar(): string {
       return this.message.avatar
-    },
+    }
   }
 })
 </script>
@@ -79,6 +83,13 @@ export default defineComponent({
     height: 13px;
     height: 8px;
     right: 100%;
+  }
+  .user {
+    color: #35cd96;
+    max-width: 100%;
+    font-size: 12.8px;
+    font-weight: 500;
+    line-height: 22px;
   }
   .content {
     position: relative;

@@ -19,7 +19,7 @@
                 <div class="last-message-text" v-html="lastMessageText"></div>
               </div>
             </div>
-            <div class="unread-count" v-if="!!unreadCount && !isActived">
+            <div class="unread-count" v-if="!!unreadCount">
               {{ unreadCount }}
             </div>
             <div class="action">

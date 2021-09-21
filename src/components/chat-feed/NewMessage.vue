@@ -78,14 +78,14 @@ export default defineComponent({
     messageInputFocus() {
       this.$refs.input.focus()
     },
-    // lastMessageId(value) {
-    //   if (value && document.activeElement === this.$refs.input) {
-    //     clearTimeout(this.seeMessageTimmer)
-    //     this.seeMessageTimmer = setTimeout(() => {
-    //       this.seeMessage()
-    //     }, 500)
-    //   }
-    // }
+    lastMessageId(value) {
+      if (value && document.activeElement === this.$refs.input) {
+        clearTimeout(this.seeMessageTimmer)
+        this.seeMessageTimmer = setTimeout(() => {
+          this.seeMessage()
+        }, 500)
+      }
+    }
   }
 })
 </script>

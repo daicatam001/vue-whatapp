@@ -1,24 +1,3 @@
 # chat-app-by-vue
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+A simple Whatapp client build with Vue3, Vuex, Ant Design Vue and use [Chat Engine Rest API](https://chatengine.io/)

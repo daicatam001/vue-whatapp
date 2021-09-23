@@ -1,10 +1,14 @@
 <template>
   <div class="message-list">
-    <div class="message-list-panel scroll-element" ref="panel">
+    <div
+      class="message-list-panel scroll-element"
+      ref="panel"
+      @scroll="onScoll"
+    >
       <div v-for="(message, index) of messages" :key="message.id">
         <Timeline :message="message" :lastMessage="messages[index - 1]" />
         <template v-if="message.custom_json.type === MESSAGE_TYPE.NOTIFICATION">
-          <Notification :message="message"/>
+          <Notification :message="message" />
         </template>
         <Message v-else :message="message" :lastMessage="messages[index - 1]" />
       </div>
@@ -33,15 +37,32 @@ export default defineComponent({
   },
   data() {
     return {
-      MESSAGE_TYPE: MESSAGE_TYPE
+      MESSAGE_TYPE: MESSAGE_TYPE,
+      scrollTimer: 0
     }
   },
   updated() {
-    if (
-      this.$store.getters['messages/loadState'] === LOAD_STATE.LOADING_LATEST
-    ) {
+    if (this.$store.getters['ui/toNewestMessage']) {
       this.$refs.msgBottom.scrollIntoView()
-      this.$store.dispatch('messages/setLoadState', LOAD_STATE.LOADING_LATEST)
+    }
+  },
+  mounted() {
+    this.$refs.msgBottom.scrollIntoView()
+  },
+  methods: {
+    onScoll(event) {
+      clearTimeout(this.scrollTimer)
+      this.scrollTimer = setTimeout(() => {
+        if (
+          this.$refs.panel.offsetHeight + this.$refs.panel.scrollTop >=
+          this.$refs.panel.scrollHeight
+        ) {
+          this.$store.dispatch('ui/setToNewestMessage', true)
+          this.$store.dispatch('chat/readMessageCurrentChat')
+        } else {
+          this.$store.dispatch('ui/setToNewestMessage', false)
+        }
+      }, 100)
     }
   }
 })

@@ -1,9 +1,19 @@
+import { readMessage } from '@/core/api/chats'
 import { CHAT_TYPE } from '@/core/constants'
 import { Chat, UserChat } from '@/core/models/chats'
 import { UserInfo } from '@/core/models/users'
+import { ActionContext } from 'vuex'
+import { AppState } from '..'
 
 export default {
   namespaced: true,
+  actions:{
+    readMessageCurrentChat({ getters }: ActionContext<unknown, AppState>){
+        if (getters.lastMessage.id && getters.lastMessage.id > getters.me.last_read) {
+          readMessage(getters.chat.id as number, getters.lastMessage.id)
+        }
+    }
+  },
   getters: {
     username(state, getters, rootState, rootGetters: any): string {
       return rootGetters['auth/username']
@@ -56,30 +66,5 @@ export default {
         it => it.person && it.person.username === username
       )[0]
     }
-    // title(state, { newChatUser, chat }) {
-    //   if (newChatUser) {
-    //     return newChatUser.first_name
-    //   }
-    // },
-
-    // directUser(state, { members }) {
-    //   return members.length === 1
-    //     ? members[0]
-    //     : {
-    //         person: {}
-    //       }
-    // },
-    // isOnline(state, { directUser }): boolean {
-    //   return directUser.person.is_online
-    // },
-    // chatUpdated(state, { directUser }): string {
-    //   return directUser.chat_updated
-    // },
-    // title(state, { directUser, chat }): string {
-    //   if (directUser) {
-    //     return `${directUser.person.first_name}`
-    //   }
-    //   return chat.title
-    // }
   }
 }

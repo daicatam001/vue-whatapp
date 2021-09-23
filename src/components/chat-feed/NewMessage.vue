@@ -50,9 +50,7 @@ export default defineComponent({
   },
   methods: {
     seeMessage() {
-      if (this.lastMessage.id && this.lastMessage.id > this.me.last_read) {
-        readMessage(this.chat.id as number, this.lastMessage.id)
-      }
+      this.$store.dispatch('chat/readMessageCurrentChat')
     },
     async onSubmit() {
       if (this.text === '') {

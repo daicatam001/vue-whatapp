@@ -7,6 +7,7 @@ export interface UIState {
   showChatInfo: boolean
   showAddMembers: boolean
   showCreateGroup: boolean
+  toNewestMessage: boolean
 }
 
 export default {
@@ -16,13 +17,19 @@ export default {
     showAddMembers: false,
     showCreateGroup: false,
     showProfile: false,
-    showChatInfo: false
+    showChatInfo: false,
+    toNewestMessage: true
   },
   actions: {
     focusMessageInput({ commit }: ActionContext<UIState, AppState>): void {
       commit('setMessageInputFocus', Date.now())
     },
-
+    setToNewestMessage(
+      { commit }: ActionContext<UIState, AppState>,
+      payload: boolean
+    ): void {
+      commit('setToNewestMessage', payload)
+    },
     toggleShowProfile(
       { commit }: ActionContext<UIState, AppState>,
       payload: boolean
@@ -60,6 +67,9 @@ export default {
     setMessageInputFocus(state: UIState, payload: number): void {
       state.messageInputFocus = payload
     },
+    setToNewestMessage(state: UIState, payload: boolean): void {
+      state.toNewestMessage = payload
+    },
     setShowProfile(state: UIState, payload: boolean): void {
       state.showProfile = payload
     },
@@ -76,6 +86,9 @@ export default {
   getters: {
     showProfile({ showProfile }: UIState) {
       return showProfile
+    },
+    toNewestMessage({ toNewestMessage }: UIState) {
+      return toNewestMessage
     },
     showCreateGroup({ showCreateGroup }: UIState) {
       return showCreateGroup

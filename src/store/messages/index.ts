@@ -7,9 +7,7 @@ import {
   updateMessage
 } from '@/core/api/messages'
 import { LOAD_STATE } from '@/core/constants'
-import moment from 'moment'
 import { Chat } from '@/core/models/chats'
-import { createChat } from '@/core/api/chats'
 
 const CHAT_COUNT = 20
 
@@ -22,19 +20,14 @@ export interface MessageChatEntites {
 export interface MessagesState {
   isLoading: boolean
   currentChatCount: number
-  loadState: LOAD_STATE
-  // messages: Message[]
 }
 
 export default {
   namespaced: true,
   state: {
-    // messageChat: {},
     isLoading: false,
     currentChatCount: CHAT_COUNT,
-    toLastest: null,
-    state: LOAD_STATE.UNLOAD
-    // messages: []
+    toLastest: null
   },
   actions: {
     async sendMessage(
@@ -56,13 +49,10 @@ export default {
       await updateMessage(chatId, messageId, message)
     },
     async loadChatMessages({
-      commit,
       dispatch
     }: ActionContext<MessagesState, AppState>) {
-      commit('setLoadState', LOAD_STATE.LOADING_LATEST)
-      // if (!getters.hasMessages) {
+      dispatch('ui/setToNewestMessage', true, { root: true })
       await dispatch('fetchLatestMessages')
-      // }
     },
     async fetchLatestMessages({
       commit,
@@ -103,12 +93,6 @@ export default {
         // ..
       }
       commit('setIsLoading', false)
-    },
-    setLoadState(
-      { commit }: ActionContext<MessagesState, AppState>,
-      payload: LOAD_STATE
-    ) {
-      commit('setLoadState', payload)
     }
   },
   mutations: {
@@ -117,19 +101,7 @@ export default {
     },
     setCurrentChatCount(state: MessagesState, payload: number): void {
       state.currentChatCount = payload
-    },
-    setLoadState(state: MessagesState, payload: LOAD_STATE) {
-      state.loadState = payload
     }
-    // addMessage(
-    //   state: MessagesState,
-    //   { chatId, message }: { chatId: string; message: Message }
-    // ) {
-    //   state.messageChat[chatId][message.custom_json.sending_time] = message
-    // }
-    // setMessages(state: MessagesState, payload: Message[]): void {
-    //   state.messages = payload
-    // }
   },
 
   getters: {
@@ -145,12 +117,8 @@ export default {
       rootState,
       rootGetters: any
     ): MessageEntities | null {
-      // return getters.chatId ? state.messageChat[getters.chatId] : null
       return rootGetters['chats/selectedMessageEntities']
     },
-    // hasMessages(state: MessagesState, getters) {
-    //   return !!getters.messageEntities
-    // },
     messages(state: MessagesState, getters): Message[] {
       return Object.values(getters.messageEntities || {})
     },
@@ -159,9 +127,6 @@ export default {
     },
     currentChatCount(state: MessagesState): number {
       return state.currentChatCount
-    },
-    loadState(state: MessagesState): LOAD_STATE {
-      return state.loadState
     }
   }
 }

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { LOAD_STATE, MESSAGE_TYPE } from '@/core/constants'
+import { MESSAGE_TYPE } from '@/core/constants'
 import { Message as Msg } from '@/core/models/messages'
 import { defineComponent } from '@vue/runtime-core'
 import Message from './Message.vue'
@@ -50,7 +50,7 @@ export default defineComponent({
     this.$refs.msgBottom.scrollIntoView()
   },
   methods: {
-    onScoll(event) {
+    onScoll() {
       clearTimeout(this.scrollTimer)
       this.scrollTimer = setTimeout(() => {
         if (

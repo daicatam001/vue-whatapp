@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { MESSAGE_TYPE, NOTIFY_TYPE, SEND_STATE } from '@/core/constants'
+import { MESSAGE_TYPE, SEND_STATE } from '@/core/constants'
 import { Message } from '@/core/models/messages'
 import { UserInfo } from '@/core/models/users'
 import ChatSettings from './ChatSettings.vue'

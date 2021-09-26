@@ -22,10 +22,11 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         // 'no-unused-vars': ["erro",{ "argsIgnorePattern": "^_" }],
-        '@typescript-eslint/no-unused-vars': ["error",{ "argsIgnorePattern": "^_" }],
+        // '@typescript-eslint/no-unused-vars': ["error",{ "argsIgnorePattern": "^_" }],
         '@typescript-eslint/explicit-module-boundary-types': ['off'],
         '@typescript-eslint/no-explicit-any': 0,
         '@typescript-eslint/no-unused-vars':["off"],
+        '@typescript-eslint/no-var-requires': 0
       }
     }
   ]

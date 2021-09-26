@@ -20,7 +20,6 @@ import moment from 'moment'
 import { MESSAGE_TYPE, SEND_STATE } from '@/core/constants'
 import { Chat } from '@/core/models/chats'
 import { Message } from '@/core/models/messages'
-import { readMessage } from '@/core/api/chats'
 export default defineComponent({
   computed: {
     userInfo(): UserInfo {

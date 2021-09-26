@@ -4,7 +4,8 @@
     <a-menu-item @click="offNotify">
       {{ $t('offNotification') }}
     </a-menu-item>
-    <a-menu-item @click="deleteChat"> {{ $t('deleteChat') }} </a-menu-item>
+    <a-menu-item v-if="isDrectChat" @click="deleteChat"> {{ $t('deleteChat') }} </a-menu-item>
+    <a-menu-item v-if="!isDrectChat" @click="leaveGroup"> {{ $t('leaveGroup') }} </a-menu-item>
     <a-menu-item @click="pinChat"> {{ $t('pinChat') }} </a-menu-item>
     <a-menu-item @click="logout">{{ $t('markUnread') }}</a-menu-item>
   </a-menu>
@@ -17,7 +18,7 @@ import { Modal } from 'ant-design-vue'
 import OffNotifyOptionsVue from './OffNotifyOptions.vue'
 
 export default defineComponent({
-  props: ['chatTitle', 'chatId'],
+  props: ['chatTitle','isDirectChat', 'chatId'],
   methods: {
     async deleteChat() {
       await Modal.confirm({
@@ -117,6 +118,9 @@ export default defineComponent({
           placement: 'bottomLeft'
         })
       }, 1000)
+    },
+    leaveGroup(){
+      console.log('leaveGroup')
     }
   }
 })

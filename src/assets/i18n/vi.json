@@ -70,7 +70,8 @@
   "adminCreatedGroup": "{admin} đã tạo nhóm \"{group}\"",
   "creatingGroup": "Đang tạo nhóm",
   "createdGroup": "Đã tạo nhóm",
-  "youInvitedPerson" : "Bạn đã mời {invitee} vào nhóm",
-  "youWereInvited" : "{inviter} đã mời bạn vào nhóm",
-  "invitedSomeone" : "{inviter} đã mời {invitee} vào nhóm",
+  "youInvitedPerson": "Bạn đã mời {invitee} vào nhóm",
+  "youWereInvited": "{inviter} đã mời bạn vào nhóm",
+  "invitedSomeone": "{inviter} đã mời {invitee} vào nhóm",
+  "leaveGroup": "Thoát nhóm"
 }

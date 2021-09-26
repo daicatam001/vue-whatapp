@@ -19,7 +19,7 @@ jobs:
         node-version: [14.x]
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: /s/checkout@v2
     - name: Using Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -40,7 +40,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@v2
+      - uses: actions/checkout@v2
       - name: Download build
         uses: actions/download-artifact@v2
         with:

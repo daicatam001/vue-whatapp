@@ -4,21 +4,31 @@
     <a-menu-item @click="offNotify">
       {{ $t('offNotification') }}
     </a-menu-item>
-    <a-menu-item v-if="isDrectChat" @click="deleteChat"> {{ $t('deleteChat') }} </a-menu-item>
-    <a-menu-item v-if="!isDrectChat" @click="leaveGroup"> {{ $t('leaveGroup') }} </a-menu-item>
+    <a-menu-item v-if="isDirectChat" @click="deleteChat">
+      {{ $t('deleteChat') }}
+    </a-menu-item>
+    <a-menu-item v-if="!isDirectChat" @click="leaveGroup">
+      {{ $t('leaveGroup') }}
+    </a-menu-item>
     <a-menu-item @click="pinChat"> {{ $t('pinChat') }} </a-menu-item>
-    <a-menu-item @click="logout">{{ $t('markUnread') }}</a-menu-item>
+    <a-menu-item>{{ $t('markUnread') }}</a-menu-item>
   </a-menu>
 </template>
 
 <script lang="ts">
-import { deleteChat } from '@/core/api/chats'
+import { deleteChat, updateChat } from '@/core/api/chats'
 import { createVNode, defineComponent } from '@vue/runtime-core'
 import { Modal } from 'ant-design-vue'
+import moment from 'moment'
 import OffNotifyOptionsVue from './OffNotifyOptions.vue'
 
 export default defineComponent({
-  props: ['chatTitle','isDirectChat', 'chatId'],
+  props: ['chatTitle', 'isDirectChat', 'chatId'],
+  computed: {
+    username() {
+      return this.$store.getters['auth/username']
+    }
+  },
   methods: {
     async deleteChat() {
       await Modal.confirm({
@@ -119,8 +129,14 @@ export default defineComponent({
         })
       }, 1000)
     },
-    leaveGroup(){
-      console.log('leaveGroup')
+    leaveGroup() {
+      const custom_json =
+        this.$store.getters['chats/chatEntities'][this.chatId].custom_json
+      custom_json.leftMembers = {
+        ...(custom_json.leftMembers || {}),
+        username: moment.utc().valueOf()
+      }
+      updateChat(this.chatId, { custom_json })
     }
   }
 })

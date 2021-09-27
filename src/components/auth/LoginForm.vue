@@ -60,7 +60,7 @@ export default defineComponent({
       this.$emit('submit', { ...data })
     },
     onSubmitError() {
-      this.$message.error(this.$t('loginError'))
+      this.$message.error(this.$t('emptyLoginError'))
     },
   },
 })

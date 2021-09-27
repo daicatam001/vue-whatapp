@@ -37,7 +37,10 @@ export function timelineFormat(date: string) {
 }
 
 export function formatChat(chat: Chat) {
-  const formatedChat = { ...chat }
+  const formatedChat = { ...chat } as Chat
+  if(formatedChat.custom_json){
+    formatedChat.custom_json = JSON.parse(formatedChat.custom_json)
+  }
   if (formatedChat.last_message && formatedChat.last_message.custom_json) {
     formatedChat.last_message.custom_json = JSON.parse(formatedChat.last_message.custom_json)
   }

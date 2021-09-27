@@ -26,7 +26,7 @@
               <a-dropdown :trigger="['click']">
                 <a><ChevronDown /></a>
                 <template #overlay>
-                  <ChatSettings :chatTitle="chatTitle" :isDirectChat="isDirectChats" :chatId="id" />
+                  <ChatSettings :chatTitle="chatTitle" :isDirectChat="isDirectChat" :chatId="id" />
                 </template>
               </a-dropdown>
             </div>

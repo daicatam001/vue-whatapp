@@ -82,5 +82,6 @@
   "cantSendMessageBecauseLeftGroup": "Bạn không thể gửi tin nhắn cho nhóm này vì bạn không còn là thành viên.",
   "removeGroup": "Xóa nhóm",
   "removingGroup": "Đang xóa nhóm",
-  "removedGroup": "Đã xóa nhóm"
+  "removedGroup": "Đã xóa nhóm",
+  "createTime":"Tạo vào {date} lúc {time}"
 }

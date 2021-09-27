@@ -10,7 +10,7 @@
     <a-menu-item v-if="!isDirectChat && !leftTime" @click="leaveGroup">
       {{ $t('leaveGroup') }}
     </a-menu-item>
-     <a-menu-item v-if="!isDirectChat && leftTime" @click="removeGroup">
+    <a-menu-item v-if="!isDirectChat && leftTime" @click="removeGroup">
       {{ $t('removeGroup') }}
     </a-menu-item>
     <a-menu-item @click="pinChat"> {{ $t('pinChat') }} </a-menu-item>
@@ -27,13 +27,17 @@ import moment from 'moment'
 import OffNotifyOptionsVue from './OffNotifyOptions.vue'
 
 export default defineComponent({
-  props: ['chatTitle', 'isDirectChat', 'chatId','custom_json'],
+  props: ['chatTitle', 'isDirectChat', 'chatId', 'custom_json'],
   computed: {
     username() {
       return this.$store.getters['auth/username']
     },
-    leftTime(){
-      return !!this.custom_json.leftMembers[this.username]
+    leftTime() {
+      try {
+        return this.custom_json.leftMembers[this.username]
+      } catch (e) {
+        return null
+      }
     }
   },
   methods: {
@@ -158,19 +162,20 @@ export default defineComponent({
         key: 'leave-group',
         message: this.$t('leftGroup')
       })
-    }
-  },
-  async removeGroup() {
+    },
+    async removeGroup() {
     this.$notification.open({
-      key: 'removing-group',
+      key: 'remove-group',
       message: this.$t('removeGroup')
     })
     await removeChatMember(this.chatId, this.username)
     this.$notification.open({
-      key: 'removed-group',
+      key: 'remove-group',
       message: this.$t('removedGroup')
     })
   }
+  },
+  
 })
 </script>
 

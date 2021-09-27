@@ -127,7 +127,7 @@ export default {
       let messages = Object.values(getters.messageEntities || {}) as Message[]
       if (getters.leftTime) {
         messages = messages.filter(
-          item => item.custom_json.sending_time < getters.leftTime
+          item => item.custom_json.sending_time <= getters.leftTime
         )
       }
       return messages

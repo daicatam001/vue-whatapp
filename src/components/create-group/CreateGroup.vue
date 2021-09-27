@@ -79,27 +79,29 @@ export default defineComponent({
         message: createGroupMsg,
         chatId: data.id
       })
-
-      const addMemberPros = this.addingMembers.reduce((arr, member) => {
-        const addMemberMsg = {
-          text: '',
-          custom_json: {
-            sending_time: moment.utc().valueOf(),
-            type: MESSAGE_TYPE.NOTIFICATION,
-            notify: NOTIFY_TYPE.ADD_MEMBER,
-            member: member.username
-          },
-          sender_username: this.username
-        }
-        return arr.concat([
-          this.$store.dispatch('messages/sendMessage', {
+      await Promise.all(
+        this.addingMembers.map((member) => {
+          return addChatMembers(data.id, { username: member.username })
+        })
+      )
+      await Promise.all(
+        this.addingMembers.map((member) => {
+          const addMemberMsg = {
+            text: '',
+            custom_json: {
+              sending_time: moment.utc().valueOf(),
+              type: MESSAGE_TYPE.NOTIFICATION,
+              notify: NOTIFY_TYPE.ADD_MEMBER,
+              member: member.username
+            },
+            sender_username: this.username
+          }
+          return this.$store.dispatch('messages/sendMessage', {
             message: addMemberMsg,
             chatId: data.id
-          }),
-           addChatMembers(data.id, { username: member.username })
-        ])
-      }, [])
-      await Promise.all(addMemberPros)
+          })
+        })
+      )
       this.$notification.open({
         key: 'create-group-noti',
         message: this.$t('createdGroup'),

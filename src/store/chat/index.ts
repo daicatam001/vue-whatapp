@@ -32,7 +32,6 @@ export default {
     },
     leftTime(state, { chat, username }) {
       try {
-        console.log(chat.custom_json)
         return chat.custom_json.leftMembers[username]
       } catch (e) {
         return null

@@ -79,7 +79,7 @@ export default defineComponent({
   },
   watch: {
     messageInputFocus() {
-      this.$refs.input.focus()
+     this.$refs.input && this.$refs.input.focus()
     },
     lastMessageId(value) {
       if (value && document.activeElement === this.$refs.input) {

@@ -79,5 +79,8 @@
   "personLeftGroup": "{person} đã rời nhóm",
   "leavingGroup": "Đang rời nhóm",
   "leftGroup": "Đã rời nhóm",
-  "cantSendMessageBecauseLeftGroup": "Bạn không thể gửi tin nhắn cho nhóm này vì bạn không còn là thành viên."
+  "cantSendMessageBecauseLeftGroup": "Bạn không thể gửi tin nhắn cho nhóm này vì bạn không còn là thành viên.",
+  "removeGroup": "Xóa nhóm",
+  "removingGroup": "Đang xóa nhóm",
+  "removedGroup": "Đã xóa nhóm"
 }

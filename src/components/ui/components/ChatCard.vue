@@ -26,7 +26,12 @@
               <a-dropdown :trigger="['click']">
                 <a><ChevronDown /></a>
                 <template #overlay>
-                  <ChatSettings :chatTitle="chatTitle" :isDirectChat="isDirectChat" :chatId="id" />
+                  <ChatSettings
+                    :chatTitle="chatTitle"
+                    :isDirectChat="isDirectChat"
+                    :custom_json="custom_json"
+                    :chatId="id"
+                  />
                 </template>
               </a-dropdown>
             </div>
@@ -35,7 +40,12 @@
         </div>
       </div>
       <template #overlay>
-        <ChatSettings :chatTitle="chatTitle" :isDirectChat="isDirectChat" :chatId="id" />
+        <ChatSettings
+          :chatTitle="chatTitle"
+          :isDirectChat="isDirectChat"
+          :custom_json="custom_json"
+          :chatId="id"
+        />
       </template>
     </a-dropdown>
   </div>
@@ -60,6 +70,7 @@ export default defineComponent({
     'people',
     'admin',
     'avatar',
+    'custom_json',
     'messageEntities',
     'isDirectChat'
   ],

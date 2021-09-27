@@ -48,6 +48,15 @@ export async function addChatMember(
 ): Promise<{ data: any }> {
   return await baseApi.post(`/chats/${chatId}/people/`, { username })
 }
+
+
+export async function removeChatMember(
+  chatId: number,
+  username: string
+): Promise<{ data: any }> {
+  return await baseApi.put(`/chats/${chatId}/people/`, { username })
+}
+
 export async function addChatMembers(
   chatId: number,
   usernameEntry: { [username: string]: string }

@@ -31,6 +31,7 @@
             :id="chat.id"
             :title="chat.title"
             :admin="chat.admin"
+            :custom_json="chat.custom_json"
             :isDirectChat="chat.is_direct_chat"
             :messageEntities="chat.messageEntities"
             :lastMessage="chat.last_message"

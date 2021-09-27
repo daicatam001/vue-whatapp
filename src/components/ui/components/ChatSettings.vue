@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { deleteChat, updateChat } from '@/core/api/chats'
+import { MESSAGE_TYPE, NOTIFY_TYPE } from '@/core/constants'
 import { createVNode, defineComponent } from '@vue/runtime-core'
 import { Modal } from 'ant-design-vue'
 import moment from 'moment'
@@ -129,14 +130,27 @@ export default defineComponent({
         })
       }, 1000)
     },
-    leaveGroup() {
+    async leaveGroup() {
+       const leaveGroupMsg = {
+        text: '',
+        custom_json: {
+          sending_time: moment.utc().valueOf(),
+          type: MESSAGE_TYPE.NOTIFICATION,
+          notify: NOTIFY_TYPE.LEAVE_GROUP
+        },
+        sender_username: this.username
+      }
+      await this.$store.dispatch('messages/sendMessage', {
+        message: leaveGroupMsg,
+        chatId: this.chatId
+      })
       const custom_json =
         this.$store.getters['chats/chatEntities'][this.chatId].custom_json
       custom_json.leftMembers = {
         ...(custom_json.leftMembers || {}),
         username: moment.utc().valueOf()
       }
-      updateChat(this.chatId, { custom_json })
+      await updateChat(this.chatId, { custom_json })
     }
   }
 })

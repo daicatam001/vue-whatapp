@@ -41,7 +41,7 @@ export default defineComponent({
       return this.$store.getters['chat/lastMessage']
     },
     lastMessageId(): number {
-      return this.lastMessage.id
+      return this.lastMessage && this.lastMessage.id
     },
     messageInputFocus() {
       return this.$store.getters['ui/messageInputFocus']

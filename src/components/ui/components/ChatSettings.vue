@@ -42,14 +42,12 @@ export default defineComponent({
           this.$notification.open({
             key: 'delete-noti',
             message: this.$t('deletingChat'),
-            closeIcon: null,
-            placement: 'bottomLeft'
+            closeIcon: null
           })
           await deleteChat(this.chatId)
           this.$notification.open({
             key: 'delete-noti',
-            message: this.$t('deletedChat'),
-            placement: 'bottomLeft'
+            message: this.$t('deletedChat')
           })
         }
       })
@@ -58,14 +56,12 @@ export default defineComponent({
       this.$notification.open({
         key: 'store-noti',
         message: this.$t('storingChat'),
-        closeIcon: null,
-        placement: 'bottomLeft'
+        closeIcon: null
       })
       setTimeout(() => {
         this.$notification.open({
           key: 'store-noti',
-          message: this.$t('storedChat'),
-          placement: 'bottomLeft'
+          message: this.$t('storedChat')
         })
       }, 1000)
     },
@@ -102,14 +98,12 @@ export default defineComponent({
           this.$notification.open({
             key: 'off-noti',
             message: this.$t('doingOffNotifyChat'),
-            closeIcon: null,
-            placement: 'bottomLeft'
+            closeIcon: null
           })
           setTimeout(() => {
             this.$notification.open({
               key: 'off-noti',
-              message: this.$t('doneOffNotifyChat'),
-              placement: 'bottomLeft'
+              message: this.$t('doneOffNotifyChat')
             })
           }, 1000)
         }
@@ -119,22 +113,33 @@ export default defineComponent({
       this.$notification.open({
         key: 'store-noti',
         message: this.$t('pinningChat'),
-        closeIcon: null,
-        placement: 'bottomLeft'
+        closeIcon: null
       })
       setTimeout(() => {
         this.$notification.open({
           key: 'store-noti',
-          message: this.$t('pinnedChat'),
-          placement: 'bottomLeft'
+          message: this.$t('pinnedChat')
         })
       }, 1000)
     },
     async leaveGroup() {
-       const leaveGroupMsg = {
+      this.$notification.open({
+        key: 'leave-group',
+        message: this.$t('leavingGroup')
+      })
+      const leftTime = moment.utc().valueOf()
+      const custom_json =
+        this.$store.getters['chats/chatEntities'][this.chatId].custom_json
+      custom_json.leftMembers = {
+        ...(custom_json.leftMembers || {}),
+        [this.username]: moment.utc().valueOf()
+      }
+      await updateChat(this.chatId, { custom_json })
+      
+      const leaveGroupMsg = {
         text: '',
         custom_json: {
-          sending_time: moment.utc().valueOf(),
+          sending_time: leftTime,
           type: MESSAGE_TYPE.NOTIFICATION,
           notify: NOTIFY_TYPE.LEAVE_GROUP
         },
@@ -144,13 +149,10 @@ export default defineComponent({
         message: leaveGroupMsg,
         chatId: this.chatId
       })
-      const custom_json =
-        this.$store.getters['chats/chatEntities'][this.chatId].custom_json
-      custom_json.leftMembers = {
-        ...(custom_json.leftMembers || {}),
-        username: moment.utc().valueOf()
-      }
-      await updateChat(this.chatId, { custom_json })
+      this.$notification.open({
+        key: 'leave-group',
+        message: this.$t('leftGroup')
+      })
     }
   }
 })

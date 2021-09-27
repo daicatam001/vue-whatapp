@@ -75,6 +75,8 @@
   "youWereInvited": "{inviter} đã mời bạn vào nhóm",
   "invitedSomeone": "{inviter} đã mời {invitee} vào nhóm",
   "leaveGroup": "Thoát nhóm",
-  "youLeftGroup":"Bạn đã rời nhóm",
-  "personLeftGroup":"{person} đã rời nhóm"
+  "youLeftGroup": "Bạn đã rời nhóm",
+  "personLeftGroup": "{person} đã rời nhóm",
+  "leavingGroup": "Đang rời nhóm",
+  "leftGroup": "Đã rời nhóm"
 }

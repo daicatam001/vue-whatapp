@@ -1,6 +1,9 @@
 <template>
-  <div class="new-message">
-    <form @submit.prevent="onSubmit">
+  <div class="new-message" :class="{ 'left-group': !!leftTime }">
+    <div class="left-group-note" v-if="!!leftTime">
+      {{ $t('cantSendMessageBecauseLeftGroup') }}
+    </div>
+    <form @submit.prevent="onSubmit" v-else>
       <input
         ref="input"
         id="new-message-input"
@@ -30,6 +33,9 @@ export default defineComponent({
     },
     me() {
       return this.$store.getters['chat/me']
+    },
+    leftTime() {
+      return this.$store.getters['chat/leftTime']
     },
     lastMessage(): Message {
       return this.$store.getters['chat/lastMessage']
@@ -89,14 +95,26 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .new-message {
-  padding: 15px 30px;
+  padding: 5px 10px;
+  height: 62px;
   background-color: #eeeeee;
+  &.left-group{
+    padding: 15px 30px;
+  }
 }
 input {
   width: 100%;
   padding: 10px 20px;
   outline: 0;
   border: 0;
+  margin: 5px 0;
   border-radius: 20px;
+}
+.left-group-note{
+  text-align: center;
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+  color: rgba(0,0,0,0.6);
 }
 </style>

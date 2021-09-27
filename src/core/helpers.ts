@@ -37,9 +37,14 @@ export function timelineFormat(date: string) {
 }
 
 export function formatChat(chat: Chat) {
-  const formatedChat = { ...chat }
+  const formatedChat = { ...chat } as Chat
+  if (formatedChat.custom_json) {
+    formatedChat.custom_json = JSON.parse(formatedChat.custom_json)
+  }
   if (formatedChat.last_message && formatedChat.last_message.custom_json) {
-    formatedChat.last_message.custom_json = JSON.parse(formatedChat.last_message.custom_json)
+    formatedChat.last_message.custom_json = JSON.parse(
+      formatedChat.last_message.custom_json
+    )
   }
   formatedChat.people.forEach(item => {
     if (item.person.custom_json) {
@@ -50,7 +55,7 @@ export function formatChat(chat: Chat) {
 }
 
 export function notifyMessage(notify: Message, chat: Chat, username: string) {
-  let creater, invitee;
+  let creater, invitee
   switch (notify.custom_json.notify) {
     case NOTIFY_TYPE.CREATE_GROUP:
       return i18n.global.t(
@@ -63,18 +68,36 @@ export function notifyMessage(notify: Message, chat: Chat, username: string) {
         }
       )
     case NOTIFY_TYPE.ADD_MEMBER:
-      invitee = chat.people.filter(item => item.person.username === notify.custom_json.member)[0]
-      creater = chat.people.filter(item => item.person.username === notify.sender_username)[0]
+      invitee = chat.people.filter(
+        item => item.person.username === notify.custom_json.member
+      )[0]
+      creater = chat.people.filter(
+        item => item.person.username === notify.sender_username
+      )[0]
       return i18n.global.t(
-        notify.sender_username === username ?
-          'youInvitedPerson' : notify.custom_json.member === username ?
-            'youWereInvited' : 'invitedSomeone',
+        notify.sender_username === username
+          ? 'youInvitedPerson'
+          : notify.custom_json.member === username
+          ? 'youWereInvited'
+          : 'invitedSomeone',
         {
           invitee: invitee.person.first_name,
           inviter: creater.person.first_name
         }
       )
-
+    case NOTIFY_TYPE.LEAVE_GROUP: {
+      creater = chat.people.filter(
+        item => item.person.username === notify.sender_username
+      )[0]
+      return i18n.global.t(
+        notify.sender_username === username
+          ? 'youLeftGroup'
+          : 'personLeftGroup',
+        {
+          person: creater.person.first_name
+        }
+      )
+    }
   }
   return ''
 }

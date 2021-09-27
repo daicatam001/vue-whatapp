@@ -2,12 +2,19 @@
   <div class="chat-heading">
     <div class="chat-heading-content">
       <div class="content-wrapper" @click="showChatInfo">
-        <Avatar :src="data.avatar" size="40px" />
+        <Avatar :src="vm.avatar" size="40px" />
         <div class="content">
           <div class="line">
-            <div class="title">{{ data.title }}</div>
+            <div class="title">{{ vm.title }}</div>
             <div class="brief">
-              <OnlineState :isOnline="data.isOnline" :chatUpdated="data.chatUpdated" />
+              <OnlineState
+                v-if="!!directChatUser"
+                :isOnline="vm.isOnline"
+                :chatUpdated="vm.chatUpdated"
+              />
+              <template v-else>
+                {{ vm.members }}
+              </template>
             </div>
           </div>
         </div>
@@ -21,6 +28,7 @@
 
 <script lang="ts">
 import { Chat, UserChat } from '@/core/models/chats'
+import { UserInfo } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
 
 export default defineComponent({
@@ -31,21 +39,28 @@ export default defineComponent({
     directChatUser(): UserChat {
       return this.$store.getters['chat/directChatUser']
     },
-    data() {
+    members(): { person: UserInfo }[] {
+      return this.$store.getters['chat/members']
+    },
+    vm() {
       const data = {
         avatar: '',
         title: '',
         brief: null,
         isOnline: false,
-        chatUpdated:''
+        chatUpdated: '',
+        members: ''
       }
       if (this.directChatUser) {
         data.avatar = this.directChatUser.person.avatar
         data.title = this.directChatUser.person.first_name
         data.isOnline = this.directChatUser.person.is_online
-        data.chatUpdated  = this.directChatUser.chat_updated as string
+        data.chatUpdated = this.directChatUser.chat_updated as string
       } else {
         data.title = this.chat.title
+        data.members = this.members
+          .map((item) => item.person.first_name)
+          .join(', ')
       }
       return data
     }
@@ -83,6 +98,11 @@ export default defineComponent({
   cursor: pointer;
   height: 100%;
   flex-grow: 1;
+}
+.brief{
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+    line-height: 20px;
 }
 .line {
   display: flex;

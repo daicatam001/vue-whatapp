@@ -7,12 +7,16 @@
           <Avatar :src="avatar" size="200px" />
           <div class="content">
             <div class="line">
-              <div class="title">{{ data.title }}</div>
+              <div class="title">{{ vm.title }}</div>
               <div class="brief">
                 <OnlineState
-                  :isOnline="data.isOnline"
-                  :chatUpdated="data.chatUpdated"
+                  v-if="directChatUser"
+                  :isOnline="vm.isOnline"
+                  :chatUpdated="vm.chatUpdated"
                 />
+                <template v-else>
+                  {{ vm.createFormated }}
+                </template>
               </div>
             </div>
           </div>
@@ -64,12 +68,12 @@
           </div>
           <div class="list-item">
             <div class="item-title">
-              {{ data.introduce }}
+              {{ vm.introduce }}
             </div>
           </div>
           <div class="list-item">
             <div class="item-title">
-              {{ data.username }}
+              {{ vm.username }}
             </div>
           </div>
         </div>
@@ -105,6 +109,7 @@
 <script lang="ts">
 import { Chat, UserChat } from '@/core/models/chats'
 import { defineComponent } from '@vue/runtime-core'
+import moment from 'moment'
 import ChatDetailHeading from './ChatDetailHeading.vue'
 
 export default defineComponent({
@@ -118,7 +123,7 @@ export default defineComponent({
     directChatUser(): UserChat {
       return this.$store.getters['chat/directChatUser']
     },
-    data() {
+    vm() {
       const data = {
         avatar: '',
         title: '',
@@ -126,7 +131,8 @@ export default defineComponent({
         isOnline: false,
         chatUpdated: '',
         username: '',
-        introduce: ''
+        introduce: '',
+        createFormated: ''
       }
       if (this.directChatUser) {
         data.avatar = this.directChatUser.person.avatar
@@ -139,6 +145,11 @@ export default defineComponent({
         data.chatUpdated = this.directChatUser.chat_updated as string
       } else {
         data.title = this.chat.title
+        const createTime = moment(this.chat.created)
+        data.createFormated = this.$t('createTime', {
+          date: createTime.format('YYY-MM-DD'),
+          time: createTime.format('hh:ss')
+        })
       }
       return data
     }
@@ -169,6 +180,10 @@ export default defineComponent({
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.brief {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
 }
 .block {
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px;

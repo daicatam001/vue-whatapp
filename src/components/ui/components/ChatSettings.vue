@@ -4,20 +4,42 @@
     <a-menu-item @click="offNotify">
       {{ $t('offNotification') }}
     </a-menu-item>
-    <a-menu-item @click="deleteChat"> {{ $t('deleteChat') }} </a-menu-item>
+    <a-menu-item v-if="isDirectChat" @click="deleteChat">
+      {{ $t('deleteChat') }}
+    </a-menu-item>
+    <a-menu-item v-if="!isDirectChat && !leftTime" @click="leaveGroup">
+      {{ $t('leaveGroup') }}
+    </a-menu-item>
+    <a-menu-item v-if="!isDirectChat && leftTime" @click="removeGroup">
+      {{ $t('removeGroup') }}
+    </a-menu-item>
     <a-menu-item @click="pinChat"> {{ $t('pinChat') }} </a-menu-item>
-    <a-menu-item @click="logout">{{ $t('markUnread') }}</a-menu-item>
+    <a-menu-item>{{ $t('markUnread') }}</a-menu-item>
   </a-menu>
 </template>
 
 <script lang="ts">
-import { deleteChat } from '@/core/api/chats'
+import { deleteChat, removeChatMember, updateChat } from '@/core/api/chats'
+import { MESSAGE_TYPE, NOTIFY_TYPE } from '@/core/constants'
 import { createVNode, defineComponent } from '@vue/runtime-core'
 import { Modal } from 'ant-design-vue'
+import moment from 'moment'
 import OffNotifyOptionsVue from './OffNotifyOptions.vue'
 
 export default defineComponent({
-  props: ['chatTitle', 'chatId'],
+  props: ['chatTitle', 'isDirectChat', 'chatId', 'custom_json'],
+  computed: {
+    username() {
+      return this.$store.getters['auth/username']
+    },
+    leftTime() {
+      try {
+        return this.custom_json.leftMembers[this.username]
+      } catch (e) {
+        return null
+      }
+    }
+  },
   methods: {
     async deleteChat() {
       await Modal.confirm({
@@ -30,14 +52,12 @@ export default defineComponent({
           this.$notification.open({
             key: 'delete-noti',
             message: this.$t('deletingChat'),
-            closeIcon: null,
-            placement: 'bottomLeft'
+            closeIcon: null
           })
           await deleteChat(this.chatId)
           this.$notification.open({
             key: 'delete-noti',
-            message: this.$t('deletedChat'),
-            placement: 'bottomLeft'
+            message: this.$t('deletedChat')
           })
         }
       })
@@ -46,14 +66,12 @@ export default defineComponent({
       this.$notification.open({
         key: 'store-noti',
         message: this.$t('storingChat'),
-        closeIcon: null,
-        placement: 'bottomLeft'
+        closeIcon: null
       })
       setTimeout(() => {
         this.$notification.open({
           key: 'store-noti',
-          message: this.$t('storedChat'),
-          placement: 'bottomLeft'
+          message: this.$t('storedChat')
         })
       }, 1000)
     },
@@ -90,14 +108,12 @@ export default defineComponent({
           this.$notification.open({
             key: 'off-noti',
             message: this.$t('doingOffNotifyChat'),
-            closeIcon: null,
-            placement: 'bottomLeft'
+            closeIcon: null
           })
           setTimeout(() => {
             this.$notification.open({
               key: 'off-noti',
-              message: this.$t('doneOffNotifyChat'),
-              placement: 'bottomLeft'
+              message: this.$t('doneOffNotifyChat')
             })
           }, 1000)
         }
@@ -107,18 +123,59 @@ export default defineComponent({
       this.$notification.open({
         key: 'store-noti',
         message: this.$t('pinningChat'),
-        closeIcon: null,
-        placement: 'bottomLeft'
+        closeIcon: null
       })
       setTimeout(() => {
         this.$notification.open({
           key: 'store-noti',
-          message: this.$t('pinnedChat'),
-          placement: 'bottomLeft'
+          message: this.$t('pinnedChat')
         })
       }, 1000)
-    }
+    },
+    async leaveGroup() {
+      this.$notification.open({
+        key: 'leave-group',
+        message: this.$t('leavingGroup')
+      })
+      const leftTime = moment.utc().valueOf()
+      const custom_json =
+        this.$store.getters['chats/chatEntities'][this.chatId].custom_json
+      custom_json.leftMembers = {
+        ...(custom_json.leftMembers || {}),
+        [this.username]: moment.utc().valueOf()
+      }
+      await updateChat(this.chatId, { custom_json })
+      const leaveGroupMsg = {
+        text: '',
+        custom_json: {
+          sending_time: leftTime,
+          type: MESSAGE_TYPE.NOTIFICATION,
+          notify: NOTIFY_TYPE.LEAVE_GROUP
+        },
+        sender_username: this.username
+      }
+      await this.$store.dispatch('messages/sendMessage', {
+        message: leaveGroupMsg,
+        chatId: this.chatId
+      })
+      this.$notification.open({
+        key: 'leave-group',
+        message: this.$t('leftGroup')
+      })
+    },
+    async removeGroup() {
+    this.$notification.open({
+      key: 'remove-group',
+      message: this.$t('removeGroup')
+    })
+    await removeChatMember(this.chatId, this.username)
+    this.$notification.open({
+      key: 'remove-group',
+      message: this.$t('removedGroup')
+    })
   }
+  },
+  
 })
 </script>
 

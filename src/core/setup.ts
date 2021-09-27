@@ -60,6 +60,9 @@ export function setupAnt(app: App): void {
     .use(Radio)
     .use(Drawer)
     .use(Progress)
+  notification.config({
+    placement: 'bottomLeft'
+  })
   app.config.globalProperties.$message = message
   app.config.globalProperties.$notification = notification
   app.config.globalProperties.$t = i18n.global.t

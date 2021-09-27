@@ -7,11 +7,14 @@ import { AppState } from '..'
 
 export default {
   namespaced: true,
-  actions:{
-    readMessageCurrentChat({ getters }: ActionContext<unknown, AppState>){
-        if (getters.lastMessage.id && getters.lastMessage.id > getters.me.last_read) {
-          readMessage(getters.chat.id as number, getters.lastMessage.id)
-        }
+  actions: {
+    readMessageCurrentChat({ getters }: ActionContext<unknown, AppState>) {
+      if (
+        getters.lastMessage.id &&
+        getters.lastMessage.id > getters.me.last_read
+      ) {
+        readMessage(getters.chat.id as number, getters.lastMessage.id)
+      }
     }
   },
   getters: {
@@ -26,6 +29,13 @@ export default {
     },
     lastMessage(state, { chat }) {
       return chat.last_message
+    },
+    leftTime(state, { chat, username }) {
+      try {
+        return chat.custom_json.leftMembers[username]
+      } catch (e) {
+        return null
+      }
     },
     newChatUser(state, getters, rootState, rootGetters: any): UserInfo {
       return rootGetters['chats/newChatUser']
@@ -48,8 +58,7 @@ export default {
         return { person: newChatUser }
       }
       if (chat.is_direct_chat) {
-        return chat.people
-          .filter(p => p.person.username !== username)[0]
+        return chat.people.filter(p => p.person.username !== username)[0]
       }
       return null
     },

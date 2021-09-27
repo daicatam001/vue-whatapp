@@ -8,6 +8,7 @@ import {
 } from '@/core/api/messages'
 import { LOAD_STATE } from '@/core/constants'
 import { Chat } from '@/core/models/chats'
+import { message } from 'ant-design-vue'
 
 const CHAT_COUNT = 20
 
@@ -105,11 +106,14 @@ export default {
   },
 
   getters: {
-    chatId(state, getters, rootState, rootGetters: any): string {
-      return rootGetters['chats/selectedChatId']
-    },
     chat(state, getters, rootState, rootGetters: any): Chat {
-      return rootGetters['chats/selectedChat']
+      return rootGetters['chat/chat']
+    },
+    chatId(state, getters): string {
+      return getters.chat.id
+    },
+    leftTime(state, getters, rootState, rootGetters): Chat {
+      return rootGetters['chat/leftTime']
     },
     messageEntities(
       state,
@@ -120,7 +124,13 @@ export default {
       return rootGetters['chats/selectedMessageEntities']
     },
     messages(state: MessagesState, getters): Message[] {
-      return Object.values(getters.messageEntities || {})
+      let messages = Object.values(getters.messageEntities || {}) as Message[]
+      if (getters.leftTime) {
+        messages = messages.filter(
+          item => item.custom_json.sending_time <= getters.leftTime
+        )
+      }
+      return messages
     },
     isLoading(state: MessagesState): boolean {
       return state.isLoading

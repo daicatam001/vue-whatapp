@@ -83,5 +83,6 @@
   "removeGroup": "Xóa nhóm",
   "removingGroup": "Đang xóa nhóm",
   "removedGroup": "Đã xóa nhóm",
-  "createTime":"Tạo vào {date} lúc {time}"
+  "createTime":"Tạo vào {date} lúc {time}",
+  "reportGroup": "Report group"
 }

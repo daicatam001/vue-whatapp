@@ -19,4 +19,5 @@ export { default as Trash } from './Trash.vue'
 export { default as PhoneCircle } from './PhoneCircle.vue'
 export { default as Lock } from './Lock.vue'
 export { default as ArrowForward } from './ArrowForward.vue'
+export { default as Exit } from './Exit.vue'
 

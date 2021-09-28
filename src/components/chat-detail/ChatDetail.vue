@@ -36,13 +36,13 @@
         <div class="chat-detail-block">
           <ChatDetailMessageAction />
         </div>
-        <div class="chat-detail-block">
+        <div class="chat-detail-block" v-if="!!directChatUser">
           <ChatDetailUserIntro
             :introduce="vm.introduce"
             :username="vm.username"
           />
         </div>
-        <div class="chat-detail-block">
+        <div class="chat-detail-block" v-if="!!directChatUser">
           <ChatDetailChatAction :label="$t('ban')" type="danger">
             <template #icon>
               <Ban />
@@ -50,15 +50,25 @@
           </ChatDetailChatAction>
         </div>
 
+        <div class="chat-detail-block" v-if="!directChatUser">
+          <ChatDetailChatAction :label="$t('leaveGroup')" type="danger">
+            <template #icon>
+              <Exit />
+            </template>
+          </ChatDetailChatAction>
+        </div>
         <div class="chat-detail-block">
-          <ChatDetailChatAction :label="$t('reportUser')" type="danger">
+          <ChatDetailChatAction
+            :label="$t(directChatUser ? 'reportUser' : 'reportGroup')"
+            type="danger"
+          >
             <template #icon>
               <ThumbDown />
             </template>
           </ChatDetailChatAction>
         </div>
 
-        <div class="chat-detail-block">
+        <div class="chat-detail-block" v-if="!!directChatUser">
           <ChatDetailChatAction :label="$t('deleteChat')" type="danger">
             <template #icon>
               <Trash />
@@ -109,13 +119,12 @@ export default defineComponent({
         createFormated: ''
       }
       if (this.directChatUser) {
+        const userCustomJson = this.directChatUser.person.custom_json as any
         data.avatar = this.directChatUser.person.avatar
         data.title = this.directChatUser.person.first_name
         data.isOnline = this.directChatUser.person.is_online
-        data.username = this.directChatUser.person.username
-        data.introduce = (
-          this.directChatUser.person.custom_json as { introduce: string }
-        ).introduce
+        data.username = `${userCustomJson.code} ${this.directChatUser.person.username}`
+        data.introduce = userCustomJson.introduce
         data.chatUpdated = this.directChatUser.chat_updated as string
       } else {
         data.title = this.chat.title

@@ -44,7 +44,8 @@ import {
   UserTag,
   ArrowForward,
   UploadAvatar,
-  ChatCard
+  ChatCard,
+  Exit
 } from '@/components/ui'
 import i18n from './i18n'
 
@@ -104,4 +105,5 @@ export function setupGlobalComponents(app: App): void {
   app.component('PhoneCircle', PhoneCircle)
   app.component('Lock', Lock)
   app.component('ArrowForward', ArrowForward)
+  app.component('Exit', Exit)
 }

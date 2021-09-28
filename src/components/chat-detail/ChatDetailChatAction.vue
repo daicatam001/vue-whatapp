@@ -17,13 +17,15 @@ export default {
 
 <style scoped lang="scss">
 .chat-detail-chat-action {
+  cursor: pointer;
   position: relative;
   display: flex;
   flex: none;
   align-items: center;
   height: 60px;
   &.action-danger {
-    .action-label {
+    .action-label,
+    .action-icon {
       color: #df3333;
     }
   }

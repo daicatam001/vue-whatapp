@@ -55,16 +55,19 @@ export function formatChat(chat: Chat) {
 }
 
 export function notifyMessage(notify: Message, chat: Chat, username: string) {
-  let creater, invitee
+  let admin, creater, invitee
   switch (notify.custom_json.notify) {
     case NOTIFY_TYPE.CREATE_GROUP:
+      admin = chat.people.filter(
+        item => item.person.username === chat.admin.username
+      )[0]
       return i18n.global.t(
         chat.admin.username === username
           ? 'youCreatedGroup'
           : 'adminCreatedGroup',
         {
           group: chat.title,
-          admin: chat.admin.first_name
+          admin: admin ? admin.person.first_name : chat.admin.username
         }
       )
     case NOTIFY_TYPE.ADD_MEMBER:
@@ -81,8 +84,8 @@ export function notifyMessage(notify: Message, chat: Chat, username: string) {
           ? 'youWereInvited'
           : 'invitedSomeone',
         {
-          invitee: invitee.person.first_name,
-          inviter: creater.person.first_name
+          invitee: invitee ? invitee.person.first_name : notify.custom_json.member,
+          inviter: creater ?  creater.person.first_name : notify.sender_username
         }
       )
     case NOTIFY_TYPE.LEAVE_GROUP: {
@@ -94,7 +97,7 @@ export function notifyMessage(notify: Message, chat: Chat, username: string) {
           ? 'youLeftGroup'
           : 'personLeftGroup',
         {
-          person: creater.person.first_name
+          person: creater ? creater.person.first_name : notify.sender_username
         }
       )
     }

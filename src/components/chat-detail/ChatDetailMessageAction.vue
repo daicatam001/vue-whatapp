@@ -32,4 +32,9 @@ export default {}
 </script>
 
 <style scoped lang="scss">
+.chat-detail-message-action {
+  .list-item {
+    cursor: pointer;
+  }
+}
 </style>

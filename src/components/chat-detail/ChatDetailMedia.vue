@@ -1,7 +1,7 @@
 <template>
   <div class="chat-detail-media">
     <div class="media-title">
-      <div class="title-text">
+      <div class="block-title-text">
         {{ $t('mediaAll') }}
       </div>
       <ChevronRight />
@@ -25,10 +25,6 @@ export default {}
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .title-text {
-      color: rgb(0, 150, 136);
-      font-size: 14px;
-    }
   }
   .media-body {
     .no-media {

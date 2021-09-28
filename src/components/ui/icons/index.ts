@@ -20,4 +20,6 @@ export { default as PhoneCircle } from './PhoneCircle.vue'
 export { default as Lock } from './Lock.vue'
 export { default as ArrowForward } from './ArrowForward.vue'
 export { default as Exit } from './Exit.vue'
+export { default as AddUser } from './AddUser.vue'
+export { default as Link } from './Link.vue'
 

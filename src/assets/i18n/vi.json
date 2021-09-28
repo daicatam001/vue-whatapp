@@ -84,5 +84,8 @@
   "removingGroup": "Đang xóa nhóm",
   "removedGroup": "Đã xóa nhóm",
   "createTime":"Tạo vào {date} lúc {time}",
-  "reportGroup": "Báo cáo nhóm"
+  "reportGroup": "Báo cáo nhóm",
+  "memberCount": "{number} thành viên",
+  "addMember": "Thêm thành viên",
+  "inviteJoinGroupByLink": "Mời tham gia nhóm qua liên kết"
 }

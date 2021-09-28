@@ -42,6 +42,9 @@
             :username="vm.username"
           />
         </div>
+        <div class="chat-detail-block">
+          <ChatDetailMembers />
+        </div>
         <div class="chat-detail-block" v-if="!!directChatUser">
           <ChatDetailChatAction :label="$t('ban')" type="danger">
             <template #icon>
@@ -90,6 +93,7 @@ import ChatDetailMedia from './ChatDetailMedia.vue'
 import ChatDetailMessageAction from './ChatDetailMessageAction.vue'
 import ChatDetailUserIntro from './ChatDetailUserIntro.vue'
 import ChatDetailChatAction from './ChatDetailChatAction.vue'
+import ChatDetailMembers from './ChatDetailMembers.vue'
 
 export default defineComponent({
   components: {
@@ -98,7 +102,8 @@ export default defineComponent({
     ChatDetailMedia,
     ChatDetailMessageAction,
     ChatDetailUserIntro,
-    ChatDetailChatAction
+    ChatDetailChatAction,
+    ChatDetailMembers
   },
   computed: {
     chat(): Chat {
@@ -173,6 +178,10 @@ export default defineComponent({
 
 <style lang="scss">
 .chat-detail {
+  .block-title-text {
+    color: rgb(0, 150, 136);
+    font-size: 14px;
+  }
   .list-item {
     padding: 0 30px;
     display: flex;

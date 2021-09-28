@@ -1,7 +1,7 @@
 <template>
   <div class="chat-detail-user-intro">
     <div class="intro-title">
-      <div class="title-text">
+      <div class="block-title-text">
         {{ $t('introAndPhone') }}
       </div>
     </div>
@@ -28,10 +28,6 @@ export default {
 .chat-detail-user-intro {
   .intro-title {
     padding: 14px 30px 10px;
-    .title-text {
-      color: rgb(0, 150, 136);
-      font-size: 14px;
-    }
   }
 }
 </style>

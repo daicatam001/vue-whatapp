@@ -3,8 +3,8 @@
     <ChatDetailHeading />
     <div class="detail-body-wrapper">
       <div class="detail-body scroll-element">
-        <div class="user-block block">
-          <Avatar :src="avatar" size="200px" />
+        <!-- <div class="user-block block"> -->
+        <!-- <Avatar :src="avatar" size="200px" />
           <div class="content">
             <div class="line">
               <div class="title">{{ vm.title }}</div>
@@ -20,86 +20,50 @@
               </div>
             </div>
           </div>
+        </div> -->
+        <div class="chat-detail-block">
+          <ChatDetailAvatar
+            :title="vm.title"
+            :isDirectChat="!!directChatUser"
+            :isOnline="vm.isOnline"
+            :chatUpdated="vm.chatUpdated"
+            :created="vm.createFormated"
+          />
         </div>
-        <div class="media-block block">
-          <div class="media-title">
-            <div class="title-text">
-              {{ $t('mediaAll') }}
-            </div>
-            <ChevronRight />
-          </div>
-          <div class="media-body">
-            <div class="no-media">
-              {{ $t('noMediaAll') }}
-            </div>
-          </div>
+        <div class="chat-detail-block">
+          <ChatDetailMedia />
         </div>
-        <div class="message-block block">
-          <div class="list-item">
-            <div class="item-title">
-              {{ $t('offNotification') }}
-            </div>
-            <div class="action-icon">
-              <ChevronRight />
-            </div>
-          </div>
-          <div class="list-item">
-            <div class="item-title">
-              {{ $t('messageMarkStar') }}
-            </div>
-            <div class="action-icon">
-              <ChevronRight />
-            </div>
-          </div>
-          <div class="list-item">
-            <div class="item-title">
-              {{ $t('selfDestroyMessage') }}
-            </div>
-            <div class="action-icon">
-              <ChevronRight />
-            </div>
-          </div>
+        <div class="chat-detail-block">
+          <ChatDetailMessageAction />
         </div>
-        <div class="intro-block block">
-          <div class="intro-title">
-            <div class="title-text">
-              {{ $t('introAndPhone') }}
-            </div>
-          </div>
-          <div class="list-item">
-            <div class="item-title">
-              {{ vm.introduce }}
-            </div>
-          </div>
-          <div class="list-item">
-            <div class="item-title">
-              {{ vm.username }}
-            </div>
-          </div>
+        <div class="chat-detail-block">
+          <ChatDetailUserIntro
+            :introduce="vm.introduce"
+            :username="vm.username"
+          />
         </div>
-        <div class="danger-block block">
-          <div class="danger-icon">
-            <Ban />
-          </div>
-          <div class="danger-label">
-            {{ $t('ban') }}
-          </div>
+        <div class="chat-detail-block">
+          <ChatDetailChatAction :label="$t('ban')" type="danger">
+            <template #icon>
+              <Ban />
+            </template>
+          </ChatDetailChatAction>
         </div>
-        <div class="danger-block block">
-          <div class="danger-icon">
-            <ThumbDown />
-          </div>
-          <div class="danger-label">
-            {{ $t('reportUser') }}
-          </div>
+
+        <div class="chat-detail-block">
+          <ChatDetailChatAction :label="$t('reportUser')" type="danger">
+            <template #icon>
+              <ThumbDown />
+            </template>
+          </ChatDetailChatAction>
         </div>
-        <div class="danger-block block">
-          <div class="danger-icon">
-            <Trash />
-          </div>
-          <div class="danger-label">
-            {{ $t('deleteChat') }}
-          </div>
+
+        <div class="chat-detail-block">
+          <ChatDetailChatAction :label="$t('deleteChat')" type="danger">
+            <template #icon>
+              <Trash />
+            </template>
+          </ChatDetailChatAction>
         </div>
       </div>
     </div>
@@ -111,10 +75,20 @@ import { Chat, UserChat } from '@/core/models/chats'
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
 import ChatDetailHeading from './ChatDetailHeading.vue'
+import ChatDetailAvatar from './ChatDetailAvatar.vue'
+import ChatDetailMedia from './ChatDetailMedia.vue'
+import ChatDetailMessageAction from './ChatDetailMessageAction.vue'
+import ChatDetailUserIntro from './ChatDetailUserIntro.vue'
+import ChatDetailChatAction from './ChatDetailChatAction.vue'
 
 export default defineComponent({
   components: {
-    ChatDetailHeading
+    ChatDetailHeading,
+    ChatDetailAvatar,
+    ChatDetailMedia,
+    ChatDetailMessageAction,
+    ChatDetailUserIntro,
+    ChatDetailChatAction
   },
   computed: {
     chat(): Chat {
@@ -181,99 +155,28 @@ export default defineComponent({
   overflow-x: hidden;
   overflow-y: auto;
 }
-.brief {
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.45);
-}
-.block {
+.chat-detail-block {
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px;
   margin-bottom: 10px;
   background-color: white;
 }
-.user-block {
-  padding: 28px 30px 19px;
-  .ui-avatar {
-    margin: 0 auto;
-  }
-  .content {
-    margin-top: 20px;
-  }
-  .title {
-    font-size: 19px;
-    margin-bottom: 5px;
-    color: black;
-  }
-  .online-state {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.45);
-  }
-  .content {
-    cursor: pointer;
-    height: 100%;
-    flex-grow: 1;
-  }
-}
-.media-block {
-  padding: 14px 30px 10px;
-  .media-title {
+</style>
+
+<style lang="scss">
+.chat-detail {
+  .list-item {
+    padding: 0 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .title-text {
-      color: rgb(0, 150, 136);
-      font-size: 14px;
+    height: 60px;
+    + .list-item {
+      border-top: 1px solid #f2f2f2;
     }
-  }
-  .media-body {
-    .no-media {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 45px;
-      font-size: 14px;
-      line-height: 20px;
-      color: rgba(0, 0, 0, 0.45);
+    .item-title {
+      font-size: 17px;
+      color: #000;
     }
-  }
-}
-.list-item {
-  padding: 0 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  + .list-item {
-    border-top: 1px solid #f2f2f2;
-  }
-  .item-title {
-    font-size: 17px;
-    color: #000;
-  }
-}
-.intro-block {
-  .intro-title {
-    padding: 14px 30px 10px;
-    .title-text {
-      color: rgb(0, 150, 136);
-      font-size: 14px;
-    }
-  }
-}
-.danger-block {
-  position: relative;
-  display: flex;
-  flex: none;
-  align-items: center;
-  height: 60px;
-  .danger-icon {
-    display: flex;
-    justify-content: center;
-    width: 74px;
-  }
-  .danger-label {
-    color: #df3333;
-    font-size: 17px;
-    line-height: 21px;
   }
 }
 </style>

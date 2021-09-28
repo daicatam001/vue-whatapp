@@ -21,7 +21,12 @@
       </div>
     </div>
     <div class="action">
-      <ThreeDotVertical color="black" />
+      <a-dropdown :trigger="['click']" placement="bottomRight">
+        <ThreeDotVertical color="black" />
+        <template #overlay>
+          <ChatFeedSettings/>
+        </template>
+      </a-dropdown>
     </div>
   </div>
 </template>
@@ -30,8 +35,11 @@
 import { Chat, UserChat } from '@/core/models/chats'
 import { UserInfo } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
-
+import ChatFeedSettings from './ChatFeedSettings.vue'
 export default defineComponent({
+  components: {
+    ChatFeedSettings
+  },
   computed: {
     chat(): Chat {
       return this.$store.getters['chat/chat']
@@ -99,10 +107,10 @@ export default defineComponent({
   height: 100%;
   flex-grow: 1;
 }
-.brief{
+.brief {
   color: rgba(0, 0, 0, 0.6);
   font-size: 13px;
-    line-height: 20px;
+  line-height: 20px;
 }
 .line {
   display: flex;

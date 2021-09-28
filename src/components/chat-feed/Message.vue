@@ -2,14 +2,24 @@
   <div class="message" :id="idMessage" :class="{ 'my-message': isMine }">
     <div class="message-card">
       <div class="content" :class="{ 'new-cvs': !isSameGroupMessage }">
-        <div class="user" v-if="!isDirectChat && !isSameGroupMessage && !isMine">{{ senderFirstName }}</div>
+        <div
+          class="user"
+          v-if="!isDirectChat && !isSameGroupMessage && !isMine"
+        >
+          {{ senderFirstName }}
+        </div>
         <div class="body">
           <span class="body-text">{{ textBody }}</span>
           <span class="meta-space"></span>
           <MessageMeta :message="message" :offState="!isMine" />
         </div>
         <div class="action">
-          <ChevronDown color="rgba(0, 0, 0, 0.3)" />
+          <a-dropdown :trigger="['click']">
+            <ChevronDown color="rgba(0, 0, 0, 0.3)" />
+            <template #overlay>
+              <MessageSettings :sender="message.sender"/>
+            </template>
+          </a-dropdown>
         </div>
       </div>
       <div class="start-note" v-if="!isSameGroupMessage">
@@ -23,7 +33,11 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core'
 import moment from 'moment'
+import MessageSettings from './MessageSettings.vue'
 export default defineComponent({
+  components: {
+    MessageSettings
+  },
   props: {
     message: {
       type: Object,

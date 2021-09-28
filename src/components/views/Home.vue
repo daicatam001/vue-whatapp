@@ -122,7 +122,7 @@ export default defineComponent({
     // load chats
     const { data } = await getLatestChats(25)
     const chats = data.filter((item) => !!item.last_message.created)
-    const emptyChats = data.filter((item) => !item.last_message.created)
+    const emptyChats = data.filter((item) => !item.last_message.sender_username)
     // remove empty chat
     if (emptyChats.length) {
       await this.removeEmptyChats(emptyChats)

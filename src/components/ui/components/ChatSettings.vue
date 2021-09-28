@@ -166,7 +166,7 @@ export default defineComponent({
     async removeGroup() {
     this.$notification.open({
       key: 'remove-group',
-      message: this.$t('removeGroup')
+      message: this.$t('removingGroup')
     })
     await removeChatMember(this.chatId, this.username)
     this.$notification.open({

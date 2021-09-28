@@ -71,9 +71,9 @@ export default {
       )
     },
     me(state, { chat, username }) {
-      return chat.people.filter(
+      return chat.people.find(
         it => it.person && it.person.username === username
-      )[0]
+      )
     }
   }
 }

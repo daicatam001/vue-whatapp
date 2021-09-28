@@ -10,7 +10,12 @@
         <ChatHeading />
       </div>
       <div class="message-list-wrapper">
-        <MessageList />
+        <a-dropdown :trigger="['contextmenu']">
+          <MessageList />
+          <template #overlay>
+            <ChatFeedSettings />
+          </template>
+        </a-dropdown>
       </div>
       <div class="new-message-wrapper">
         <NewMessage />
@@ -25,12 +30,14 @@ import MessageList from './MessageList.vue'
 import NewMessage from './NewMessage.vue'
 import Welcome from './Welcome.vue'
 import ChatHeading from './ChatHeading.vue'
+import ChatFeedSettings from './ChatFeedSettings.vue'
 export default defineComponent({
   components: {
     MessageList,
     NewMessage,
     Welcome,
-    ChatHeading
+    ChatHeading,
+    ChatFeedSettings
   },
   computed: {
     hasSelectedChat() {

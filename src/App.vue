@@ -29,7 +29,9 @@ body {
   height: 100%;
 }
 
-* {
+*,
+*:focus {
+  outline: none;
   box-sizing: border-box;
 }
 svg {

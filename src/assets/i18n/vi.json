@@ -83,9 +83,21 @@
   "removeGroup": "Xóa nhóm",
   "removingGroup": "Đang xóa nhóm",
   "removedGroup": "Đã xóa nhóm",
-  "createTime":"Tạo vào {date} lúc {time}",
+  "createTime": "Tạo vào {date} lúc {time}",
   "reportGroup": "Báo cáo nhóm",
   "memberCount": "{number} thành viên",
   "addMember": "Thêm thành viên",
-  "inviteJoinGroupByLink": "Mời tham gia nhóm qua liên kết"
+  "inviteJoinGroupByLink": "Mời tham gia nhóm qua liên kết",
+  "chooseMessage": "Chọn tin nhắn",
+  "deleteMessage": "Xóa tin nhắn",
+  "contactInfomation": "Thông tin liên hệ",
+  "groupInformation": "Thông tin nhóm",
+  "messageInfomation":"Thông tin nhin nhắn",
+  "answer":"Trả lời",
+  "answerInPrivate":"Trả lời riêng",
+  "forwardmessage":"Chuyển tiếp tin nhắn",
+  "starMessage":"Nhắn sao tin nhắn",
+  "inboxUser":"Nhắn tin cho {name}"
+  
+
 }

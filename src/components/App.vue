@@ -4,11 +4,13 @@
   </div>
 </template>
 <script lang="ts">
+import { setupSocket } from '@/socket'
 import { defineComponent } from '@vue/runtime-core'
 
 export default defineComponent({
   created() {
     this.$store.dispatch('auth/tryLogin')
+    setupSocket()
   }
 })
 </script>

@@ -8,6 +8,7 @@
         ref="input"
         id="new-message-input"
         type="text"
+        :class="'new-message-chat-' + chat.id"
         @focus="seeMessage"
         :placeholder="$t('inputMessage')"
         v-model.trim="text"
@@ -79,7 +80,7 @@ export default defineComponent({
   },
   watch: {
     messageInputFocus() {
-     this.$refs.input && this.$refs.input.focus()
+      this.$refs.input && this.$refs.input.focus()
     },
     lastMessageId(value) {
       if (value && document.activeElement === this.$refs.input) {
@@ -98,7 +99,7 @@ export default defineComponent({
   padding: 5px 10px;
   height: 62px;
   background-color: #eeeeee;
-  &.left-group{
+  &.left-group {
     padding: 15px 30px;
   }
 }
@@ -110,11 +111,11 @@ input {
   margin: 5px 0;
   border-radius: 20px;
 }
-.left-group-note{
+.left-group-note {
   text-align: center;
   height: 32px;
   line-height: 32px;
   font-size: 14px;
-  color: rgba(0,0,0,0.6);
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>

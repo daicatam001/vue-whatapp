@@ -66,7 +66,6 @@
 </template>
 
 <script lang="ts">
-import { setupSocket } from '@/socket'
 import ChatList from '@/components/chat-list/ChatList.vue'
 import ChatFeed from '@/components/chat-feed/ChatFeed.vue'
 import Profile from '@/components/profile/Profile.vue'
@@ -142,7 +141,6 @@ export default defineComponent({
         this.loading = false
       }, 200)
     }, 200)
-    setupSocket()
   },
   methods: {
     setupChats(chats) {

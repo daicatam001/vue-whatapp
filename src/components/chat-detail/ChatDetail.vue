@@ -124,7 +124,10 @@ export default defineComponent({
         createFormated: ''
       }
       if (this.directChatUser) {
-        const userCustomJson = this.directChatUser.person.custom_json as any
+        const userCustomJson = this.directChatUser.person.custom_json as {
+          code: string
+          introduce: string
+        }
         data.avatar = this.directChatUser.person.avatar
         data.title = this.directChatUser.person.first_name
         data.isOnline = this.directChatUser.person.is_online

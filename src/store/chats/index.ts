@@ -180,7 +180,7 @@ export default {
         .filter((user: UserInfo) => {
           if (
             chatRes.data.find(
-              chat => chat.is_direct_chat && chat.title.includes(user.username)
+              chat => chat.last_message.sender && chat.is_direct_chat && chat.title.includes(user.username) 
             )
           ) {
             return false

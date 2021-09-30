@@ -4,9 +4,9 @@ import { getOrCreateSession } from '@/core/api/auth'
 import { SocketData } from './models'
 import { Chat } from '@/core/models/chats'
 import { Message } from '@/core/models/messages'
-import { readMessage } from '@/core/api/chats'
 import { formatChat } from '@/core/helpers'
 
+const SOCKET_PING_INTERVAL_TIME = 4000
 const SOCKET_ACTION_NEW_CHAT = 'new_chat'
 const SOCKET_ACTION_EDIT_CHAT = 'edit_chat'
 const SOCKET_ACTION_DELETE_CHAT = 'delete_chat'
@@ -49,6 +49,13 @@ export async function setupSocket(): Promise<void> {
       case SOCKET_ACTION_EDIT_MESSAGE:
         onEditMessage(socketData.data)
     }
+  }
+  conn.onclose = event => {
+    console.log('onclose', event)
+    setupSocket()
+  }
+  conn.onerror = event => {
+    console.log('onclose', event)
   }
 }
 

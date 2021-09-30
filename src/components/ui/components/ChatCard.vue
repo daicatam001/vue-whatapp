@@ -115,6 +115,13 @@ export default defineComponent({
       if (!this.messageEntities) {
         return 0
       }
+      if (
+        document.activeElement?.classList.contains(
+          'new-message-chat-' + this.id
+        )
+      ) {
+        return 0
+      }
       return (Object.values(this.messageEntities) as Message[]).filter(
         (item) =>
           !!item.id &&

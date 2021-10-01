@@ -180,7 +180,10 @@ export default {
         .filter((user: UserInfo) => {
           if (
             chatRes.data.find(
-              chat => chat.last_message.sender && chat.is_direct_chat && chat.title.includes(user.username) 
+              chat =>
+                chat.last_message.sender &&
+                chat.is_direct_chat &&
+                chat.title.includes(user.username)
             )
           ) {
             return false
@@ -220,8 +223,12 @@ export default {
       commit('setQuery', '')
       commit('setSearchedChats', [])
       const chatEntities = getters.chatEntities
-      const emptyChats = Object.values(chatEntities).filter(chat => !(chat as Chat).last_message.sender_username)
-      Promise.all(emptyChats.map(chat => deleteChat((chat as Chat).id as number)))
+      const emptyChats = Object.values(chatEntities).filter(
+        chat => !(chat as Chat).last_message.sender_username
+      )
+      Promise.all(
+        emptyChats.map(chat => deleteChat((chat as Chat).id as number))
+      )
     },
     setMessageEntities(
       { commit }: ActionContext<ChatsState, AppState>,
@@ -311,7 +318,11 @@ export default {
     selectedChat(state: ChatsState, { selectedChatId }): Chat {
       return (
         state.chatEntities[selectedChatId] || {
-          people: []
+          people: [],
+          last_message: {},
+          custom_json: {},
+          messageEntities: {},
+          admin:{}
         }
       )
     },

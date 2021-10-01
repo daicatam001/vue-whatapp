@@ -1,3 +1,5 @@
+export const ENVIRONMENT = process.env.NODE_ENV
+
 export const PROJECT_ID =  process.env.VUE_APP_CHAT_ENGINE_PROJECT_ID || '07be9561-163e-42a3-9ba9-4e056837fe04'
 
 export const PRIVATE_KEY = process.env.VUE_APP_CHAT_ENGIN_PRIVATE_KEY || '0b611334-6a16-406e-82d6-cd2cd59a1655'

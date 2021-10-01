@@ -5,6 +5,7 @@ import messages from './messages'
 import ui from './ui'
 import chat from './chat'
 import phoneBook from './phone-book'
+import { ENVIRONMENT } from '@/core/constants'
 
 export interface AppState {
   app: string
@@ -22,7 +23,7 @@ export default createStore<AppState>({
   state: {
     app: 'ChatAppVue'
   },
-  plugins: [createLogger()],
+  plugins: ENVIRONMENT === 'dev' ? [createLogger()] : [],
   mutations: {},
   actions: {}
 })

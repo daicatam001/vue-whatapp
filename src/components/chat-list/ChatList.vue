@@ -87,7 +87,7 @@ export default {
       this.newChatTimer = setTimeout(async () => {
         await this.$store.dispatch('chats/createNewChatUser', user)
         this.$store.dispatch('chats/setNewChatUser', null)
-      }, 1000)
+      }, 500)
     }
   },
   created() {

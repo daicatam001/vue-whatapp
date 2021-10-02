@@ -5,7 +5,7 @@
       <a-progress
         :percent="percent"
         size="small"
-        strokeWidth="3"
+        :strokeWidth="3"
         strokeColor="#00d9bb"
         :show-info="false"
         :success="{ percent: 100, strokeColor: '#00d9bb' }"

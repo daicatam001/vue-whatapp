@@ -39,8 +39,11 @@ export default {
       commit('setUserInfo', { ...data, secret: payload.secret })
     },
     async logout({
-      commit
+      commit,
+      dispatch
     }: ActionContext<AuthState, AppState>): Promise<void> {
+      dispatch('chats/reset', null, { root: true })
+      dispatch('phoneBook/reset', null, { root: true })
       commit('setUserInfo', null)
     },
     async update(
@@ -74,13 +77,13 @@ export default {
       return state.userInfo
     },
     fullName(state: AuthState): string {
-      return state.userInfo.first_name
+      return state.userInfo ? state.userInfo.first_name : ''
     },
     username(state: AuthState): string | null {
       return state.userInfo ? state.userInfo.username : null
     },
     customInfo(state: AuthState): any {
-      return state.userInfo.custom_json
+      return state.userInfo ? state.userInfo.custom_json : {}
     },
     introduce(state, { customInfo }): string {
       return customInfo.introduce

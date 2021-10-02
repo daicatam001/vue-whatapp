@@ -5,7 +5,7 @@
       <a-progress
         :percent="percent"
         size="small"
-        strokeWidth="3"
+        :strokeWidth="3"
         strokeColor="#00d9bb"
         :show-info="false"
         :success="{ percent: 100, strokeColor: '#00d9bb' }"
@@ -123,9 +123,9 @@ export default defineComponent({
     const chats = data.filter((item) => !!item.last_message.created)
     const emptyChats = data.filter((item) => !item.last_message.sender_username)
     // remove empty chat
-    if (emptyChats.length) {
-      await this.removeEmptyChats(emptyChats)
-    }
+    // if (emptyChats.length) {
+    //   await this.removeEmptyChats(emptyChats)
+    // }
     // load message for each chat
     this.setupChats(chats)
     this.percent = 40
@@ -178,8 +178,12 @@ export default defineComponent({
       })
     },
     async removeEmptyChats(chats) {
-      const deleteChatPos = chats.map((chat) => deleteChat(chat.id as number))
-      await Promise.all(deleteChatPos)
+      try {
+        const deleteChatPos = chats.map((chat) => deleteChat(chat.id as number))
+        await Promise.all(deleteChatPos)
+      } catch (e) {
+        //
+      }
     },
     async loadPhoneBook() {
       const { data } = await getUsers()
@@ -200,15 +204,14 @@ export default defineComponent({
       })
     },
     onCloseLeftSetting() {
-      if(this.showCreateGroup){
-         this.$store.dispatch('ui/backToAddMembers')
+      if (this.showCreateGroup) {
+        this.$store.dispatch('ui/backToAddMembers')
       }
-      if(this.showAddMembers){
+      if (this.showAddMembers) {
         this.$store.dispatch('phoneBook/offAddMembers')
         this.$store.dispatch('ui/toggleShowAddMembers', false)
       }
       this.$store.dispatch('ui/toggleShowProfile', false)
-      
     }
   }
 })

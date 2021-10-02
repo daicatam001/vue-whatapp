@@ -112,7 +112,7 @@ export default defineComponent({
       )
     },
     unreadCount() {
-      if (!this.messageEntities) {
+      if (!this.messageEntities || !this.me) {
         return 0
       }
       if (

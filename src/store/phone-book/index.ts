@@ -17,6 +17,11 @@ export default {
     query: ''
   },
   actions: {
+    reset(
+      { commit }: ActionContext<PhoneBookState, AppState>,
+    ): void {
+      commit('reset')
+    },
     setAddingMembers(
       { commit }: ActionContext<PhoneBookState, AppState>,
       payload: UserInfo[]
@@ -60,6 +65,13 @@ export default {
     }
   },
   mutations: {
+    reset(state: PhoneBookState): void {
+      state = {
+        phoneBook: [],
+        addingMembers: [],
+        query: ''
+      }
+    },
     setAddingMembers(state: PhoneBookState, payload: UserInfo[]): void {
       state.addingMembers = payload
     },

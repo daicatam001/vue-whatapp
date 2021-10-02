@@ -6,9 +6,7 @@ import {
   createChat,
   deleteChat,
   getChats,
-  getLatestChats,
   readMessage,
-  searchChats
 } from '@/core/api/chats'
 import moment from 'moment'
 import { MessageEntities } from '../messages'
@@ -27,8 +25,8 @@ export interface ChatMessage extends Chat {
 }
 export interface ChatsState {
   newChatTitle: string
-  selectedChatId: number
-  newChatUser: UserInfo
+  selectedChatId?: number
+  newChatUser: UserInfo | null
   chatEntities: ChatEntities
   isSearching: boolean
   query: string
@@ -47,6 +45,12 @@ export default {
     searchedChats: []
   },
   actions: {
+    async reset(
+      { commit }: ActionContext<ChatsState, AppState>,
+    ) {
+      commit('reset')
+      // commit('setNewChatUser', null)
+    },
     async createNewChatUser(
       { commit, rootGetters }: ActionContext<ChatsState, AppState>,
       payload: UserInfo
@@ -95,31 +99,6 @@ export default {
         dispatch('ui/focusMessageInput', null, { root: true })
       })
     },
-    // async getChats({
-    //   commit
-    // }: ActionContext<ChatsState, AppState>): Promise<void> {
-    //   const { data } = await getChats()
-    //   const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-    //     chat = formatChat(chat)
-    //     return { ...entity, [chat.id]: { ...chat, messageEntities: {} } }
-    //   }, {})
-
-    //   commit('setChatEntities', chatEntities)
-    // },
-    // async getLatestChats(
-    //   { commit }: ActionContext<ChatsState, AppState>,
-    //   payload: number
-    // ): Promise<void> {
-    //   const { data } = await getLatestChats(payload)
-    //   const chatEntities = (data as Chat[]).reduce((entity, chat) => {
-    //     chat = formatChat(chat)
-    //     return {
-    //       ...entity,
-    //       [chat.id]: { ...chat, messageEntities: {} }
-    //     }
-    //   }, {})
-    //   commit('setChatEntities', chatEntities)
-    // },
     async setChatEntities(
       { commit }: ActionContext<ChatsState, AppState>,
       payload: ChatEntities
@@ -222,13 +201,13 @@ export default {
     offSearchChats({ commit, getters }: ActionContext<ChatsState, AppState>) {
       commit('setQuery', '')
       commit('setSearchedChats', [])
-      const chatEntities = getters.chatEntities
-      const emptyChats = Object.values(chatEntities).filter(
-        chat => !(chat as Chat).last_message.sender_username
-      )
-      Promise.all(
-        emptyChats.map(chat => deleteChat((chat as Chat).id as number))
-      )
+      // const chatEntities = getters.chatEntities
+      // const emptyChats = Object.values(chatEntities).filter(
+      //   chat => !(chat as Chat).last_message.sender_username
+      // )
+      // Promise.all(
+      //   emptyChats.map(chat => deleteChat((chat as Chat).id as number))
+      // )
     },
     setMessageEntities(
       { commit }: ActionContext<ChatsState, AppState>,
@@ -280,6 +259,17 @@ export default {
     }
   },
   mutations: {
+    reset(state: ChatsState): void {
+      state = {
+        chatEntities: {},
+        selectedChatId: undefined,
+        newChatUser: null,
+        newChatTitle: '',
+        query: '',
+        isSearching: false,
+        searchedChats: []
+      }
+    },
     setNewChatUser(state: ChatsState, payload: UserInfo): void {
       state.newChatUser = payload
     },
@@ -309,10 +299,10 @@ export default {
     }
   },
   getters: {
-    selectedChatId(state: ChatsState): number {
+    selectedChatId(state: ChatsState): number | undefined {
       return state.selectedChatId
     },
-    newChatUser(state: ChatsState): UserInfo {
+    newChatUser(state: ChatsState): UserInfo | null {
       return state.newChatUser
     },
     selectedChat(state: ChatsState, { selectedChatId }): Chat {
@@ -322,7 +312,7 @@ export default {
           last_message: {},
           custom_json: {},
           messageEntities: {},
-          admin:{}
+          admin: {}
         }
       )
     },

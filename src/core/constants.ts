@@ -6,6 +6,10 @@ export const PRIVATE_KEY = process.env.VUE_APP_CHAT_ENGIN_PRIVATE_KEY || '0b6113
 
 export const SERVER_URL = process.env.VUE_APP_SERVER_URL || 'https://api.chatengine.io'
 
+export const DEFAULT_USERNAME = process.env.VUE_APP_DEFAULT_USERNAME || '123456789'
+
+export const DEFAULT_PASSWORD = process.env.VUE_APP_DEFAULT_PASSWORD || '123456'
+
 export enum LOAD_STATE {
   UNLOAD,
   LOADING_LATEST,

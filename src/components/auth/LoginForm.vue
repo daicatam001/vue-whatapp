@@ -32,6 +32,7 @@
 </template>
 
 <script lang="ts">
+import { DEFAULT_PASSWORD, DEFAULT_USERNAME } from '@/core/constants'
 import { AuthLogin } from '@/core/models/users'
 import { defineComponent } from '@vue/runtime-core'
 
@@ -46,8 +47,8 @@ export default defineComponent({
     }
     return {
       loginForm: {
-        username: '',
-        secret: '',
+        username: DEFAULT_USERNAME,
+        secret: DEFAULT_PASSWORD,
       },
       rules: {
         username: [{ validator: requiredValidator }],

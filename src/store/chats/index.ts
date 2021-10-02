@@ -201,13 +201,13 @@ export default {
     offSearchChats({ commit, getters }: ActionContext<ChatsState, AppState>) {
       commit('setQuery', '')
       commit('setSearchedChats', [])
-      const chatEntities = getters.chatEntities
-      const emptyChats = Object.values(chatEntities).filter(
-        chat => !(chat as Chat).last_message.sender_username
-      )
-      Promise.all(
-        emptyChats.map(chat => deleteChat((chat as Chat).id as number))
-      )
+      // const chatEntities = getters.chatEntities
+      // const emptyChats = Object.values(chatEntities).filter(
+      //   chat => !(chat as Chat).last_message.sender_username
+      // )
+      // Promise.all(
+      //   emptyChats.map(chat => deleteChat((chat as Chat).id as number))
+      // )
     },
     setMessageEntities(
       { commit }: ActionContext<ChatsState, AppState>,

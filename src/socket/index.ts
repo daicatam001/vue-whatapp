@@ -18,7 +18,11 @@ const SOCKET_ACTION_EDIT_MESSAGE = 'edit_message'
 export async function setupSocket(): Promise<void> {
   const username = store.getters['auth/username']
   const secret = store.getters['auth/secret']
-  await getOrCreateSession()
+  try {
+    await getOrCreateSession()
+  } catch (e) {
+    store.dispatch('auth/logout')
+  }
 
   const conn = new WebSocket(
     `wss://api.chatengine.io/person/?publicKey=${PROJECT_ID}&username=${username}&secret=${secret}`
@@ -29,7 +33,7 @@ export async function setupSocket(): Promise<void> {
   }
   conn.onmessage = event => {
     const socketData = JSON.parse(event.data) as SocketData
-    console.log(socketData.action, socketData.data)
+    // console.log(socketData.action, socketData.data)
     switch (socketData.action) {
       case SOCKET_ACTION_NEW_CHAT:
         onNewChat(socketData.data)
@@ -55,7 +59,7 @@ export async function setupSocket(): Promise<void> {
     setupSocket()
   }
   conn.onerror = event => {
-    console.log('onclose', event)
+    console.log('onerror', event)
   }
 }
 

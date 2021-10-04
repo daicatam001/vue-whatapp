@@ -63,7 +63,7 @@ export default defineComponent({
         return
       }
       const sendingTime = moment.utc()
-      // this.$store.dispatch('chats/offSearchChats')
+      this.$store.dispatch('chats/offSearchChats')
       const message = {
         text: this.text,
         sender: { ...this.userInfo },

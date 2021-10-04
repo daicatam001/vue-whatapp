@@ -120,6 +120,7 @@ export default {
         commit('setSearchedChats', [])
         return
       }
+      const query = payload.toLowerCase()
       commit('setIsSearching', true)
       const username = rootGetters['auth/username']
       let result = [] as Partial<Chat>[]
@@ -129,15 +130,15 @@ export default {
         if (!chat.last_message.created) {
           return false
         }
-        if (!chat.is_direct_chat && chat.title.includes(payload)) {
+        if (!chat.is_direct_chat && chat.title.toLowerCase().includes(query)) {
           return true
         }
         const members = chat.people.filter(p => p.person.username != username)
         if (
           members.find(
             p =>
-              (p.person.first_name && p.person.first_name.includes(payload)) ||
-              (p.person.email && p.person.email.includes(payload))
+              (p.person.first_name && p.person.first_name.toLowerCase().includes(query)) ||
+              (p.person.email && p.person.email.toLowerCase().includes(query))
           )
         ) {
           return true
@@ -168,8 +169,8 @@ export default {
             return false
           }
           if (
-            user.first_name.includes(payload) ||
-            user.username.includes(payload)
+            user.first_name.toLowerCase().includes(query) ||
+            user.username.toLowerCase().includes(query)
           ) {
             return true
           }

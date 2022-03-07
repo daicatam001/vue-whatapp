@@ -8,10 +8,10 @@
         ref="input"
         id="new-message-input"
         type="text"
-        :disabled="!chat.id"
+        :disabled="disableNewMessage "
         :class="'new-message-chat-' + chat.id"
         @focus="seeMessage"
-        :placeholder="chat.id ? $t('inputMessage') :$t('plsWait')"
+        :placeholder="disableNewMessage ? $t('plsWait') : $t('inputMessage')"
         v-model.trim="text"
       />
     </form>
@@ -35,6 +35,12 @@ export default defineComponent({
     },
     me() {
       return this.$store.getters['chat/me']
+    },
+    newChatUser() {
+      return this.$store.getters['chats/newChatUser']
+    },
+    disableNewMessage(){
+      return this.newChatUser || !this.chat.id
     },
     leftTime() {
       return this.$store.getters['chat/leftTime']

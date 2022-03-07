@@ -47,5 +47,6 @@ export interface Chat {
   created: string
   is_direct_chat: boolean
   isHeading?: boolean
+  messageEntities: any
   custom_json?: any
 }

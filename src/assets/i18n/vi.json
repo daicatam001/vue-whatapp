@@ -97,7 +97,7 @@
   "answerInPrivate":"Trả lời riêng",
   "forwardmessage":"Chuyển tiếp tin nhắn",
   "starMessage":"Nhắn sao tin nhắn",
-  "inboxUser":"Nhắn tin cho {name}"
-  
+  "inboxUser":"Nhắn tin cho {name}",
+  "plsWait": "Xin vui lòng đợi.."
 
 }

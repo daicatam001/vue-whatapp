@@ -25,7 +25,7 @@ export interface ChatMessage extends Chat {
 }
 export interface ChatsState {
   newChatTitle: string
-  selectedChatId?: number
+  selectedChatId?: number | null
   newChatUser: UserInfo | null
   chatEntities: ChatEntities
   isSearching: boolean
@@ -222,6 +222,9 @@ export default {
       { commit, getters }: ActionContext<ChatsState, AppState>,
       { chatId, message }: { chatId: number; message: Message }
     ) {
+      if (!getters.chatEntities[chatId]) {
+        return null
+      }
       const last_message = { ...message }
       const messageEntities = {
         ...getters.chatEntities[chatId].messageEntities,
@@ -287,6 +290,9 @@ export default {
         ...state.chatEntities[payload.id],
         ...payload
       }
+      if (state.selectedChatId && !state.chatEntities[state.selectedChatId]) {
+        state.selectedChatId = null
+      }
     },
     setSearchedChats(state: ChatsState, payload: Partial<Chat>[]) {
       state.searchedChats = [...payload]
@@ -299,7 +305,7 @@ export default {
     }
   },
   getters: {
-    selectedChatId(state: ChatsState): number | undefined {
+    selectedChatId(state: ChatsState): number | null | undefined {
       return state.selectedChatId
     },
     newChatUser(state: ChatsState): UserInfo | null {
@@ -348,7 +354,7 @@ export default {
         return searchedChats
       }
       return Object.values(chatEntities as ChatEntities)
-        .filter((item: Chat) => !!item.last_message.sender_username)
+      .filter((item: Chat) => !!item.last_message.sender_username)
         .sort((a: Chat, b: Chat) => {
           const lastMessageA = moment(
             a.last_message ? a.last_message.created : a.created

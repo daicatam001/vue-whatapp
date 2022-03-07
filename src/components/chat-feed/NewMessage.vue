@@ -8,9 +8,10 @@
         ref="input"
         id="new-message-input"
         type="text"
+        :disabled="!chat.id"
         :class="'new-message-chat-' + chat.id"
         @focus="seeMessage"
-        :placeholder="$t('inputMessage')"
+        :placeholder="chat.id ? $t('inputMessage') :$t('plsWait')"
         v-model.trim="text"
       />
     </form>

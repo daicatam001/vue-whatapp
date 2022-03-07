@@ -84,5 +84,6 @@
   "removingGroup": "Deleting group",
   "removedGroup": "Group deleted",
   "createTime":"Created {date} at {time}",
-  "reportGroup": "Report group"
+  "reportGroup": "Report group",
+  "plsWait": "Please wait.."
 }

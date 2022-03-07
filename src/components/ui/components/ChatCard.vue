@@ -147,7 +147,7 @@ export default defineComponent({
       return false
     },
     chatTitle(): string {
-      if (this.isDirectChat) {
+      if (this.isDirectChat && this.members.length) {
         return `${this.members[0].person.first_name}`
       }
 

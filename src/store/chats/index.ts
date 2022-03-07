@@ -6,7 +6,7 @@ import {
   createChat,
   deleteChat,
   getChats,
-  readMessage,
+  readMessage
 } from '@/core/api/chats'
 import moment from 'moment'
 import { MessageEntities } from '../messages'
@@ -45,9 +45,7 @@ export default {
     searchedChats: []
   },
   actions: {
-    async reset(
-      { commit }: ActionContext<ChatsState, AppState>,
-    ) {
+    async reset({ commit }: ActionContext<ChatsState, AppState>) {
       commit('reset')
       // commit('setNewChatUser', null)
     },
@@ -137,7 +135,8 @@ export default {
         if (
           members.find(
             p =>
-              (p.person.first_name && p.person.first_name.toLowerCase().includes(query)) ||
+              (p.person.first_name &&
+                p.person.first_name.toLowerCase().includes(query)) ||
               (p.person.email && p.person.email.toLowerCase().includes(query))
           )
         ) {
@@ -239,7 +238,7 @@ export default {
       { chatId, message }: { chatId: number; message: Message }
     ) {
       const dataUpdate = { id: chatId } as ChatMessage
-
+      console.log(getters.chatEntities, chatId)
       dataUpdate.messageEntities = {
         ...getters.chatEntities[chatId].messageEntities,
         [message.custom_json.sending_time]: { ...message }

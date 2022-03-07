@@ -23,7 +23,7 @@ export default createStore<AppState>({
   state: {
     app: 'ChatAppVue'
   },
-  plugins: ENVIRONMENT === 'dev' ? [createLogger()] : [],
+  plugins: [createLogger()],
   mutations: {},
   actions: {}
 })

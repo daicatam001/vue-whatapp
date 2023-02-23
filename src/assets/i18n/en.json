@@ -85,5 +85,10 @@
   "removedGroup": "Group deleted",
   "createTime":"Created {date} at {time}",
   "reportGroup": "Report group",
-  "plsWait": "Please wait.."
+  "plsWait": "Please wait..",
+  "groupInformation":"Group information",
+  "chooseMessage":"Choose message",
+  "deleteMessage":"Delete message",
+  "contactInfomation":"Contact information"
+
 }

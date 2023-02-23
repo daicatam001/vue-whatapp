@@ -32,7 +32,8 @@ export async function setupSocket(): Promise<void> {
     console.log('connect success', event)
   }
   conn.onmessage = event => {
-    const socketData = JSON.parse(event.data) as SocketData
+    try{
+      const socketData = JSON.parse(event.data) as SocketData
     // console.log(socketData.action, socketData.data)
     switch (socketData.action) {
       case SOCKET_ACTION_NEW_CHAT:
@@ -53,6 +54,9 @@ export async function setupSocket(): Promise<void> {
       case SOCKET_ACTION_EDIT_MESSAGE:
         onEditMessage(socketData.data)
     }
+    }
+  }catch(e){
+    console.log('[Socket:onmessage]: ',e)
   }
   conn.onclose = event => {
     console.log('onclose', event)

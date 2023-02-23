@@ -32,6 +32,7 @@ export async function setupSocket(): Promise<void> {
     console.log('connect success', event)
   }
   conn.onmessage = event => {
+    console.log('[Socket:onmessage] event -> ',event)
     try{
       const socketData = JSON.parse(event.data) as SocketData
     // console.log(socketData.action, socketData.data)
@@ -56,7 +57,7 @@ export async function setupSocket(): Promise<void> {
     }
     }
   }catch(e){
-    console.log('[Socket:onmessage]: ',e)
+    console.log('[Socket:onmessage] e -> ',e)
   }
   conn.onclose = event => {
     console.log('onclose', event)

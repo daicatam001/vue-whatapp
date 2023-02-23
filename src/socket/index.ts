@@ -28,42 +28,42 @@ export async function setupSocket(): Promise<void> {
     `wss://api.chatengine.io/person/?publicKey=${PROJECT_ID}&username=${username}&secret=${secret}`
   )
 
-  conn.onopen = event => {
+  conn.onopen = (event) => {
     console.log('connect success', event)
   }
-  conn.onmessage = event => {
-    console.log('[Socket:onmessage] event -> ',event)
-    try{
+  conn.onmessage = (event) => {
+    console.log('[Socket:onmessage] event -> ', event)
+    try {
       const socketData = JSON.parse(event.data) as SocketData
-    // console.log(socketData.action, socketData.data)
-    switch (socketData.action) {
-      case SOCKET_ACTION_NEW_CHAT:
-        onNewChat(socketData.data)
-        break
-      case SOCKET_ACTION_ADD_PERSON:
-        onAddPerson(socketData.data)
-        break
-      case SOCKET_ACTION_EDIT_CHAT:
-        onEditChat(socketData.data)
-        break
-      case SOCKET_ACTION_DELETE_CHAT:
-        onDeleteChat(socketData.data)
-        break
-      case SOCKET_ACTION_NEW_MESSAGE:
-        onNewMessage(socketData.data)
-        break
-      case SOCKET_ACTION_EDIT_MESSAGE:
-        onEditMessage(socketData.data)
+      // console.log(socketData.action, socketData.data)
+      switch (socketData.action) {
+        case SOCKET_ACTION_NEW_CHAT:
+          onNewChat(socketData.data)
+          break
+        case SOCKET_ACTION_ADD_PERSON:
+          onAddPerson(socketData.data)
+          break
+        case SOCKET_ACTION_EDIT_CHAT:
+          onEditChat(socketData.data)
+          break
+        case SOCKET_ACTION_DELETE_CHAT:
+          onDeleteChat(socketData.data)
+          break
+        case SOCKET_ACTION_NEW_MESSAGE:
+          onNewMessage(socketData.data)
+          break
+        case SOCKET_ACTION_EDIT_MESSAGE:
+          onEditMessage(socketData.data)
+      }
+    } catch (e) {
+      console.log('[Socket:onmessage] e -> ', e)
     }
-    }
-  }catch(e){
-    console.log('[Socket:onmessage] e -> ',e)
   }
-  conn.onclose = event => {
+  conn.onclose = (event) => {
     console.log('onclose', event)
     setupSocket()
   }
-  conn.onerror = event => {
+  conn.onerror = (event) => {
     console.log('onerror', event)
   }
 }
